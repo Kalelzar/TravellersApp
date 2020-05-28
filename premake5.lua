@@ -29,6 +29,5 @@ project "TravellersApp"
         symbols "On"
 
     filter "configurations:Release"
-        defines "TRVL_Release"
+        defines "TRVL_RELEASE"
         optimize "On"
-

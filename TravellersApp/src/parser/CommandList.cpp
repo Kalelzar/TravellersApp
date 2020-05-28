@@ -1,17 +1,15 @@
 #include "CommandList.hpp"
-
-Travel::CommandList Travel::CommandList::globalCommandList{};
+#include "../debug.hpp"
 
 void Travel::CommandList::copy(CommandList const &other) {
+    LOG(INFO, "Copying CommandList instance.");
     nameToToken = other.nameToToken;
     commandMap = other.commandMap;
     nameToDescr = other.nameToDescr;
 }
 
 Travel::CommandList::CommandList() {
-    nameToToken = {};
-    commandMap = {};
-    nameToDescr = {};
+    LOG(INFO, "Create CommandList.");
 }
 
 Travel::CommandList::CommandList(CommandList const &other){
@@ -27,9 +25,10 @@ Travel::CommandList &Travel::CommandList::operator=(Travel::CommandList const &o
     return *this;
 }
 
-void Travel::CommandList::registerCommand(SimpleString name, TokenType tokenType,
+void Travel::CommandList::registerCommand(SimpleString const& name, TokenType tokenType,
                                          ScannerContext ctx,
-                                         SimpleString descr) {
+                                         SimpleString const& descr) {
+    LOG(INFO, "Registering command: " << name);
     commandMap.put(tokenType, ctx);
     nameToToken.put(name, tokenType);
     nameToDescr.put(name, descr);
@@ -48,14 +47,18 @@ bool Travel::CommandList::isCommand(TokenType tokenType){
     return commandMap.contains(tokenType);
 }
 
-bool Travel::CommandList::isCommand(SimpleString name){
+bool Travel::CommandList::isCommand(SimpleString const& name){
     return nameToToken.contains(name);
 }
 
-std::unique_ptr<Nullable<ScannerContext>> Travel::CommandList::contextFor(TokenType tokenType){
+unique_ptr<Nullable<ScannerContext>> Travel::CommandList::contextFor
+(TokenType tokenType){
+    LOG(VERBOSE, "Get context for token type");
     return commandMap.get(tokenType);
 }
 
-std::unique_ptr<Nullable<TokenType>> Travel::CommandList::tokenFor(SimpleString name) {
+unique_ptr<Nullable<TokenType>> Travel::CommandList::tokenFor
+(SimpleString const& name) {
+    LOG(VERBOSE, "Get token type for command.");
     return nameToToken.get(name);
 }

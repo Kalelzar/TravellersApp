@@ -2,6 +2,8 @@
 #define TRAVELLERAPP_NULLABLE_HPP
 
 #include "NoValueException.hpp"
+#include <iostream>
+#include "debug.hpp"
 
 template<class A>
 class Nullable {
@@ -16,9 +18,9 @@ public:
         return !isEmpty();
     }
 
-    virtual A get() const = 0;
+    virtual A const& get() const = 0;
 
-    A getOrElse(A const &def) const {
+    A const& getOrElse(A const &def) const {
         if (isEmpty()) return def;
         return get();
     }
@@ -27,17 +29,20 @@ public:
 template<class A>
 class NotNull : public Nullable<A> {
 private:
-    A value;
+    const A& value;
 public:
-    NotNull(A const &_value) {
-        value = _value;
+
+    NotNull(A const&&) = delete;
+
+    explicit NotNull(A const &_value) : value(_value) {
+        LOG(INFO, "Created NotNull.");
     }
 
     bool isEmpty() const override {
         return false;
     }
 
-    A get() const override {
+    A const& get() const override {
         return value;
     }
 };
@@ -45,11 +50,16 @@ public:
 template<class A>
 class Null : public Nullable<A> {
 public:
+
+    Null(){
+        LOG(INFO, "Created Null.");
+    }
+
     bool isEmpty() const override {
         return true;
     }
 
-    A get() const override {
+    A const& get() const override {
         throw NoValueException();
     }
 };

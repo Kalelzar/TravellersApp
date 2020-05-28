@@ -5,7 +5,6 @@
 #ifndef TRAVELLERAPP_HTLINTERPRETER_HPP
 #define TRAVELLERAPP_HTLINTERPRETER_HPP
 
-#include <filesystem>
 #include "Token.hpp"
 #include "../ReachedEndOfStreamException.hpp"
 #include "../WrongTokenTypeException.hpp"
@@ -14,17 +13,6 @@
 #include <cstring>
 #include <iostream>
 #include <cstdlib>
-
-#include <stdio.h>
-#ifdef __linux__
-#include <unistd.h>
-#define workingDirectory(PATH, LENGTH) getcwd(PATH, LENGTH)
-#else
-#undef _HAS_STD_BYTE
-#include <direct.h>
-//I still have no idea why Windows dislikes being POSIX-compliant
-#define workingDirectory(PATH, LENGTH) _getcwd(PATH, LENGTH)
-#endif
 
 
 
@@ -63,9 +51,9 @@ namespace Travel {
             strcpy(nmsg+6+strlen(sline), " - ");
             strcpy(nmsg+6+strlen(sline)+3, msg);
             //std::cerr<<nmsg<<std::endl;
-			WrongTokenTypeException e(nmsg);
-			delete[] nmsg;
-			throw e;
+            WrongTokenTypeException e(nmsg);
+            delete[] nmsg;
+            throw e;
         }
 
         Token consume(TokenType type, const char* msg){
@@ -101,18 +89,6 @@ namespace Travel {
             while(!isAtEnd()){
                 try{
                     switch(next().t){
-                    case TokenType::OPEN:
-                        open(state);
-                        break;
-                    case TokenType::CLOSE:
-                        close(state);
-                        break;
-                    case TokenType::SAVE:
-                        save(state);
-                        break;
-                    case TokenType::SAVE_AS:
-                        saveAs(state);
-                        break;
                     case TokenType::HELP:
                         CommandList::getCommandList().printCommandsWithDescription ();
                         break;

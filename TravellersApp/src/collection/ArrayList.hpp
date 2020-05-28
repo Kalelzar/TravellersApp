@@ -7,6 +7,7 @@
 
 #include "IList.hpp"
 #include<iostream>
+#include "../debug.hpp"
 #include<functional>
 
 /**
@@ -23,6 +24,10 @@ private:
      * Frees the resizable array.
      */
     void free() {
+        LOG(INFO, "Freeing ArrayList.");
+        for(unsigned i = 0; i < length(); i++){
+            delete elems[i];
+        }
         delete[] elems;
     }
 
@@ -31,7 +36,8 @@ private:
      * @param reserve the starting size to allocate for the resizable array
      */
     void create(unsigned reserve) {
-        elems = new A[reserve];
+        LOG(INFO, "Creating ArrayList");
+        elems = new A*[reserve];
         reserved = reserve;
         elemCount = 0;
     }
@@ -41,8 +47,9 @@ private:
      * @param other the other list.
      */
     void copy(ArrayList<A> const &other) {
-        delete[] elems;
-        elems = new A[other.capacity()];
+        LOG(INFO, "Copying ArrayList");
+        free();
+        elems = new A*[other.capacity()];
         reserved = other.capacity();
         elemCount = 0;
         appendAll(other);
@@ -99,7 +106,7 @@ private:
 
 protected:
 
-    A *elems = nullptr;
+    A** elems = nullptr;
     unsigned reserved;
     unsigned elemCount;
 
@@ -157,10 +164,12 @@ public:
         if (at >= length()) { // Assume that indexes greater or equal to the
             // list's length mean an insertion at the end of
             // the list.
-            elems[elemCount] = elem;
+            elems[elemCount] = new A(elem);
             elemCount++;
             return;
         }
+
+        elems[length()] = new A;
 
         for (int i = length(); i > at; i--) {
             elems[i] = elems[i - 1]; // Shift all elements from index at to
@@ -168,22 +177,23 @@ public:
             // the new element
         }
 
-        elems[at] = elem;
+        *elems[at] = elem;
         elemCount++;
     }
 
 
     void expand() {
+        LOG(VERBOSE, "Expanding array");
         unsigned newCapacity = capacity() * 2;
         reserved = newCapacity;
 
-        A *newRooms = new A[newCapacity];
+        A** newRooms = new A*[newCapacity];
 
         for (int i = 0; i < length(); i++) {
-            newRooms[i] = get(i);
+            newRooms[i] = new A(get(i));
         }
 
-        delete[] elems;
+        free();
         elems = newRooms;
     }
 
@@ -233,7 +243,7 @@ public:
         if (length() == 0) return std::make_unique<Null<A>>(); // No element to remove
         // so just return null
 
-        A ret = elems[ind >= length() ? length() - 1 : ind]; // Save the element that will be removed
+        A ret = *elems[ind >= length() ? length() - 1 : ind]; // Save the element that will be removed
 
         if (ind < length() - 1) {
             for (unsigned i = ind; i < length() - 1; i++) {
@@ -254,8 +264,8 @@ public:
 
 
     A get(unsigned index) const override {
-        if (index >= length()) return elems[length() - 1];
-        return elems[index];
+        if (index >= length()) return *elems[length() - 1];
+        return *elems[index];
     }
 
     unsigned length() const final { return elemCount; }

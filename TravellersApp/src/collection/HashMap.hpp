@@ -2,23 +2,22 @@
 #define TRAVELLERAPP_HASHMAP_HPP
 
 #include "ArrayList.hpp"
+#include "../debug.hpp"
 #include <cstdlib>
 #include <type_traits>
 
 /**
  * An Entry describes a key-value pair.
- * It also knows if the current entry is initialized or not.
  * @tparam Key the key
  * @tparam Value the value
  */
 template<class Key, class Value>
 struct Entry {
-    Key key{};
-    Value value{};
-    bool uninit = true;
+    Key key;
+    Value value;
 
     bool operator==(Entry<Key, Value> const &other) const {
-        return key == other.key && value == other.value && uninit == other.uninit;
+        return key == other.key && value == other.value;
     }
 
     bool operator!=(Entry<Key, Value> const &other) const {
@@ -51,12 +50,12 @@ template<class Key, class Value>
 class HashMap {
 private:
     /** Shorthand for the Specialized Entry */
-    typedef Entry<Key, Value> SpecEntry;
+    typedef Entry<Key, Value>* SpecEntry;
     /** The default size of the HashMap */
     static const unsigned DEFAULT_SIZE = 16;
     /** The load factor threshold for expanding the underlying array */
     static constexpr double EXPAND_FACTOR = 0.8;
-    SpecEntry *array;
+    SpecEntry* array;
     unsigned reserved{};
     unsigned elemCount{};
 
@@ -118,7 +117,7 @@ private:
      * @param other the HashMap to copy
      */
     void copy(HashMap<Key, Value> const &other) {
-
+        LOG(INFO, "Copy HashMap");
         array = new SpecEntry[other.capacity()];
         reserved = other.capacity();
         elemCount = 0;
@@ -137,10 +136,9 @@ private:
      * @returns the position of the key in the underlying array
      */
     unsigned findEntry(Key const &k) const {
-
         uint32_t hsh = hash(&k) % capacity();
 
-        while (array[hsh].key != k && !array[hsh].uninit) {
+        while (array[hsh] && array[hsh]->key != k) {
             hsh++;
             if (hsh >= capacity()) {
                 hsh = 0;
@@ -156,11 +154,12 @@ private:
      * @param size the size to initialize the hash map with
      */
     void init(unsigned size) {
+        LOG(INFO, "Initialize HashMap");
         array = new SpecEntry[size];
         reserved = size;
         elemCount = 0;
         for (int i = 0; i < size; i++) {
-            array[i] = SpecEntry{};
+            array[i] = nullptr;
         }
     }
 
@@ -171,12 +170,13 @@ private:
      * be a bit slow for a large number of elements
      */
     void expand() {
+        LOG(INFO, "Expand HashMap");
         SpecEntry *const newarray = new SpecEntry[capacity() * 2];
 
         unsigned oldCapacity = capacity();
 
         for (int i = 0; i < capacity() * 2; i++) {
-            newarray[i] = SpecEntry{};
+            newarray[i] = nullptr;
         }
 
         const SpecEntry *const oldarray = array;
@@ -198,8 +198,8 @@ private:
      */
     void putAll(const SpecEntry *other, unsigned size) {
         for (unsigned i = 0; i < size; i++) {
-            if (other[i].uninit) continue;//Skip if the entry is not initialized
-            put(other[i].key, other[i].value);
+            if (!other[i]) continue;//Skip if the entry is not initialized
+            put(other[i]->key, other[i]->value);
         }
     }
 
@@ -207,6 +207,10 @@ private:
      * Free all dynamically allocated memory associated with the Hash Map.
      */
     void free() {
+        LOG(INFO, "Free HashMap");
+        for(unsigned i = 0; i < capacity(); i++){
+            if(array[i]) delete array[i];
+        }
         delete[] array;
         reserved = 0;
         elemCount = 0;
@@ -230,6 +234,7 @@ public:
     }
 
     ~HashMap() {
+        LOG(INFO, "Destructor called.");
         free();
     }
 
@@ -265,10 +270,9 @@ public:
     std::unique_ptr<Nullable<Value>> get(Key const &k) {
         unsigned hsh = findEntry(k);
 
-        if (array[hsh].uninit) {
-
+        if (!array[hsh]) {
             return std::make_unique<Null<Value>>();
-        } else return std::make_unique<NotNull<Value>>(array[hsh].value);
+        } else return std::make_unique<NotNull<Value>>(array[hsh]->value);
     }
 
 
@@ -279,8 +283,7 @@ public:
      */
     bool contains(Key const &k) {
         unsigned hsh = findEntry(k);
-        if (array[hsh].uninit) return false;
-        else return true;
+        return array[hsh] ? true : false;
     }
 
     /**
@@ -302,15 +305,12 @@ public:
             expand();
         }
         unsigned hsh = findEntry(k);
-        if (array[hsh].uninit) {
-
-            array[hsh].key = k;
-            array[hsh].uninit = false;
+        if (!array[hsh]) {
+            array[hsh] = new Entry<Key,Value>();
+            array[hsh]->key = k;
             elemCount++;
-
-
         }
-        array[hsh].value = v;
+        array[hsh]->value = v;
     }
 
     /**
@@ -322,8 +322,9 @@ public:
      */
     void remove(Key const &k) {
         unsigned hsh = findEntry(k);
-        if (array[hsh].uninit) return;
-        array[hsh].uninit = true;
+        if (!array[hsh]) return;
+        delete array[hsh];
+        array[hsh] = nullptr;
         elemCount--;
     }
 
@@ -342,10 +343,11 @@ public:
      * @return a pointer to the list of values
      */
     std::unique_ptr<ArrayList<Value>> values() const {
-        std::unique_ptr<ArrayList<Value>> list = std::make_unique<ArrayList<Value>>(length());
+        std::unique_ptr<ArrayList<Value>> list =
+            std::make_unique<ArrayList<Value>>(length());
         for (int i = 0; i < capacity(); i++) {
-            if (!array[i].uninit) {
-                list->append(array[i].value);
+            if (array[i]) {
+                list->append(array[i]->value);
             }
         }
 
@@ -358,10 +360,11 @@ public:
      * @return a pointer to the list of keys
      */
     std::unique_ptr<ArrayList<Key>> keys() const {
-        std::unique_ptr<ArrayList<Key>> list = std::make_unique<ArrayList<Key>>(length());
+        std::unique_ptr<ArrayList<Key>> list =
+            std::make_unique<ArrayList<Key>>(length());
         for (int i = 0; i < capacity(); i++) {
-            if (!array[i].uninit) {
-                list->append(array[i].key);
+            if (array[i]) {
+                list->append(array[i]->key);
             }
         }
 

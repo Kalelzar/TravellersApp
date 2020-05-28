@@ -39,7 +39,7 @@ namespace Travel {
     class Scanner {
     private:
         ScannerContext sc;
-        CommandList cl;
+        CommandList* cl;
         std::istream *input;
         int line = 1;
 
@@ -68,7 +68,7 @@ namespace Travel {
          * @param input the input stream to scan
          * @param cl the list of reserved keywords
          */
-        Scanner(ScannerContext sc, std::istream *input, CommandList const &cl);
+        Scanner(ScannerContext sc, std::istream *input, CommandList* cl);
 
         /**
          * Scans the entire input stream.

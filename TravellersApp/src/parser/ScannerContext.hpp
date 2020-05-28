@@ -6,8 +6,9 @@
 #define TRAVELLERAPP_SCANNERCONTEXT_HPP
 
 enum class ScannerContext {
-    CONSOLE = 0,
-    FILE,
+    ATOPEN = 0,
+    GENERAL,
+    VISIT,
     ALL,
     UNDEFINED = -1
 };

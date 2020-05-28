@@ -23,7 +23,7 @@ namespace Travel {
          * A convenience value so CommandList doesn't need
          * to be passed around as much.
          */
-        static CommandList globalCommandList;
+        static CommandList& globalCommandList;
 
         /**
          * Convenience method for copying another CommandList to this one.
@@ -36,7 +36,7 @@ namespace Travel {
          * Returns the global command list.
          * @return the global command list
          */
-        static CommandList getCommandList() {
+        static CommandList& getCommandList() {
             return globalCommandList;
         }
 
@@ -44,7 +44,7 @@ namespace Travel {
          * Sets the global command list.
          * @param cl the new command list
          */
-        static void setCommandList(CommandList const& cl){
+        static void setCommandList(CommandList& cl){
             globalCommandList = cl;
         }
 
@@ -61,9 +61,9 @@ namespace Travel {
          * A second call to registerCommand with different parameters
          * but the same command name will overwrite the previous one.
          */
-        void registerCommand(SimpleString name, TokenType tokenType,
+        void registerCommand(SimpleString const& name, TokenType tokenType,
                              ScannerContext ctx,
-                             SimpleString descr) ;
+                             SimpleString const& descr) ;
 
         /**
          * Prints the registered commands along with their description.
@@ -85,7 +85,7 @@ namespace Travel {
          * @param name the name to check for
          * @return is there a registered command with that name
          */
-        bool isCommand(SimpleString name) ;
+        bool isCommand(SimpleString const& name) ;
 
         /**
          * Returns a pointer to a {@link NotNull} of the {@link ScannerContext}
@@ -103,7 +103,7 @@ namespace Travel {
          * @param name the name to find the token type for
          * @returns the token type
          */
-        std::unique_ptr<Nullable<TokenType>> tokenFor(SimpleString name) ;
+        std::unique_ptr<Nullable<TokenType>> tokenFor(SimpleString const& name) ;
     };
 }
 
