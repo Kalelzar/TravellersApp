@@ -3,7 +3,6 @@
 #include<cstring>
 
 
-
 void Token::create(TokenType _t, const char *_lexeme, int _line) {
     t = _t;
     line = _line;
@@ -52,14 +51,6 @@ bool Token::operator==(Token const &other) const {
 // It's ugly but it is what it is.
 static std::ostream& operator<<(std::ostream& out, TokenType const& type){
     switch(type){
-    case TokenType::AVAILABILITY:
-        out<<"(AVAILABILITY)";
-    case TokenType::ADD:
-        out<<"(ADD)";
-        break;
-    case TokenType::REMOVE:
-        out<<"(REMOVE)";
-        break;
     case TokenType::OPEN:
         out<<"(OPEN)";
         break;
@@ -78,24 +69,6 @@ static std::ostream& operator<<(std::ostream& out, TokenType const& type){
     case TokenType::EXIT:
         out<<"(EXIT)";
         break;
-    case TokenType::CHECKIN:
-        out<<"(CHECK IN)";
-        break;
-    case TokenType::CHECKOUT:
-        out<<"(CHECK OUT)";
-        break;
-    case TokenType::REPORT:
-        out<<"(REPORT)";
-        break;
-    case TokenType::FIND:
-        out<<"(FIND)";
-        break;
-    case TokenType::FIND_F:
-        out<<"(FIND!)";
-        break;
-    case TokenType::UNAVAILABLE:
-        out<<"(UNAVAILABLE)";
-        break;
     case TokenType::STRING:
         out<<"(STRING)";
         break;
@@ -104,12 +77,6 @@ static std::ostream& operator<<(std::ostream& out, TokenType const& type){
         break;
     case TokenType::DATE:
         out<<"(DATE)";
-        break;
-    case TokenType::LIST:
-        out<<"(LIST)";
-        break;
-    case TokenType::NUMERIC_RANGE:
-        out<<"(NUMERIC RANGE)";
         break;
     case TokenType::ERROR:
         out<<"(ERROR)";
