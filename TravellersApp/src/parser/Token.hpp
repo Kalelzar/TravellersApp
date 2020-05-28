@@ -10,13 +10,18 @@
  */
 enum class TokenType {
 
-    // All projects - Console only
-    OPEN, /**< Matches the <code>open</code> command. Console Only */
-    CLOSE, /**< Matches the <code>close</code> command. Console Only */
-    SAVE, /**< Matches the <code>save</code> command. Console Only */
-    SAVE_AS, /**< Matches the <code>save_as</code> command. Console Only */
     HELP, /**< Matches the <code>help</code> command. Console Only */
     EXIT, /**< Matches the <code>exit</code> command. Console Only */
+
+    REGISTER, LOGIN,
+    FRIEND,
+    ADD, REMOVE, LIST, REQUESTS, ACCEPT, REJECT, VISITED,
+
+    VISIT,
+    FROM, TO, RATE, COMMENT, PHOTO, UPLOAD, DELETE, SHOW, CANCEL, SAVE,
+
+    DESTINATION,
+    EXISTS, DESCRIBE, RATING, COMMENTS,
 
     // Types? I guess
     STRING, /**< Any single non-reserved word and everything between " " is
