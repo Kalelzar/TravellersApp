@@ -1,6 +1,7 @@
 #include <iostream>
 #include "debug.hpp"
 #include "parser/Scanner.hpp"
+#include "parser/HTLInterpreter.hpp"
 #include <csignal>
 
 void signalHandler( int signum );
@@ -14,6 +15,8 @@ int main(){
 
     cl.registerCommand("exit",     TokenType::EXIT,     ScannerContext::ALL,
                        "Exit the program.");
+    cl.registerCommand("help",     TokenType::HELP,     ScannerContext::ALL,
+                       "Print this help message.");
     cl.registerCommand("friend",   TokenType::FRIEND,   ScannerContext::GENERAL,
                        "friend <command> <args> => "
                        "prefix for all friend commands");
@@ -80,11 +83,13 @@ int main(){
                        " the main menu");
 
 
-   Travel::Scanner sc(ScannerContext::ALL, &std::cin, &cl);
+    Travel::Scanner sc(ScannerContext::ALL, &std::cin, &cl);
 
-    for(int i = 0; i < 10; i++){
-        sc.scanNext();
-
+    Travel::TravelState state{};
+    bool run = true;
+    while (run){
+        Travel::HTLInterpreter interpreter{sc.scanNext()};
+        run = interpreter.parse(state);
     }
     return 0;
 }

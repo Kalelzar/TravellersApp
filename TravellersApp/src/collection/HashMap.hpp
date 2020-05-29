@@ -56,8 +56,8 @@ private:
     /** The load factor threshold for expanding the underlying array */
     static constexpr double EXPAND_FACTOR = 0.8;
     SpecEntry* array;
-    unsigned reserved{};
-    unsigned elemCount{};
+    unsigned reserved;
+    unsigned elemCount;
 
     /**
      * An implementation of the 32-bit FNV-1a hash.
@@ -187,7 +187,9 @@ private:
 
         putAll(oldarray, oldCapacity);
 
-        //delete[] newarray;
+        for(int i = 0; i < oldCapacity; i++){
+            delete oldarray[i];
+        }
         delete[] oldarray;
     }
 
@@ -256,6 +258,7 @@ public:
      * @return the length
      */
     unsigned length() const {
+        LOG(CRITICAL, "In length ("<<elemCount<<")");
         return elemCount;
     }
 
@@ -309,6 +312,7 @@ public:
             array[hsh] = new Entry<Key,Value>();
             array[hsh]->key = k;
             elemCount++;
+            LOG(INFO, "Growing to "<<elemCount);
         }
         array[hsh]->value = v;
     }
@@ -344,7 +348,7 @@ public:
      */
     std::unique_ptr<ArrayList<Value>> values() const {
         std::unique_ptr<ArrayList<Value>> list =
-            std::make_unique<ArrayList<Value>>(length());
+            std::make_unique<ArrayList<Value>>(elemCount);
         for (int i = 0; i < capacity(); i++) {
             if (array[i]) {
                 list->append(array[i]->value);
@@ -360,8 +364,9 @@ public:
      * @return a pointer to the list of keys
      */
     std::unique_ptr<ArrayList<Key>> keys() const {
+        std::cout<<">>>"<<elemCount<<"<<<\n";
         std::unique_ptr<ArrayList<Key>> list =
-            std::make_unique<ArrayList<Key>>(length());
+            std::make_unique<ArrayList<Key>>(elemCount);
         for (int i = 0; i < capacity(); i++) {
             if (array[i]) {
                 list->append(array[i]->key);

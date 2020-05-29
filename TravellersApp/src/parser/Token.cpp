@@ -8,17 +8,8 @@
 // It's ugly but it is what it is.
 static std::ostream& operator<<(std::ostream& out, TokenType const& type){
     switch(type){
-    case TokenType::OPEN:
-        out<<"(OPEN)";
-        break;
-    case TokenType::CLOSE:
-        out<<"(CLOSE)";
-        break;
     case TokenType::SAVE:
         out<<"(SAVE)";
-        break;
-    case TokenType::SAVE_AS:
-        out<<"(SAVE AS)";
         break;
     case TokenType::HELP:
         out<<"(HELP)";

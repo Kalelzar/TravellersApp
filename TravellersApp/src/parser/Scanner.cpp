@@ -93,7 +93,8 @@ std::shared_ptr<ArrayList<Token>> Travel::Scanner::scanLine(const char *line){
             LOG(INFO, "String token generated successfully");
             index++;
         } else if (isdigit(line[index]) ||
-                   (line[index] == '-' && index + 1 < linelen && isdigit(line[index + 1]))) {
+                   (line[index] == '-' && index + 1 < linelen &&
+                    isdigit(line[index + 1]))) {
             LOG(INFO, "Found beginning of number");
             int start = index;
             if(line[index] == '-') index++;

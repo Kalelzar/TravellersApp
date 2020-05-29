@@ -23,7 +23,7 @@ namespace Travel {
          * A convenience value so CommandList doesn't need
          * to be passed around as much.
          */
-        static CommandList& globalCommandList;
+        static CommandList* globalCommandList;
 
         /**
          * Convenience method for copying another CommandList to this one.
@@ -36,16 +36,16 @@ namespace Travel {
          * Returns the global command list.
          * @return the global command list
          */
-        static CommandList& getCommandList() {
-            return globalCommandList;
+        static CommandList* getCommandList() {
+            return CommandList::globalCommandList;
         }
 
         /**
          * Sets the global command list.
          * @param cl the new command list
          */
-        static void setCommandList(CommandList& cl){
-            globalCommandList = cl;
+        static void setCommandList(CommandList* cl){
+            CommandList::globalCommandList = cl;
         }
 
 

@@ -48,7 +48,7 @@ else ifeq ($(config),release)
 TARGETDIR = ../bin/Release-linux-x86_64/TravellersApp
 TARGET = $(TARGETDIR)/TravellersApp
 OBJDIR = ../.obj/Release-linux-x86_64/TravellersApp
-DEFINES += -DTRVL_PLATFORM_LINUX -DTRVL_Release
+DEFINES += -DTRVL_PLATFORM_LINUX -DTRVL_RELEASE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++14
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s

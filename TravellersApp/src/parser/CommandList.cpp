@@ -1,6 +1,8 @@
 #include "CommandList.hpp"
 #include "../debug.hpp"
 
+Travel::CommandList* Travel::CommandList::globalCommandList = nullptr;
+
 void Travel::CommandList::copy(CommandList const &other) {
     LOG(INFO, "Copying CommandList instance.");
     nameToToken = other.nameToToken;
@@ -29,9 +31,10 @@ void Travel::CommandList::registerCommand(SimpleString const& name, TokenType to
                                          ScannerContext ctx,
                                          SimpleString const& descr) {
     LOG(INFO, "Registering command: " << name);
+    nameToDescr.put(name, descr);
     commandMap.put(tokenType, ctx);
     nameToToken.put(name, tokenType);
-    nameToDescr.put(name, descr);
+    LOG(INFO, nameToDescr.length() << " commands registered.");
 }
 
 void Travel::CommandList::printCommandsWithDescription(){
