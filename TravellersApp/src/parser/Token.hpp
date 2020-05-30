@@ -15,13 +15,13 @@ enum class TokenType {
 
     REGISTER, LOGIN,
     FRIEND,
-    ADD, REMOVE, LIST, REQUESTS, ACCEPT, REJECT, VISITED,
+    ADD, REMOVE, LIST, VISITED,
 
     VISIT,
     FROM, TO, RATE, COMMENT, PHOTO, UPLOAD, DELETE, SHOW, CANCEL, SAVE,
 
     DESTINATION,
-    EXISTS, DESCRIBE, RATING, COMMENTS,
+    EXISTS, RATING, COMMENTS,
 
     // Types? I guess
     STRING, /**< Any single non-reserved word and everything between " " is
@@ -90,5 +90,47 @@ public:
      */
     bool operator==(Token const &other) const;
 };
+
+// Allow TokenType to be directly passed to ostream
+// It's ugly but it is what it is.
+static std::ostream& operator<<(std::ostream& out, TokenType const& type){
+    switch(type){
+    case TokenType::FRIEND:
+        out<<"(FRIEND)";
+        break;
+    case TokenType::SAVE:
+        out<<"(SAVE)";
+        break;
+    case TokenType::HELP:
+        out<<"(HELP)";
+        break;
+    case TokenType::EXIT:
+        out<<"(EXIT)";
+        break;
+    case TokenType::STRING:
+        out<<"(STRING)";
+        break;
+    case TokenType::NUMBER:
+        out<<"(NUMBER)";
+        break;
+    case TokenType::DATE:
+        out<<"(DATE)";
+        break;
+    case TokenType::ERROR:
+        out<<"(ERROR)";
+        break;
+    case TokenType::EOF_T:
+        out<<"(EOF)";
+        break;
+    }
+    return out;
+}
+
+static std::ostream& operator<<(std::ostream &out, Token const &token) {
+    out << token.t << " " << token.line << ": " << token.lexeme;
+    return out;
+}
+
+
 
 #endif //TRAVELLERAPP_TOKEN_HPP

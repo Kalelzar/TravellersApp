@@ -17,7 +17,7 @@ namespace Travel {
     private:
         HashMap<TokenType, ScannerContext> commandMap;
         HashMap<SimpleString, TokenType> nameToToken;
-        HashMap<SimpleString, SimpleString> nameToDescr;
+        HashMap<SimpleString, const char*> nameToDescr;
 
         /**
          * A convenience value so CommandList doesn't need
@@ -63,7 +63,7 @@ namespace Travel {
          */
         void registerCommand(SimpleString const& name, TokenType tokenType,
                              ScannerContext ctx,
-                             SimpleString const& descr) ;
+                             const char* descr) ;
 
         /**
          * Prints the registered commands along with their description.

@@ -29,7 +29,7 @@ Travel::CommandList &Travel::CommandList::operator=(Travel::CommandList const &o
 
 void Travel::CommandList::registerCommand(SimpleString const& name, TokenType tokenType,
                                          ScannerContext ctx,
-                                         SimpleString const& descr) {
+                                         const char* descr) {
     LOG(INFO, "Registering command: " << name);
     nameToDescr.put(name, descr);
     commandMap.put(tokenType, ctx);
@@ -39,10 +39,17 @@ void Travel::CommandList::registerCommand(SimpleString const& name, TokenType to
 
 void Travel::CommandList::printCommandsWithDescription(){
     std::cout<<"Simple Command-line interface for Travel Management"<<std::endl;
-    std::unique_ptr<ArrayList<SimpleString>> keys = nameToDescr.keys();
-    std::unique_ptr<ArrayList<SimpleString>> values = nameToDescr.values();
+    auto keys = nameToDescr.keys();
+    auto values = nameToDescr.values();
+    // using Pair = Tuple<SimpleString, const char*>;
+    // auto keysAndValues = keys->zip(*values)
+    //     ->sort([](Tuple<SimpleString, const char*> const& t1,
+    //               Tuple<SimpleString, const char*> const& t2){
+    //                return t1.head() > t2.head;
+    //            });
     for(int i = 0; i < keys->length(); i++){
-        std::cout<<keys->get(i)<<" "<<values->get(i)<<std::endl;
+        std::cout<<"["<<keys->get(i)<<"] "
+                 <<values->get(i)<<std::endl;
     }
 }
 

@@ -71,6 +71,7 @@ OBJECTS :=
 
 GENERATED += $(OBJDIR)/CommandList.o
 GENERATED += $(OBJDIR)/HTLInterpreter.o
+GENERATED += $(OBJDIR)/Interpreter.o
 GENERATED += $(OBJDIR)/InvalidArgumentException.o
 GENERATED += $(OBJDIR)/NoValueException.o
 GENERATED += $(OBJDIR)/ReachedEndOfStreamException.o
@@ -80,6 +81,7 @@ GENERATED += $(OBJDIR)/Token.o
 GENERATED += $(OBJDIR)/main.o
 OBJECTS += $(OBJDIR)/CommandList.o
 OBJECTS += $(OBJDIR)/HTLInterpreter.o
+OBJECTS += $(OBJDIR)/Interpreter.o
 OBJECTS += $(OBJDIR)/InvalidArgumentException.o
 OBJECTS += $(OBJDIR)/NoValueException.o
 OBJECTS += $(OBJDIR)/ReachedEndOfStreamException.o
@@ -166,6 +168,9 @@ $(OBJDIR)/CommandList.o: src/parser/CommandList.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/HTLInterpreter.o: src/parser/HTLInterpreter.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Interpreter.o: src/parser/Interpreter.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Scanner.o: src/parser/Scanner.cpp

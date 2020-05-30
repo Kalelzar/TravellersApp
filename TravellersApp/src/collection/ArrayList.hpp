@@ -9,6 +9,7 @@
 #include<iostream>
 #include "../debug.hpp"
 #include<functional>
+#include "Tuple.hpp"
 
 /**
  * An implementation of a list backed by a resizable array.
@@ -382,6 +383,21 @@ public:
             return list.difference(*this);
         }
     }
+
+    // template<typename B>
+    // std::unique_ptr<ArrayList<Tuple<A, B>>> zip(ArrayList<B> const& list) const{
+    //     using Pair = Tuple<A, B>;
+    //     unsigned larger = list.length() > length() ? length() : list.length();
+    //     auto res = std::make_unique<ArrayList<Pair>>(larger);
+    //     for(unsigned i = 0; i < larger; i++){
+    //         A a = (*this)[i]->getOrElse(A{});
+    //         B b = list[i]->getOrElse(B{});
+    //         Tuple<A, B> p(a, b);
+    //         res->append(p);
+    //     }
+
+    //     return res;
+    // }
 
     bool operator==(ArrayList<A> const& other){
         if(length() != other.length()) return false;

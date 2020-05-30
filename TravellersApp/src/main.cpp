@@ -1,7 +1,9 @@
 #include <iostream>
 #include "debug.hpp"
 #include "parser/Scanner.hpp"
+#include "parser/Token.hpp"
 #include "parser/HTLInterpreter.hpp"
+#include "collection/Tuple.hpp"
 #include <csignal>
 
 void signalHandler( int signum );
@@ -22,29 +24,23 @@ int main(){
                        "prefix for all friend commands");
     cl.registerCommand("add",      TokenType::ADD,      ScannerContext::GENERAL,
                        "friend add <name>"
-                       "=> sends a friend request to user <name>");
+                       "=> add user <name> to friend's list");
     cl.registerCommand("remove",   TokenType::REMOVE,   ScannerContext::GENERAL,
                        "friend remove <name>"
                        "=> remove user <name> from friend's list");
     cl.registerCommand("list",     TokenType::LIST,     ScannerContext::GENERAL,
                        "friend list"
                        "=> lists friends.");
-    cl.registerCommand("requests", TokenType::REQUESTS, ScannerContext::GENERAL,
-                       "friend requests"
-                       "=> list pending sent and received friend requests.>");
-    cl.registerCommand("accept",   TokenType::ACCEPT,   ScannerContext::GENERAL,
-                       "friend accept <reqid>"
-                       "=> accepts friend request with id <reqid>");
-    cl.registerCommand("reject",   TokenType::REJECT,   ScannerContext::GENERAL,
-                       "friend reject <reqid>"
-                       "=> rejects friend request with id <reqid>");
     cl.registerCommand("visited",  TokenType::VISITED,  ScannerContext::GENERAL,
                        "friend visited <destination>"
                        "=> show all friends who have visited <destination>"
                        ", along with their comments and ratings.\n"
                        "friend visited <destination> <user>"
                        "=> show if friend <user> has visited <destination>"
-                       ", and if they have: Their comment and rating.");
+                       ", and if they have: Their comment and rating.\n"
+                       "destination visited <destination> <user>"
+                       "=> show if <user> has visited <destination>"
+                       ", and if they have: their comment and destination");
     cl.registerCommand("visit",    TokenType::VISIT,    ScannerContext::GENERAL,
                        "visit <destination>"
                        "=> visit <destination>");
@@ -82,17 +78,40 @@ int main(){
                        "=> cancel the information for this visit and return to"
                        " the main menu");
 
+    cl.registerCommand("destination", TokenType::DESTINATION,
+                       ScannerContext::GENERAL,
+                       "prefix for all friend commands");
+    cl.registerCommand("exists",      TokenType::EXISTS,
+                       ScannerContext::GENERAL,
+                       "destination exists <destination> "
+                       "=> Check if <destination> exists in the database.");
+    cl.registerCommand("rating",      TokenType::RATING,
+                       ScannerContext::GENERAL,
+                       "destination rating <destination>"
+                       " => Show an average of all ratings for <destination>");
+    cl.registerCommand("comments",      TokenType::COMMENTS,
+                       ScannerContext::GENERAL,
+                       "destination comments <destination>"
+                       " => Show all comments for <destination>");
+
+
+    Travel::CommandList::setCommandList(&cl);
+    //cl.printCommandsWithDescription();
 
     Travel::Scanner sc(ScannerContext::ALL, &std::cin, &cl);
 
     Travel::TravelState state{};
     bool run = true;
     while (run){
-        Travel::HTLInterpreter interpreter{sc.scanNext()};
+        auto tokens = sc.scanNext();
+        //tokens->foreach([](Token const& t){ std::cout<<t<<std::endl;});
+        Travel::HTLInterpreter interpreter{tokens};
         run = interpreter.parse(state);
     }
     return 0;
 }
+
+
 
 void signalHandler(int signum){
     LOG(INFO, "Recieved interupt signal: "<<signum );

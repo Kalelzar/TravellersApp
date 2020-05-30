@@ -4,40 +4,6 @@
 #include<iostream>
 #include "../debug.hpp"
 
-// Allow TokenType to be directly passed to ostream
-// It's ugly but it is what it is.
-static std::ostream& operator<<(std::ostream& out, TokenType const& type){
-    switch(type){
-    case TokenType::SAVE:
-        out<<"(SAVE)";
-        break;
-    case TokenType::HELP:
-        out<<"(HELP)";
-        break;
-    case TokenType::EXIT:
-        out<<"(EXIT)";
-        break;
-    case TokenType::STRING:
-        out<<"(STRING)";
-        break;
-    case TokenType::NUMBER:
-        out<<"(NUMBER)";
-        break;
-    case TokenType::DATE:
-        out<<"(DATE)";
-        break;
-    case TokenType::ERROR:
-        out<<"(ERROR)";
-        break;
-    case TokenType::EOF_T:
-        out<<"(EOF)";
-        break;
-    }
-    return out;
-}
-
-
-
 void Token::create(TokenType _t, const char *_lexeme, int _line) {
     LOG(INFO, "Create token { " << _t << ", " << _lexeme << ", "
         << _line <<" }");
@@ -84,9 +50,4 @@ Token &Token::operator=(Token const &other) {
 bool Token::operator==(Token const &other) const {
     return t == other.t &&
         line == other.line && strcmp(lexeme, other.lexeme) == 0;
-}
-
-static std::ostream& operator<<(std::ostream &out, Token const &token) {
-    out << token.t << " " << token.line << ": " << token.lexeme;
-    return out;
 }

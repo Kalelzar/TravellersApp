@@ -73,6 +73,10 @@ public:
         return !(*this == str);
     }
 
+    bool operator>(SimpleString const& other) const {
+        return strcmp(inner, other.get()) > 0;
+    }
+
 
     char *operator&() {
         LOG(WARN, "Calling override of operator&.");
@@ -81,6 +85,11 @@ public:
 
     const char *operator&() const {
         LOG(WARN, "Calling override of operator&");
+        return inner;
+    }
+
+
+    const char *get() const {
         return inner;
     }
 

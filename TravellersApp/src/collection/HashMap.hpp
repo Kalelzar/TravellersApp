@@ -187,8 +187,8 @@ private:
 
         putAll(oldarray, oldCapacity);
 
-        for(int i = 0; i < oldCapacity; i++){
-            delete oldarray[i];
+        for(unsigned i = 0; i < oldCapacity; i++){
+            if(oldarray[i]) delete oldarray[i];
         }
         delete[] oldarray;
     }
@@ -258,7 +258,6 @@ public:
      * @return the length
      */
     unsigned length() const {
-        LOG(CRITICAL, "In length ("<<elemCount<<")");
         return elemCount;
     }
 
@@ -312,7 +311,6 @@ public:
             array[hsh] = new Entry<Key,Value>();
             array[hsh]->key = k;
             elemCount++;
-            LOG(INFO, "Growing to "<<elemCount);
         }
         array[hsh]->value = v;
     }
@@ -348,7 +346,7 @@ public:
      */
     std::unique_ptr<ArrayList<Value>> values() const {
         std::unique_ptr<ArrayList<Value>> list =
-            std::make_unique<ArrayList<Value>>(elemCount);
+            std::make_unique<ArrayList<Value>>(length());
         for (int i = 0; i < capacity(); i++) {
             if (array[i]) {
                 list->append(array[i]->value);
@@ -364,9 +362,8 @@ public:
      * @return a pointer to the list of keys
      */
     std::unique_ptr<ArrayList<Key>> keys() const {
-        std::cout<<">>>"<<elemCount<<"<<<\n";
         std::unique_ptr<ArrayList<Key>> list =
-            std::make_unique<ArrayList<Key>>(elemCount);
+            std::make_unique<ArrayList<Key>>(length());
         for (int i = 0; i < capacity(); i++) {
             if (array[i]) {
                 list->append(array[i]->key);

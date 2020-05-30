@@ -5,6 +5,7 @@
 #ifndef TRAVELLERAPP_HTLINTERPRETER_HPP
 #define TRAVELLERAPP_HTLINTERPRETER_HPP
 
+#include "Interpreter.hpp"
 #include "Token.hpp"
 #include "../ReachedEndOfStreamException.hpp"
 #include "../WrongTokenTypeException.hpp"
@@ -17,29 +18,33 @@
 
 namespace Travel {
 
-    class HTLInterpreter {
+    class HTLInterpreter : public Interpreter<TravelState>{
+
     private:
-        std::shared_ptr<ArrayList<Token>> tokens;
-        unsigned index = 0;
+
+        bool general(TravelState& state);
+        void cfriend(TravelState& state);
+        void destination(TravelState& state);
+
+        void friendAdd(TravelState& state);
+        void friendRemove(TravelState& state);
+        void friendList(TravelState& state);
+        void friendVisited(TravelState& state);
+
+        void destinationExists(TravelState& state);
+        void destinationRating(TravelState& state);
+        void destinationComments(TravelState& state);
+        void destinationVisited(TravelState& state);
 
 
-        bool isAtEnd() const;
-        Token next();
-        Token peek() const;
-        void error(int line, const char* msg) const;
-        Token consume(TokenType type, const char* msg);
-        bool matches(TokenType type) const;
-        Token prev() const;
+
 
     public:
 
-        bool errorflag = false;
+        bool parse(TravelState &state) override;
 
-        explicit HTLInterpreter(std::shared_ptr<ArrayList<Token>> _tokens)
-            : tokens(_tokens) {}
+        using Interpreter::Interpreter;
 
-
-        bool parse(TravelState &state);
 
     };
 
