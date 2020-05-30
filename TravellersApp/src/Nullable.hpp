@@ -20,7 +20,7 @@ public:
 
     virtual A const& get() const = 0;
 
-    A const& getOrElse(A const &def) const {
+    A const& getOrElse(A const& def) const {
         if (isEmpty()) return def;
         return get();
     }
@@ -32,7 +32,8 @@ private:
     const A& value;
 public:
 
-    NotNull(A const&&) = delete;
+    //Why did I do this?
+    //NotNull(A const&&) = delete;
 
     explicit NotNull(A const &_value) : value(_value) {
         LOG(INFO, "Created NotNull.");

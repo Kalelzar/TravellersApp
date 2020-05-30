@@ -308,17 +308,55 @@ public:
         }
         unsigned hsh = findEntry(k);
         if (!array[hsh]) {
-            array[hsh] = new Entry<Key,Value>();
-            array[hsh]->key = k;
+            array[hsh] = new Entry<Key,Value>{k, v};
             elemCount++;
+            return;
         }
         array[hsh]->value = v;
     }
 
+    void put(Key &&k, Value &&v){
+        if (loadFactor() >= EXPAND_FACTOR) {
+            expand();
+        }
+        unsigned hsh = findEntry(k);
+        if (!array[hsh]) {
+            array[hsh] = new Entry<Key,Value>{std::move(k), std::move(v)};
+            elemCount++;
+            return;
+        }
+        array[hsh]->value = std::move(v);
+    }
+
+    void put(Key &&k, Value const& v){
+        if (loadFactor() >= EXPAND_FACTOR) {
+            expand();
+        }
+        unsigned hsh = findEntry(k);
+        if (!array[hsh]) {
+            array[hsh] = new Entry<Key,Value>{std::move(k), v};
+            elemCount++;
+            return;
+        }
+        array[hsh]->value = v;
+    }
+
+    void put(Key const& k, Value &&v){
+        if (loadFactor() >= EXPAND_FACTOR) {
+            expand();
+        }
+        unsigned hsh = findEntry(k);
+        if (!array[hsh]) {
+            array[hsh] = new Entry<Key,Value>{k, std::move(v)};
+            elemCount++;
+            return;
+        }
+        array[hsh]->value = std::move(v);
+    }
+
     /**
      * Removes the given key from the hash map by setting it's corresponding entry's
-     * as uninitialized. This will probably not free any memory associated with the Key, Value pair
-     * Such a thing should be handled by the caller.
+     * as uninitialized. This will probably free any memory associated with the Key, Value pair
      *
      * @param k the key to remove
      */
@@ -337,6 +375,18 @@ public:
      */
     const SpecEntry *underlying() const {
         return array;
+    }
+
+    std::unique_ptr<ArrayList<Tuple<Key, Value>>> toList(){
+       auto list =
+           std::make_unique<ArrayList<Tuple<Key, Value>>> (length());
+        for(int i = 0; i < capacity(); i++){
+            if(array[i]){
+                list->append(std::move(Tuple<Key, Value>(array[i]->key,
+                                                         array[i]->value)));
+            }
+        }
+        return list;
     }
 
     /**

@@ -65,6 +65,10 @@ namespace Travel {
                              ScannerContext ctx,
                              const char* descr) ;
 
+        void registerCommand(SimpleString&& name, TokenType tokenType,
+                             ScannerContext ctx,
+                             const char* &&descr) ;
+
         /**
          * Prints the registered commands along with their description.
          * No promises are made in regards to the order they are printed in.

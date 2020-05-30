@@ -8,8 +8,8 @@
 class SimpleString {
 
 private:
-    char *inner;
-    size_t len;
+    char *inner = nullptr;
+    size_t len = 0;
 
     void init(const char *str) {
         LOG(INFO, "Creating SimpleString instance.");
@@ -21,7 +21,8 @@ private:
 public:
 
     SimpleString() {
-        init("");
+        inner = new char[1];
+        inner[0] = '\0';
     }
 
     ~SimpleString() {
@@ -29,12 +30,41 @@ public:
         delete[] inner;
     }
 
-    SimpleString(const char *str) {
+    SimpleString(SimpleString&& str){
+        LOG(INFO, "Moving SimpleString");
+        len = str.len;
+        inner = str.inner;
+
+        str.len = 0;
+        str.inner = nullptr;
+    }
+
+    SimpleString &operator=(SimpleString&& str) {
+        if (&str != inner) {
+            LOG(INFO, "Move(assign) SimpleString");
+            if(inner) delete[] inner;
+            len = str.len;
+            inner = str.inner;
+
+            str.len = 0;
+            str.inner = nullptr;
+        }
+        return *this;
+    }
+
+
+    SimpleString(const char (&&str)[]) {
+        LOG(INFO, "Moving cstring into SimpleString");
+        len = strlen(str);
+        inner = const_cast<char*>(str);
+    }
+
+    SimpleString(const char* str) {
         LOG(INFO, "Copying SimpleString from cstring");
         init(str);
     }
 
-    SimpleString(SimpleString const &str) {
+    SimpleString(SimpleString const& str) {
         LOG(INFO, "Copying SimpleString");
         init(str.inner);
     }
@@ -42,15 +72,15 @@ public:
     SimpleString &operator=(SimpleString const &str) {
         if (&str != inner) {
             LOG(INFO, "Assigning SimpleString");
-            delete[] inner;
+            if(inner) delete[] inner;
             init(str.inner);
         }
         return *this;
     }
 
-    SimpleString &operator=(const char *str) {
+    SimpleString &operator=(const char str[]) {
         LOG(INFO, "Assigning SimpleString from cstring");
-        delete[] inner;
+        if(inner) delete[] inner;
         init(str);
         return *this;
     }

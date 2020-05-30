@@ -170,8 +170,6 @@ public:
             return;
         }
 
-        elems[length()] = new A;
-
         for (int i = length(); i > at; i--) {
             elems[i] = elems[i - 1]; // Shift all elements from index at to
             // length() left by one to make space for
@@ -179,6 +177,30 @@ public:
         }
 
         *elems[at] = elem;
+        elemCount++;
+    }
+
+    void insert(A&& elem, unsigned at) override {
+        if (elemCount + 1 > capacity()) {
+            expand();   // Expand the list if inserting one more element would
+            // exceed the dynamic array's current capacity
+        }
+
+        if (at >= length()) { // Assume that indexes greater or equal to the
+            // list's length mean an insertion at the end of
+            // the list.
+            elems[elemCount] = new A(std::move(elem));
+            elemCount++;
+            return;
+        }
+
+        for (int i = length(); i > at; i--) {
+            elems[i] = elems[i - 1]; // Shift all elements from index at to
+            // length() left by one to make space for
+            // the new element
+        }
+
+        *elems[at] = std::move(elem);
         elemCount++;
     }
 
@@ -212,8 +234,16 @@ public:
         insert(elem, length());
     }
 
+    void append(A&& elem) override {
+        insert(std::move(elem), length());
+    }
+
     void prepend(A const &elem) override {
         insert(elem, 0);
+    }
+
+    void prepend(A&& elem) override {
+        insert(std::move(elem), 0);
     }
 
     bool contains(A const &elem) const override {
@@ -264,7 +294,7 @@ public:
     }
 
 
-    A get(unsigned index) const override {
+    A& get(unsigned index) const override {
         if (index >= length()) return *elems[length() - 1];
         return *elems[index];
     }
@@ -384,20 +414,21 @@ public:
         }
     }
 
-    // template<typename B>
-    // std::unique_ptr<ArrayList<Tuple<A, B>>> zip(ArrayList<B> const& list) const{
-    //     using Pair = Tuple<A, B>;
-    //     unsigned larger = list.length() > length() ? length() : list.length();
-    //     auto res = std::make_unique<ArrayList<Pair>>(larger);
-    //     for(unsigned i = 0; i < larger; i++){
-    //         A a = (*this)[i]->getOrElse(A{});
-    //         B b = list[i]->getOrElse(B{});
-    //         Tuple<A, B> p(a, b);
-    //         res->append(p);
-    //     }
+     template<typename B>
+     std::unique_ptr<ArrayList<Tuple<A, B>>> zip(ArrayList<B> const& list) const{
+         using Pair = Tuple<A, B>;
+         if(list.length() != length())
+             throw NoValueException("Calling zip on ArrayLists with different"
+                                    "amount of elements)");
+         auto res = std::make_unique<ArrayList<Pair>>(capacity());
+         for(unsigned i = 0; i < length(); i++){
+             A a = this->get(i);
+             B b = list.get(i);
+             res->append(Pair(a, b));
+         }
 
-    //     return res;
-    // }
+         return res;
+     }
 
     bool operator==(ArrayList<A> const& other){
         if(length() != other.length()) return false;

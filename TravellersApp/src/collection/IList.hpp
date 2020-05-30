@@ -36,6 +36,25 @@ public:
      */
     virtual void insert(A const &elem, unsigned at) = 0;
 
+    /**
+     * Appends the given element to the list.
+     * @param elem the element
+     */
+    virtual void append(A&& elem) = 0;
+
+    /**
+     * Prepends the given element to the list.
+     * @param elem the element
+     */
+    virtual void prepend(A&& elem) = 0;
+
+    /**
+     * Inserts the given element in the list at the specified position.
+     * @param elem the element
+     * @param at the position
+     */
+    virtual void insert(A&& elem, unsigned at) = 0;
+
     virtual ~IList() = default;
 
     /**
@@ -51,7 +70,7 @@ public:
      * @returns the value, if any
      */
     std::unique_ptr<Nullable<A>> operator[](unsigned index) const {
-        if (index < length()) return std::make_shared<NotNull<A>>(get(index));
+        if (index < length()) return std::make_unique<NotNull<A>>(get(index));
         return std::make_unique<Null<A>>();
     }
 
@@ -110,7 +129,7 @@ public:
      * @param index the index
      * @return the value
      */
-    virtual A get(unsigned index) const = 0;
+    virtual A& get(unsigned index) const = 0;
 
     /**
      * Clears the list

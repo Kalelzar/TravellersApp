@@ -73,21 +73,25 @@ GENERATED += $(OBJDIR)/CommandList.o
 GENERATED += $(OBJDIR)/HTLInterpreter.o
 GENERATED += $(OBJDIR)/Interpreter.o
 GENERATED += $(OBJDIR)/InvalidArgumentException.o
+GENERATED += $(OBJDIR)/LoginInterpreter.o
 GENERATED += $(OBJDIR)/NoValueException.o
 GENERATED += $(OBJDIR)/ReachedEndOfStreamException.o
 GENERATED += $(OBJDIR)/Scanner.o
 GENERATED += $(OBJDIR)/ScannerContext.o
 GENERATED += $(OBJDIR)/Token.o
+GENERATED += $(OBJDIR)/VisitInterpreter.o
 GENERATED += $(OBJDIR)/main.o
 OBJECTS += $(OBJDIR)/CommandList.o
 OBJECTS += $(OBJDIR)/HTLInterpreter.o
 OBJECTS += $(OBJDIR)/Interpreter.o
 OBJECTS += $(OBJDIR)/InvalidArgumentException.o
+OBJECTS += $(OBJDIR)/LoginInterpreter.o
 OBJECTS += $(OBJDIR)/NoValueException.o
 OBJECTS += $(OBJDIR)/ReachedEndOfStreamException.o
 OBJECTS += $(OBJDIR)/Scanner.o
 OBJECTS += $(OBJDIR)/ScannerContext.o
 OBJECTS += $(OBJDIR)/Token.o
+OBJECTS += $(OBJDIR)/VisitInterpreter.o
 OBJECTS += $(OBJDIR)/main.o
 
 # Rules
@@ -173,6 +177,9 @@ $(OBJDIR)/HTLInterpreter.o: src/parser/HTLInterpreter.cpp
 $(OBJDIR)/Interpreter.o: src/parser/Interpreter.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/LoginInterpreter.o: src/parser/LoginInterpreter.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Scanner.o: src/parser/Scanner.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -180,6 +187,9 @@ $(OBJDIR)/ScannerContext.o: src/parser/ScannerContext.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Token.o: src/parser/Token.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/VisitInterpreter.o: src/parser/VisitInterpreter.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 

@@ -25,6 +25,8 @@ namespace Travel {
         bool general(TravelState& state);
         void cfriend(TravelState& state);
         void destination(TravelState& state);
+        void visit(TravelState& state);
+
 
         void friendAdd(TravelState& state);
         void friendRemove(TravelState& state);

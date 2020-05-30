@@ -3,6 +3,8 @@
 //
 
 #include "HTLInterpreter.hpp"
+#include "Scanner.hpp"
+#include "VisitInterpreter.hpp"
 
 namespace Travel {
 
@@ -15,12 +17,6 @@ namespace Travel {
             break;
         case TokenType::EXIT:
             return false;
-            break;
-        case TokenType::STRING:
-            errorflag = true;
-            std::cerr<<"(Line "<<prev().line
-                     <<") "<<"Unexpected String -> "
-                     << prev().lexeme <<std::endl;
             break;
         case TokenType::NUMBER:
             errorflag = true;
@@ -43,8 +39,13 @@ namespace Travel {
         case TokenType::EOF_T:
             return true;
             break;
+        default:
+            errorflag = true;
+            std::cerr<<"(Line "<<prev().line
+                     <<") "<<"Unexpected String -> "
+                     << prev().lexeme <<std::endl;
+            break;
         }
-
         return true;
     }
 
@@ -214,6 +215,24 @@ namespace Travel {
         }
     }
 
+    void HTLInterpreter::visit(TravelState& state){
+        Travel::Scanner sc(ScannerContext::VISIT, &std::cin,
+                           Travel::CommandList::getCommandList());
+        auto destination =
+            consume(TokenType::STRING, "Expected destination name.");
+        VisitBuilder vb;
+        //vb.destination(destination.lexeme);
+        bool run = true;
+        while (run){
+            std::cout<<">>"<<destination.lexeme<<"$ ";
+            auto tokens = sc.scanNext();
+            //tokens->foreach([](Token const& t){ std::cout<<t<<std::endl;});
+            Travel::VisitInterpreter interpreter{tokens};
+            run = interpreter.parse(vb);
+        }
+        //state.save(vb);
+    }
+
     bool HTLInterpreter::parse(TravelState& state) {
         errorflag = false;
         while(!isAtEnd()){
@@ -226,6 +245,10 @@ namespace Travel {
                     LOG(INFO, "Destination prefix");
                     next();
                     destination(state);
+                }else if(matches(TokenType::VISIT)){
+                    LOG(INFO, "Destination prefix");
+                    next();
+                    visit(state);
                 }else{
                     LOG(INFO, "Generic commandline");
                     if(!general(state)) return false;

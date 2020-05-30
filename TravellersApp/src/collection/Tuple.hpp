@@ -1,76 +1,89 @@
 #ifndef TRAVELLERAPP_TUPLE_HPP
 #define TRAVELLERAPP_TUPLE_HPP
 
-// #include <iostream>
-// #include <cstdlib>
-// #include <type_traits>
+#include <iostream>
+#include <cstdlib>
+#include <type_traits>
+
+#include <iostream>
+#include <cstdlib>
+#include <type_traits>
 
 
-// // Tuple implementation partially taken from
-// // www.stroustrup.com/C++11FAQ.html#variadic-templates
 
-// template <typename Head, typename ... Tail>
-// class Tuple : private Tuple< Tail... >{
-// private:
-//     using Inherited = Tuple<Tail...>;
-// public:
+/**
+ * Tuple implementation partially taken from
+ * www.stroustrup.com/C++11FAQ.html#variadic-templates
+ * though I couldn't get it to compile as is.
+ * So I had to take some time to reimplement it.
+ * I did learn a whole lot more about variadic templates and functions. So.
+ * Silver lining.
+ */
+template <typename ... Tail>
+class Tuple {
+public:
+    Tuple(){}
+    bool operator==(Tuple<> const& other) const {
+        return true;
+    }
+};
 
-//     Tuple(){}
+template < typename Head, typename ... Tail >
+class Tuple <Head, Tail...> : private Tuple<Tail...> {
+    using type = Tuple<Head, Tail...>;
+    using inherited  = Tuple<Tail...>;
+protected:
+    Head _head;
+public:
+    Tuple() = delete;
 
-// // Construct tuple from separate arguments:
-//     Tuple(typename std::add_lvalue_reference_t<Head> v,
-//           typename std::add_lvalue_reference_t<Tail>... vtail)
-//         : _head(v), Inherited(vtail...) { }
+    template <typename... VariadicValues>
+    Tuple(Head const& head, VariadicValues...tail)
+        : _head(head), inherited(tail...) {}
 
-//     // Construct tuple from another tuple:
-//     template<typename... VValues>
-//     Tuple(const Tuple<VValues...>& other)
-//         : _head(other.head()), Inherited(other.tail()) { }
+    template <typename... VariadicValues>
+    Tuple(Head&& head, VariadicValues&&...tail)
+        : _head(std::move(head)), inherited(std::move(tail...)) {}
 
-//     template<typename... VValues>
-//     Tuple& operator=(const Tuple<VValues...>& other) // assignment
-//         {
-//             _head = other.head();
-//             tail() = other.tail();
-//             return *this;
-//         }
+    Tuple(type const& other)
+        : _head(other.head()), inherited(other.tail()){}
 
-//     typename std::add_lvalue_reference_t<Head> head() { return _head; }
-//     typename std::add_lvalue_reference_t<const Head> head()const{ return _head;}
+    Head& head(){
+        return _head;
+    }
 
-//     Inherited& tail() { return *this; }
-//     const Inherited& tail() const { return *this; }
+    const Head& head() const {
+        return _head;
+    }
 
-// protected:
-//     Head _head;
+    inherited& tail() {
+        return *this;
+    }
 
-// };
+    const inherited& tail() const {
+        return *this;
+    }
 
-// template <typename Head>
-// class Tuple<Head> {
-// public:
-//     Tuple(){}
+    bool operator==(type const& other) const {
+        return head() == other.head() && tail() == other.tail();
+    }
 
-// // Construct tuple from separate arguments:
-//     Tuple(typename std::add_lvalue_reference_t<Head> v)
-//         : _head(v) { }
+};
 
-//     // Construct tuple from another tuple:
-//     template<typename Value>
-//     Tuple(const Tuple<Value>& other)
-//         : _head(other.head()) { }
+template<typename Head, typename ...Tail>
+static std::ostream& operator<<(std::ostream& out,
+                                Tuple<Head, Tail...> const& tuple) {
+    out<<tuple.head();
+    out<<"::";
+    out<<tuple.tail();
+    return out;
+}
 
-//     template<typename Value>
-//     Tuple& operator=(const Tuple<Value>& other)// assignment
-//         {
-//             _head = other.head();
-//             return *this;
-//         }
 
-//     typename std::add_lvalue_reference_t<Head> head() { return _head; }
-//     typename std::add_lvalue_reference_t<const Head> head()const{ return _head;}
-// protected:
-//     Head _head;
-// };
+static std::ostream& operator<<(std::ostream& out,
+                                Tuple<> const& tuple) {
+    out<<"Nil";
+    return out;
+}
 
 #endif //TRAVELLERAPP_TUPLE_HPP
