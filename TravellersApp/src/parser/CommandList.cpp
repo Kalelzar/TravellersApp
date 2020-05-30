@@ -66,7 +66,7 @@ void Travel::CommandList::printCommandsWithDescription(){
         "==============="<<std::endl;
     for(unsigned i = 0; i < keysAndValues->length(); i++){
         std::cout<<"["<<keysAndValues->get(i).head()<<"] "
-                 <<keysAndValues->get(i).tail().head()<<std::endl;
+                 <<*keysAndValues->get(i).get<1>()<<std::endl;
         std::cout<<
             "================================================================="
             "==============="<<std::endl;

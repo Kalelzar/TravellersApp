@@ -69,6 +69,7 @@ endif
 GENERATED :=
 OBJECTS :=
 
+GENERATED += $(OBJDIR)/CSV.o
 GENERATED += $(OBJDIR)/CommandList.o
 GENERATED += $(OBJDIR)/HTLInterpreter.o
 GENERATED += $(OBJDIR)/Interpreter.o
@@ -81,6 +82,7 @@ GENERATED += $(OBJDIR)/ScannerContext.o
 GENERATED += $(OBJDIR)/Token.o
 GENERATED += $(OBJDIR)/VisitInterpreter.o
 GENERATED += $(OBJDIR)/main.o
+OBJECTS += $(OBJDIR)/CSV.o
 OBJECTS += $(OBJDIR)/CommandList.o
 OBJECTS += $(OBJDIR)/HTLInterpreter.o
 OBJECTS += $(OBJDIR)/Interpreter.o
@@ -166,6 +168,9 @@ $(OBJDIR)/ReachedEndOfStreamException.o: src/ReachedEndOfStreamException.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/main.o: src/main.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/CSV.o: src/parser/CSV.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/CommandList.o: src/parser/CommandList.cpp
