@@ -10,7 +10,7 @@
 #include "../debug.hpp"
 #include<functional>
 #include "Tuple.hpp"
-
+#include "../InvalidArgumentException.hpp"
 /**
  * An implementation of a list backed by a resizable array.
  * Due to some quirks of the implementation, type A
@@ -55,7 +55,6 @@ private:
         elemCount = 0;
         appendAll(other);
     }
-
 
     /**
      * The partition function of the quicksort algorithm.
@@ -324,14 +323,44 @@ public:
         return filtered;
     }
 
+    int find(std::function<bool(const A &)> predicate) const {
+        for (int i = 0; i < length(); i++) {
+            if (predicate(get(i))) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     /**
      * Applies the provided function to each element of the list in order.
      * @param consumer the function to apply
      */
     void foreach(std::function<void(const A &)> consumer) const {
         for (int i = 0; i < length(); i++) {
-            consumer(get(i));
+            if(get(i))
+                consumer(get(i));
         }
+    }
+
+    template<int sliceSize>
+    unique_ptr<ArrayList<typename Tuple<A>::template ofSize<sliceSize>::type>>
+    slice(){
+        if(length() % sliceSize != 0)
+            throw InvalidArgumentException("List size must be evenly divisible"
+                                           " by slice size");
+        int slices = length() / sliceSize;
+        auto list =
+            make_unique<ArrayList<typename Tuple<A>::template
+                                  ofSize<sliceSize>::type>>(slices);
+
+        for(int i = 1; i < slices; i++){
+            typename Tuple<A>::template
+                ofSize<sliceSize>::type tuple(elems+sliceSize*i);
+            list->append(tuple);
+        }
+
+        return list;
     }
 
     /**
@@ -350,6 +379,23 @@ public:
         }
         return mapped;
     }
+
+    // /**
+    //  * Return a new ArrayList containing the result of applying
+    //  * the provided mapping function to each element of the list
+    //  * in order
+    //  * @tparam B the type of elements in the new list
+    //  * @param mapper the mapping function
+    //  * @return the new ArrayList
+    //  */
+    // template<typename B>
+    // std::unique_ptr<ArrayList<B>> map(std::function<B(A&)> mapper) const {
+    //     std::unique_ptr<ArrayList<B>> mapped = std::make_unique<ArrayList<B>>(capacity());
+    //     for (int i = 0; i < length(); i++) {
+    //         mapped->append(mapper(get(i)));
+    //     }
+    //     return mapped;
+    // }
 
     /**
      * Returns a new ArrayList containing the elements of this
