@@ -117,7 +117,7 @@ private:
      * @param other the HashMap to copy
      */
     void copy(HashMap<Key, Value> const &other) {
-        LOG(INFO, "Copy HashMap");
+        //LOG(INFO, "Copy HashMap");
         array = new SpecEntry[other.capacity()];
         reserved = other.capacity();
         elemCount = 0;
@@ -154,7 +154,7 @@ private:
      * @param size the size to initialize the hash map with
      */
     void init(unsigned size) {
-        LOG(INFO, "Initialize HashMap");
+        //LOG(INFO, "Initialize HashMap");
         array = new SpecEntry[size];
         reserved = size;
         elemCount = 0;
@@ -170,7 +170,7 @@ private:
      * be a bit slow for a large number of elements
      */
     void expand() {
-        LOG(INFO, "Expand HashMap");
+        //LOG(INFO, "Expand HashMap");
         SpecEntry *const newarray = new SpecEntry[capacity() * 2];
 
         unsigned oldCapacity = capacity();
@@ -209,7 +209,7 @@ private:
      * Free all dynamically allocated memory associated with the Hash Map.
      */
     void free() {
-        LOG(INFO, "Free HashMap");
+        //LOG(INFO, "Free HashMap");
         for(unsigned i = 0; i < capacity(); i++){
             if(array[i]) delete array[i];
         }
@@ -236,7 +236,7 @@ public:
     }
 
     ~HashMap() {
-        LOG(INFO, "Destructor called.");
+        //LOG(INFO, "Destructor called.");
         free();
     }
 

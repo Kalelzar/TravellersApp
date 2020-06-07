@@ -14,7 +14,7 @@ class CSV {
 private:
     static constexpr int columns = sizeof...(Types);
     static_assert(columns > 0, "CSV file needs at least one column");
-    using CSVHeader=typename Tuple<const char*>::ofSize<sizeof...(Types)>::type;
+    using CSVHeader=typename Tuple<const char*>::ofSize<columns>::type;
     CSVHeader _header;
     using Entry= Tuple<Types...>;
     ArrayList<Entry> entries;
@@ -52,7 +52,6 @@ public:
             for(int i = 0; i < columns; i++){
                 delete [] tokens->get(i);
             }
-            std::cout<<tokens->length()<<std::endl;
             auto readEntries = tokens->template slice<columns>();
             for(int i = 0; i < readEntries->length(); i++){
                 auto k = getKeys();
@@ -119,7 +118,6 @@ public:
     }
 
     ~CSV(){
-
         for(int i = 0; i < entries.length(); i++){
             entries.get(i).free();
         }

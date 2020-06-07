@@ -25,8 +25,8 @@ private:
      * Frees the resizable array.
      */
     void free() {
-        LOG(INFO, "Freeing ArrayList.");
-        for(unsigned i = 0; i < length(); i++){
+        //LOG(INFO, "Freeing ArrayList.");
+        for(unsigned i = 0; i < elemCount; i++){
             delete elems[i];
         }
         delete[] elems;
@@ -37,7 +37,7 @@ private:
      * @param reserve the starting size to allocate for the resizable array
      */
     void create(unsigned reserve) {
-        LOG(INFO, "Creating ArrayList");
+        // LOG(INFO, "Creating ArrayList");
         elems = new A*[reserve];
         reserved = reserve;
         elemCount = 0;
@@ -48,7 +48,7 @@ private:
      * @param other the other list.
      */
     void copy(ArrayList<A> const &other) {
-        LOG(INFO, "Copying ArrayList");
+        // LOG(INFO, "Copying ArrayList");
         free();
         elems = new A*[other.capacity()];
         reserved = other.capacity();
@@ -205,7 +205,7 @@ public:
 
 
     void expand() {
-        LOG(VERBOSE, "Expanding array");
+        //LOG(VERBOSE, "Expanding array");
         unsigned newCapacity = capacity() * 2;
         reserved = newCapacity;
 
@@ -257,6 +257,7 @@ public:
         unsigned index = 0;
         for (unsigned i = 0; i < length(); i++) {
             if (get(i) == elem) {
+                delete elems[i];
                 foundAt = i;
                 continue;
             }
@@ -265,6 +266,7 @@ public:
             }
             index++;
         }
+
         elemCount--;
         return foundAt;
     }
@@ -274,7 +276,7 @@ public:
         // so just return null
 
         A ret = *elems[ind >= length() ? length() - 1 : ind]; // Save the element that will be removed
-
+        delete elems[ind >= length() ? length() - 1 : ind];
         if (ind < length() - 1) {
             for (unsigned i = ind; i < length() - 1; i++) {
                 elems[i] = elems[i + 1];
@@ -323,7 +325,16 @@ public:
         return filtered;
     }
 
-    int find(std::function<bool(const A &)> predicate) const {
+    unique_ptr<Nullable<A>> removeIf(std::function<bool(const A&)> predicate) {
+        for (int i = 0; i < length(); i++) {
+            if (predicate(get(i))) {
+                return removeAt(i);
+            }
+        }
+        return make_unique<Null<A>>();
+    }
+
+        int find(std::function<bool(const A &)> predicate) const {
         for (int i = 0; i < length(); i++) {
             if (predicate(get(i))) {
                 return i;

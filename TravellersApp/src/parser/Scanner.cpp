@@ -97,32 +97,39 @@ std::shared_ptr<ArrayList<Token>> Travel::Scanner::scanLine(const char *line){
                     isdigit(line[index + 1]))) {
             LOG(INFO, "Found beginning of number");
             int start = index;
+            bool maybeDate = false;
             if(line[index] == '-') index++;
             TokenType tt = TokenType::NUMBER;
             while (isdigit(line[index])) {
 
                 index++;
-                if (line[index] == '-') {
-                    LOG(ERROR, "Malformed number");
-                    const char errorMsg[] = "Malformed number.";
-                    list->append({TokenType::ERROR,
-                                  errorMsg, this->line});
-                    error = true;
-                    return list;
+                if (line[index] == '-' &&
+                    tt == TokenType::NUMBER
+                    && index+1 < linelen
+                    && isdigit(line[index+1])) {
+                    tt = TokenType::DATE;
+                    index++;
+                    maybeDate = true;
+                }else if(line[index] == '-' &&
+                         maybeDate &&
+                         index+1 < linelen &&
+                         isdigit(line[index+1])){
+                    index++;
+                    maybeDate = false;
+                }else if(line[index] == '-'){
+                    index++;
+                    tt=TokenType::STRING;
+                    break;
                 }
             }
 
             LOG(VERBOSE, "Reached end of number");
 
-
-            if (line[index - 1] == '-' || (index != linelen && line[index] != ' ')) {
-                LOG(ERROR, "Malformed number");
-                const char errorMsg[] = "Malformed number.";
-                list->append({TokenType::ERROR,
-                              errorMsg, this->line});
-                error = true;
-                return list;
+            while (index < linelen && line[index] != ' ') {
+                tt=TokenType::STRING;
+                index++;
             }
+
             char* lexeme = new char[index - start + 1];
             LOG(VERBOSE, "Copying number...");
             strncpy(lexeme, line + start, index - start);

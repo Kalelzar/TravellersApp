@@ -4,17 +4,28 @@ namespace Travel {
 
     bool LoginInterpreter::login(TravelState& state){
         auto user = consume(TokenType::STRING, "Expected username");
-        auto password = consume(TokenType::STRING, "Expected password" );
-        return true;
-        //return state.login(user.lexeme, password.lexeme);
+        if(matches(TokenType::STRING) || matches(TokenType::NUMBER)){
+            auto password = next();
+            return state.login(user.lexeme, password.lexeme);
+        }else{
+            error(peek().line, "Expected password");
+            return false;
+        }
+
     }
+
+
 
     bool LoginInterpreter::reg(TravelState& state){
         auto email = consume(TokenType::STRING, "Expected email");
         auto user = consume(TokenType::STRING, "Expected username");
-        auto password = consume(TokenType::STRING, "Expected password" );
-        return true;
-        //return state.register(email.lexeme, user.lexeme, password.lexeme);
+        if(matches(TokenType::STRING) || matches(TokenType::NUMBER)){
+            auto password = next();
+            return state.uregister(email.lexeme, user.lexeme, password.lexeme);
+        }else{
+            error(peek().line, "Expected password");
+            return false;
+        }
     }
 
     bool LoginInterpreter::parse(TravelState& state) {

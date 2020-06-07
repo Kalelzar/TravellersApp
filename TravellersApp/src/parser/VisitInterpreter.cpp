@@ -61,12 +61,12 @@ namespace Travel {
 
     void VisitInterpreter::from(VisitBuilder& vb){
         auto from = consume(TokenType::DATE, "Expected Date");
-        //vb.from(from.lexeme);
+        vb.from(from.lexeme);
     }
 
     void VisitInterpreter::to(VisitBuilder& vb) {
         auto to = consume(TokenType::DATE, "Expected Date");
-        //vb.to(to.lexeme);
+        vb.to(to.lexeme);
     }
 
     void VisitInterpreter::rate(VisitBuilder& vb) {

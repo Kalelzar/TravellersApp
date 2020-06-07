@@ -5,8 +5,8 @@
 #include "../debug.hpp"
 
 void Token::create(TokenType _t, const char *_lexeme, int _line) {
-    LOG(INFO, "Create token { " << _t << ", " << _lexeme << ", "
-        << _line <<" }");
+    //LOG(INFO, "Create token { " << _t << ", " << _lexeme << ", "
+    //        << _line <<" }");
     t = _t;
     line = _line;
     int length = strlen(_lexeme);
@@ -16,7 +16,7 @@ void Token::create(TokenType _t, const char *_lexeme, int _line) {
 }
 
 void Token::copy(Token const &other) {
-    LOG(INFO, "Copy token");
+    //LOG(INFO, "Copy token");
     create(other.t, other.lexeme,  other.line);
 }
 
@@ -26,7 +26,7 @@ Token::Token(TokenType _t, const char *_lexeme, int _line) {
 }
 
 Token::~Token() {
-    LOG(INFO, "Destructor called.");
+    //LOG(INFO, "Destructor called.");
     delete[] lexeme;
 }
 

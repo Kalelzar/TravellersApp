@@ -1,0 +1,740 @@
+
+/home/kalelzar/Code/cpp/TravellersApp/Release.sh,0
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/Makefile,2574
+  config=debugconfig4,80
+  SILENT = @SILENT8,117
+SHELLTYPE := posixSHELLTYPE13,161
+	SHELLTYPE := msdosSHELLTYPE15,222
+RESCOMP = windresRESCOMP21,315
+LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)LINKCMD28,491
+define PREBUILDCMDSPREBUILDCMDS29,563
+define PRELINKCMDSPRELINKCMDS31,589
+TARGETDIR = ../bin/Debug-linux-x86_64/TravellersAppTARGETDIR35,638
+TARGET = $(TARGETDIR)/TravellersAppTARGET36,690
+OBJDIR = ../.obj/Debug-linux-x86_64/TravellersAppOBJDIR37,726
+define POSTBUILDCMDSPOSTBUILDCMDS42,977
+TARGETDIR = ../bin/Release-linux-x86_64/TravellersAppTARGETDIR48,1082
+TARGET = $(TARGETDIR)/TravellersAppTARGET49,1136
+OBJDIR = ../.obj/Release-linux-x86_64/TravellersAppOBJDIR50,1172
+define POSTBUILDCMDSPOSTBUILDCMDS55,1432
+GENERATED :=GENERATED69,1653
+OBJECTS :=OBJECTS70,1666
+all: $(TARGET)all106,2852
+$(TARGET): $(GENERATED) $(OBJECTS) $(LDDEPS) | $(TARGETDIR)$(TARGET)109,2872
+$(TARGETDIR):$(TARGETDIR)115,3018
+$(OBJDIR):$(OBJDIR)123,3176
+clean:clean131,3322
+prebuild: | $(OBJDIR)prebuild143,3722
+$(OBJECTS): $(GCH) | $(PCH_PLACEHOLDER)$(OBJECTS)147,3778
+$(GCH): $(PCH) | prebuild$(GCH)148,3818
+$(PCH_PLACEHOLDER): $(GCH) | $(OBJDIR)$(PCH_PLACEHOLDER)151,3949
+$(OBJECTS): | prebuild$(OBJECTS)158,4082
+$(OBJDIR)/Date.o: src/Date.cpp$(OBJDIR)/Date.o165,4175
+$(OBJDIR)/InvalidArgumentException.o: src/InvalidArgumentException.cpp$(OBJDIR)/InvalidArgumentException.o168,4312
+$(OBJDIR)/NoValueException.o: src/NoValueException.cpp$(OBJDIR)/NoValueException.o171,4489
+$(OBJDIR)/ReachedEndOfStreamException.o: src/ReachedEndOfStreamException.cpp$(OBJDIR)/ReachedEndOfStreamException.o174,4650
+$(OBJDIR)/TravelState.o: src/TravelState.cpp$(OBJDIR)/TravelState.o177,4833
+$(OBJDIR)/main.o: src/main.cpp$(OBJDIR)/main.o180,4984
+$(OBJDIR)/CSV.o: src/parser/CSV.cpp$(OBJDIR)/CSV.o183,5121
+$(OBJDIR)/CommandList.o: src/parser/CommandList.cpp$(OBJDIR)/CommandList.o186,5263
+$(OBJDIR)/HTLInterpreter.o: src/parser/HTLInterpreter.cpp$(OBJDIR)/HTLInterpreter.o189,5421
+$(OBJDIR)/Interpreter.o: src/parser/Interpreter.cpp$(OBJDIR)/Interpreter.o192,5585
+$(OBJDIR)/LoginInterpreter.o: src/parser/LoginInterpreter.cpp$(OBJDIR)/LoginInterpreter.o195,5743
+$(OBJDIR)/Scanner.o: src/parser/Scanner.cpp$(OBJDIR)/Scanner.o198,5911
+$(OBJDIR)/ScannerContext.o: src/parser/ScannerContext.cpp$(OBJDIR)/ScannerContext.o201,6061
+$(OBJDIR)/Token.o: src/parser/Token.cpp$(OBJDIR)/Token.o204,6225
+$(OBJDIR)/VisitInterpreter.o: src/parser/VisitInterpreter.cpp$(OBJDIR)/VisitInterpreter.o207,6371
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/User.hpp,1123
+#define TRVL_USER_HPPTRVL_USER_HPP2,22
+class User {User9,131
+    char* username = nullptr;username12,154
+    char* friendDBPath = nullptr;friendDBPath13,184
+    char* usrDBPath = nullptr;usrDBPath14,218
+    ArrayList<char*> friends;friends15,249
+    forType<char*>::repeat<5>::apply<CSV> destinations{"dest", "from", "to",destinations17,280
+    HashMap<SimpleString, ArrayList<char*>> pics;pics19,434
+    void setUserName(const char* _username){setUserName21,485
+    User(const char* name){User41,1113
+    const char* getName() const {getName53,1447
+    void addFriend(const char* name){addFriend57,1513
+            .find([name](char* const (&key)){__anonf5b05f41010259,1586
+    void removeFriend(const char* name){removeFriend71,1955
+            friends.removeIf([name](char* fr){__anonf5b05f41020273,2038
+    void listFriends(){listFriends82,2260
+        friends.foreach([](char* fr){__anonf5b05f41030283,2284
+    bool operator==(User const& other){operator ==89,2412
+    ~User(){~User93,2513
+                        .foreach([&file](char* const(&pic)) {__anonf5b05f410402117,3513
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/Nullable.hpp,624
+#define TRAVELLERAPP_NULLABLE_HPPTRAVELLERAPP_NULLABLE_HPP2,34
+class Nullable {Nullable9,161
+    bool isDefined() const {isDefined17,281
+    A const getOrElse(A const& def) const {getOrElse23,382
+class NotNull : public Nullable<A> {NotNull30,511
+    const A value;value32,557
+    explicit NotNull(A const _value) : value(_value) {NotNull38,646
+    bool isEmpty() const override {isEmpty42,760
+    A const get() const override {get46,825
+class Null : public Nullable<A> {Null52,910
+    Null(){Null55,953
+    bool isEmpty() const override {isEmpty59,1008
+    A const get() const override {get63,1072
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/SimpleString.hpp,1336
+#define TRAVELLERAPP_SIMPLESTRING_HPPTRAVELLERAPP_SIMPLESTRING_HPP2,38
+class SimpleString {SimpleString8,136
+    char *inner = nullptr;inner11,167
+    size_t len = 0;len12,194
+    void init(const char *str) {init14,215
+    SimpleString() {SimpleString23,410
+    ~SimpleString() {~SimpleString28,492
+    SimpleString(SimpleString&& str){SimpleString33,588
+    SimpleString &operator=(SimpleString&& str) {operator =42,778
+    SimpleString(const char* str) {SimpleString62,1278
+    SimpleString(SimpleString const& str) {SimpleString67,1398
+    SimpleString &operator=(SimpleString const &str) {operator =72,1519
+    SimpleString &operator=(const char str[]) {operator =81,1760
+    bool operator==(SimpleString const &str) const {operator ==88,1950
+    bool operator==(const char *str) const {operator ==93,2108
+    bool operator!=(SimpleString const &str) const {operator !=98,2251
+    bool operator!=(const char *str) const {operator !=102,2343
+    bool operator>(SimpleString const& other) const {operator >106,2427
+    char *operator&() {operator &111,2536
+    const char *operator&() const {operator &116,2644
+    const char *get() const {get122,2764
+    friend std::ostream &operator<<(std::ostream &out, SimpleString str) {operator <<126,2823
+    size_t length() const {length130,2938
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/VisitBuilder.hpp,591
+#define TRAVELLERAPP_VISITBUILDER_HPPTRAVELLERAPP_VISITBUILDER_HPP2,38
+namespace Travel {Travel7,123
+    class VisitBuilder {VisitBuilder8,142
+        char* _destination = nullptr;_destination10,180
+        Travel::Date _from;_from11,218
+        bool setFrom = false;setFrom12,246
+        Travel::Date _to;_to13,276
+        bool setTo = false;setTo14,302
+        int _rating = -1;_rating15,330
+        char* _comment = nullptr;_comment16,356
+        ArrayList<char*> _pics;_pics17,390
+        void from(char* fdate){from20,466
+        void to(char* fdate){to28,723
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/debug.hpp,89
+#define Q(Q2,18
+#define QUOTE(QUOTE3,34
+#define LOG(LOG5,57
+#define LOG(LOG8,207
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/Date.cpp,1781
+#define sprintf sprintf10,118
+namespace Hotel {Hotel13,163
+    Date::Date(int year, int month, int day) {Date15,182
+    Date Date::today() {today35,790
+    int Date::daysOfMonth(int month, int year) {daysOfMonth39,845
+    bool Date::isLeapYear(int year) {isLeapYear65,1425
+    int Date::currentYear() {currentYear77,1691
+    int Date::currentMonth() {currentMonth83,1835
+    int Date::currentDay() {currentDay89,1976
+    void Date::getString(char (&str)[11]) const {getString95,2112
+    Date::Date(const char str[11]) {Date99,2242
+    Date::Date() {Date115,2730
+    Date Date::fromString(const char str[11]) {fromString121,2846
+    int Date::daysBetween(const Date &start, const Date &end) {daysBetween125,2923
+    int Date::daysSince1900(const Date &date) {daysSince1900129,3033
+    int Date::daysSince1900() const {daysSince1900133,3125
+    int Date::daysBetween(const Date &date) const {daysBetween145,3456
+    std::ostream &operator<<(std::ostream &out, const Date &date) {operator <<149,3583
+    static bool isDash(std::istream &in) {isDash158,3751
+    std::istream &operator>>(std::istream &in, Date &date) {operator >>162,3833
+    bool Date::operator>(Date const &other) const {operator >191,4334
+    bool Date::operator>=(Date const &other) const {operator >=195,4449
+    bool Date::operator<(Date const &other) const {operator <199,4557
+    bool Date::operator<=(Date const &other) const {operator <=203,4650
+    bool Date::operator!=(Date const &other) const {operator !=207,4743
+    bool Date::operator==(Date const &other) const {operator ==211,4837
+    int Date::operator-(Date const &other) const {operator -217,5030
+    void Date::print() const {print221,5144
+    void Date::println() const {println227,5254
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/ReachedEndOfStreamException.hpp,625
+#define TRAVELLERAPP_REACHEDENDOFSTREAMEXCEPTION_HPPTRAVELLERAPP_REACHEDENDOFSTREAMEXCEPTION_HPP2,53
+class ReachedEndOfStreamException : public std::exception {ReachedEndOfStreamException10,190
+    static const char *DEFAULT_MESSAGE;DEFAULT_MESSAGE12,259
+    char *msg;msg15,301
+    virtual const char *what() const throw() {what18,325
+    ReachedEndOfStreamException(const char *_msg) {ReachedEndOfStreamException23,400
+    ~ReachedEndOfStreamException() {~ReachedEndOfStreamException28,528
+    ReachedEndOfStreamException() : ReachedEndOfStreamException(DEFAULT_MESSAGE) {}ReachedEndOfStreamException32,594
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/WrongTokenTypeException.hpp,601
+#define TRAVELLERAPP_WRONGTOKENTYPEEXCEPTION_HPPTRAVELLERAPP_WRONGTOKENTYPEEXCEPTION_HPP2,49
+class WrongTokenTypeException : public std::exception {WrongTokenTypeException10,182
+    char *msg;msg12,247
+    virtual const char *what() const throw() {what16,272
+    WrongTokenTypeException(const char *_msg) {WrongTokenTypeException20,346
+    ~WrongTokenTypeException() {~WrongTokenTypeException25,470
+	WrongTokenTypeException(WrongTokenTypeException const& other) {WrongTokenTypeException29,532
+	WrongTokenTypeException& operator=(WrongTokenTypeException const& other) {operator =34,668
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/parser/CommandList.hpp,585
+#define TRAVELLERAPP_COMMANDLIST_HPPTRAVELLERAPP_COMMANDLIST_HPP2,37
+namespace Travel {Travel9,195
+    class CommandList {CommandList16,497
+        HashMap<TokenType, ScannerContext> commandMap;commandMap18,534
+        HashMap<SimpleString, TokenType> nameToToken;nameToToken19,589
+        HashMap<SimpleString, const char*> nameToDescr;nameToDescr20,643
+        static CommandList* globalCommandList;globalCommandList26,823
+        static CommandList* getCommandList() {getCommandList39,1141
+        static void setCommandList(CommandList* cl){setCommandList47,1357
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/parser/VisitInterpreter.hpp,201
+#define TRAVELLERAPP_VISITINTERPRETER_HPPTRAVELLERAPP_VISITINTERPRETER_HPP6,87
+namespace Travel {Travel20,456
+    class VisitInterpreter : public Interpreter<VisitBuilder>{VisitInterpreter22,476
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/parser/Scanner.cpp,341
+Travel::Scanner::Scanner(ScannerContext sc, std::istream *input, CommandList* cl)Scanner4,48
+std::shared_ptr<ArrayList<Token>> Travel::Scanner::scan(){scan13,237
+std::shared_ptr<ArrayList<Token>> Travel::Scanner::scanNext(){scanNext30,776
+std::shared_ptr<ArrayList<Token>> Travel::Scanner::scanLine(const char *line){scanLine46,1266
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/parser/ScannerContext.hpp,363
+#define TRAVELLERAPP_SCANNERCONTEXT_HPPTRAVELLERAPP_SCANNERCONTEXT_HPP6,85
+enum class ScannerContext {ScannerContext10,147
+    ATOPEN = 0,ATOPEN11,175
+    GENERAL,GENERAL12,191
+    VISIT,VISIT13,204
+    ALL,ALL14,215
+    UNDEFINED = -1UNDEFINED15,224
+static std::ostream& operator<<(std::ostream& out, ScannerContext const& ctx){operator <<18,247
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/parser/CSV.cpp,0
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/parser/HTLInterpreter.cpp,1071
+namespace Travel {Travel9,131
+    bool HTLInterpreter::general(TravelState& state){general11,151
+    void HTLInterpreter::friendAdd(TravelState& state){friendAdd51,1456
+    void HTLInterpreter::friendRemove(TravelState& state){friendRemove57,1704
+    void HTLInterpreter::friendList(TravelState& state){friendList63,1962
+    void HTLInterpreter::friendVisited(TravelState& state){friendVisited68,2104
+    void HTLInterpreter::destinationExists(TravelState& state) {destinationExists82,2683
+    void HTLInterpreter::destinationRating(TravelState& state) {destinationRating91,3049
+    void HTLInterpreter::destinationComments(TravelState& state) {destinationComments102,3425
+    void HTLInterpreter::destinationVisited(TravelState& state) {destinationVisited111,3797
+    void HTLInterpreter::cfriend(TravelState& state){cfriend121,4233
+    void HTLInterpreter::destination (TravelState &state){destination170,5804
+    void HTLInterpreter::visit(TravelState& state){visit217,7396
+    bool HTLInterpreter::parse(TravelState& state) {parse235,8106
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/parser/CSV.hpp,2250
+#define TRAVELLERSAPP_CSV_HPPTRAVELLERSAPP_CSV_HPP2,30
+class CSV {CSV13,261
+    static constexpr int columns = sizeof...(Types);columns15,282
+    using CSVHeader=typename Tuple<const char*>::ofSize<columns>::type;CSVHeader17,405
+    CSVHeader _header;_header18,477
+    using Entry= Tuple<Types...>;Entry19,500
+    ArrayList<Entry> entries;entries20,534
+    CSV(CSVHeader const& header) : _header(header) {};CSV25,594
+    CSV(Ts...ts) : _header(CSVHeader(ts...)) {}CSV28,678
+    void load(const char* filepath){load31,728
+                ->filter([](Token const& t){__anon3cce2f6a010237,973
+                                      [](Token const& t){__anon3cce2f6a020241,1152
+                if(k->find([&readEntries, i](const char* const (&entry)){__anon3cce2f6a030258,1934
+    void save(const char* filepath){save74,2567
+    CSVHeader header(){ return _header; }header88,2945
+    void addEntry(Types&...data){addEntry90,2988
+    Tuple<Types...>& getRow(unsigned ind) {getRow94,3064
+    unsigned size(){size98,3148
+    auto getKeys()getKeys102,3209
+    auto getColumn()getColumn109,3365
+#define TRAVELLERSAPP_CSV_HPPTRAVELLERSAPP_CSV_HPP2,30
+class CSV {CSV13,261
+    static constexpr int columns = sizeof...(Types);columns15,282
+    using CSVHeader=typename Tuple<const char*>::ofSize<columns>::type;CSVHeader17,405
+    CSVHeader _header;_header18,477
+    using Entry= Tuple<Types...>;Entry19,500
+    ArrayList<Entry> entries;entries20,534
+    CSV(CSVHeader const& header) : _header(header) {};CSV25,594
+    CSV(Ts...ts) : _header(CSVHeader(ts...)) {}CSV28,678
+    void load(const char* filepath){load31,728
+                ->filter([](Token const& t){__anon3cce2f6a040237,973
+                                      [](Token const& t){__anon3cce2f6a050241,1152
+                if(k->find([&readEntries, i](const char* const (&entry)){__anon3cce2f6a060258,1934
+    void save(const char* filepath){save74,2567
+    CSVHeader header(){ return _header; }header88,2945
+    void addEntry(Types&...data){addEntry90,2988
+    Tuple<Types...>& getRow(unsigned ind) {getRow94,3064
+    unsigned size(){size98,3148
+    auto getKeys()getKeys102,3209
+    auto getColumn()getColumn109,3365
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/parser/HTLInterpreter.hpp,192
+#define TRAVELLERAPP_HTLINTERPRETER_HPPTRAVELLERAPP_HTLINTERPRETER_HPP6,85
+namespace Travel {Travel19,421
+    class HTLInterpreter : public Interpreter<TravelState>{HTLInterpreter21,441
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/parser/LoginInterpreter.hpp,200
+#define TRAVELLERAPP_LOGININTERPRETER_HPPTRAVELLERAPP_LOGININTERPRETER_HPP6,87
+namespace Travel {Travel19,425
+    class LoginInterpreter : public Interpreter<TravelState>{LoginInterpreter21,445
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/parser/Token.hpp,2241
+#define TRAVELLERAPP_TOKEN_HPPTRAVELLERAPP_TOKEN_HPP2,31
+enum class TokenType {TokenType11,253
+    HELP, /**< Matches the <code>help</code> command. Console Only */HELP13,277
+    EXIT, /**< Matches the <code>exit</code> command. Console Only */EXIT14,347
+    REGISTER, LOGIN,REGISTER16,418
+    REGISTER, LOGIN,LOGIN16,418
+    FRIEND,FRIEND17,439
+    ADD, REMOVE, LIST, VISITED,ADD18,451
+    ADD, REMOVE, LIST, VISITED,REMOVE18,451
+    ADD, REMOVE, LIST, VISITED,LIST18,451
+    ADD, REMOVE, LIST, VISITED,VISITED18,451
+    VISIT,VISIT20,484
+    FROM, TO, RATE, COMMENT, PHOTO, UPLOAD, DELETE, SHOW, CANCEL, SAVE,FROM21,495
+    FROM, TO, RATE, COMMENT, PHOTO, UPLOAD, DELETE, SHOW, CANCEL, SAVE,TO21,495
+    FROM, TO, RATE, COMMENT, PHOTO, UPLOAD, DELETE, SHOW, CANCEL, SAVE,RATE21,495
+    FROM, TO, RATE, COMMENT, PHOTO, UPLOAD, DELETE, SHOW, CANCEL, SAVE,COMMENT21,495
+    FROM, TO, RATE, COMMENT, PHOTO, UPLOAD, DELETE, SHOW, CANCEL, SAVE,PHOTO21,495
+    FROM, TO, RATE, COMMENT, PHOTO, UPLOAD, DELETE, SHOW, CANCEL, SAVE,UPLOAD21,495
+    FROM, TO, RATE, COMMENT, PHOTO, UPLOAD, DELETE, SHOW, CANCEL, SAVE,DELETE21,495
+    FROM, TO, RATE, COMMENT, PHOTO, UPLOAD, DELETE, SHOW, CANCEL, SAVE,SHOW21,495
+    FROM, TO, RATE, COMMENT, PHOTO, UPLOAD, DELETE, SHOW, CANCEL, SAVE,CANCEL21,495
+    FROM, TO, RATE, COMMENT, PHOTO, UPLOAD, DELETE, SHOW, CANCEL, SAVE,SAVE21,495
+    DESTINATION,DESTINATION23,568
+    EXISTS, RATING, COMMENTS,EXISTS24,585
+    EXISTS, RATING, COMMENTS,RATING24,585
+    EXISTS, RATING, COMMENTS,COMMENTS24,585
+    STRING, /**< Any single non-reserved word and everything between " " isSTRING27,638
+    NUMBER, /**< A signed integer. */NUMBER29,750
+    DATE, /**< Date in the ISO 8601 format (year-month-day). */DATE30,788
+    ERROR, /**< Stores information for errors encountered by theERROR33,880
+    EOF_T /**< The end of the input stream */EOF_T35,992
+class Token {Token43,1199
+    TokenType t;t58,1575
+    char *lexeme;lexeme60,1650
+    int line;line62,1704
+static std::ostream& operator<<(std::ostream& out, TokenType const& type){operator <<96,2462
+static std::ostream& operator<<(std::ostream &out, Token const &token) {operator <<129,3170
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/parser/Token.cpp,449
+void Token::create(TokenType _t, const char *_lexeme, int _line) {create7,84
+void Token::copy(Token const &other) {copy18,417
+Token::Token(TokenType _t, const char *_lexeme, int _line) {Token24,539
+Token::~Token() {~Token28,635
+Token::Token() {Token33,716
+Token::Token(const Token &other) {Token37,773
+Token &Token::operator=(Token const &other) {operator =42,856
+bool Token::operator==(Token const &other) const {operator ==50,1001
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/parser/ScannerContext.cpp,0
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/parser/VisitInterpreter.cpp,730
+namespace Travel {Travel3,33
+    bool VisitInterpreter::general(VisitBuilder& vb) {general5,53
+    void VisitInterpreter::from(VisitBuilder& vb){from62,1799
+    void VisitInterpreter::to(VisitBuilder& vb) {to67,1950
+    void VisitInterpreter::rate(VisitBuilder& vb) {rate72,2094
+    void VisitInterpreter::comment(VisitBuilder& vb) {comment77,2271
+    void VisitInterpreter::photo(VisitBuilder& vb) {photo82,2442
+    void VisitInterpreter::photoDelete(VisitBuilder& vb) {photoDelete126,3896
+    void VisitInterpreter::photoShow(VisitBuilder& vb) {photoShow131,4073
+    void VisitInterpreter::photoUpload(VisitBuilder& vb) {photoUpload135,4173
+    bool VisitInterpreter::parse(VisitBuilder& vb){parse140,4347
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/parser/Scanner.hpp,326
+#define TRAVELLERAPP_SCANNER_HPPTRAVELLERAPP_SCANNER_HPP6,78
+namespace Travel {Travel16,284
+    class Scanner {Scanner39,1321
+        ScannerContext sc;sc41,1354
+        CommandList* cl;cl42,1381
+        std::istream *input;input43,1406
+        int line = 1;line44,1435
+        bool error = false;error61,1999
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/parser/Interpreter.hpp,676
+#define TRAVELLERAPP_INTERPRETER_HPPTRAVELLERAPP_INTERPRETER_HPP2,37
+class Interpreter {Interpreter14,344
+    std::shared_ptr<ArrayList<Token>> tokens;tokens17,376
+    unsigned index = 0;index18,422
+    bool isAtEnd() const {isAtEnd20,447
+    Token next(){next25,524
+    Token peek() const {peek33,695
+    void error(int line, const char* msg) const {error40,850
+    Token consume(TokenType type, const char* msg){consume54,1310
+    bool matches(TokenType type) const {matches64,1592
+    Token prev() const {prev68,1673
+    bool errorflag = false;errorflag74,1751
+    explicit Interpreter(std::shared_ptr<ArrayList<Token>> _tokens)Interpreter77,1827
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/parser/Interpreter.cpp,0
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/parser/LoginInterpreter.cpp,227
+namespace Travel {Travel3,33
+    bool LoginInterpreter::login(TravelState& state){login5,53
+    bool LoginInterpreter::reg(TravelState& state){reg19,458
+    bool LoginInterpreter::parse(TravelState& state) {parse31,943
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/parser/CommandList.cpp,1030
+Travel::CommandList* Travel::CommandList::globalCommandList = nullptr;globalCommandList4,52
+void Travel::CommandList::copy(CommandList const &other) {copy6,124
+Travel::CommandList::CommandList() {CommandList13,343
+Travel::CommandList::CommandList(CommandList const &other){CommandList17,421
+Travel::CommandList &Travel::CommandList::operator=operator =23,537
+void Travel::CommandList::registerCommand(SimpleString const& name,registerCommand31,699
+void Travel::CommandList::registerCommand(SimpleString&& name,registerCommand42,1178
+void Travel::CommandList::printCommandsWithDescription(){printCommandsWithDescription53,1675
+    using Pair = Tuple<SimpleString, const char*>;Pair57,1896
+bool Travel::CommandList::isCommand(TokenType tokenType){isCommand76,2670
+bool Travel::CommandList::isCommand(SimpleString const& name){isCommand80,2774
+unique_ptr<Nullable<ScannerContext>> Travel::CommandList::contextForcontextFor84,2879
+unique_ptr<Nullable<TokenType>> Travel::CommandList::tokenFortokenFor90,3060
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/ReachedEndOfStreamException.cpp,118
+const char *ReachedEndOfStreamException::DEFAULT_MESSAGE = "Unexpectedly reached the of the inpuDEFAULT_MESSAGE3,44
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/ttype.hpp,262
+#define TTYPE_HPPTTYPE_HPP2,18
+struct forType{forType5,61
+    struct repeat : repeat<times-1, Type, Tail...>{repeat8,119
+        using apply =apply13,340
+    struct repeat<0, Tail...>{repeat18,480
+        using apply = applicant<Tail...>;apply20,571
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/TravelState.hpp,593
+#define TRAVELLERAPP_TRAVELSTATE_HPPTRAVELLERAPP_TRAVELSTATE_HPP2,37
+namespace Travel {Travel8,123
+    class TravelState {TravelState9,142
+        static constexpr char* usersDatabase = "users.db";usersDatabase11,179
+        CSV<const char*, const char*,const char*> csv{"user", "pass", "email"};csv12,238
+        HashMap<SimpleString, User*> users;users13,318
+        User* loggedInUser = nullptr;loggedInUser14,362
+        TravelState(){TravelState18,414
+        ~TravelState(){~TravelState26,665
+                ->foreach([](User* const (&usr)){__anon38da0bd1010228,716
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/InvalidArgumentException.cpp,110
+const char *InvalidArgumentException::DEFAULT_MESSAGE = "Provided argument was invalid";DEFAULT_MESSAGE3,41
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/TravelState.cpp,685
+bool Travel::TravelState::login(const char* username, const char* password) {login4,47
+        ->find([username](const char* const (&key)){__anon38d9f68c010211,295
+bool Travel::TravelState::uregister(const char* email,uregister33,873
+        ->find([username](const char* const (&key)){__anon38d9f68c020241,1215
+void Travel::TravelState::friendAdd(const char* name) {friendAdd69,1974
+        ->find([name](const char* const (&key)){__anon38d9f68c030271,2067
+void Travel::TravelState::friendRemove(const char* name) {friendRemove81,2347
+        ->find([name](const char* const (&key)){__anon38d9f68c040283,2443
+void Travel::TravelState::friendList(){friendList95,2728
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/Date.hpp,584
+#define OOPPROJECT_DATE_HPPOOPPROJECT_DATE_HPP6,73
+namespace Hotel {Hotel10,123
+    class Date {Date14,217
+        int year;year16,247
+        int month;month17,265
+        int day;day18,284
+        void setYear(int _year) { year = _year; }setYear20,302
+        void setMonth(int _month) { month = _month; }setMonth22,353
+        void setDay(int _day) { day = _day; }setDay24,408
+        int getDay() const { return day; }getDay115,2995
+        int getMonth() const { return month; }getMonth121,3146
+        int getYear() const { return year; }getYear127,3299
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/NoValueException.hpp,504
+#define TRAVELLERAPP_NOVALUEEXCEPTION_HPPTRAVELLERAPP_NOVALUEEXCEPTION_HPP2,42
+class NoValueException : public std::exception {NoValueException10,168
+    static const char *DEFAULT_MESSAGE;DEFAULT_MESSAGE12,226
+    char *msg;msg14,267
+    virtual const char *what() const throw() {what18,292
+    NoValueException(const char *_msg) {NoValueException22,366
+    ~NoValueException() {~NoValueException27,483
+    NoValueException() : NoValueException(DEFAULT_MESSAGE) {}NoValueException31,538
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/collection/ArrayList.hpp,3197
+#define TRAVELLERAPP_ARRAYLIST_HPPTRAVELLERAPP_ARRAYLIST_HPP6,80
+class ArrayList : public IList<A> {ArrayList20,433
+    static const unsigned DEFAULT_RESERVED_SPACE = 4;DEFAULT_RESERVED_SPACE22,478
+    void free() {free27,583
+    void create(unsigned reserve) {create39,904
+    void copy(ArrayList<A> const &other) {copy50,1169
+    unsigned static partition(std::unique_ptr<ArrayList<B>> const &array,partition70,1809
+    void static quickSort(std::unique_ptr<ArrayList<B>> const &array,quickSort96,2816
+    A** elems = nullptr;elems109,3309
+    unsigned reserved;reserved110,3334
+    unsigned elemCount;elemCount111,3357
+    ArrayList() {ArrayList114,3390
+    void prependAll(ArrayList<A> const &l) {prependAll123,3603
+    void appendAll(ArrayList<A> const &l) {appendAll133,3852
+    explicit ArrayList(unsigned reserved) {ArrayList139,3990
+    ArrayList(ArrayList<A> const &other) {ArrayList143,4067
+    ArrayList<A> &operator=(ArrayList<A> const &other) {operator =148,4170
+    ~ArrayList() {~ArrayList154,4309
+    void insert(A const &elem, unsigned at) override {insert158,4351
+    void insert(A&& elem, unsigned at) override {insert182,5133
+    void expand() {expand207,5933
+    void fill() {fill222,6267
+    void fill(A const &elem) {fill226,6311
+    void append(A const &elem) override {append232,6432
+    void append(A&& elem) override {append236,6513
+    void prepend(A const &elem) override {prepend240,6600
+    void prepend(A&& elem) override {prepend244,6675
+    bool contains(A const &elem) const override {contains248,6756
+    unsigned remove(const A &elem) override {remove255,6935
+    std::unique_ptr<Nullable<A>> removeAt(unsigned ind) override {removeAt274,7394
+    std::unique_ptr<Nullable<A>> pop() override {pop289,7980
+    std::unique_ptr<Nullable<A>> shift() override {shift293,8076
+    A& get(unsigned index) const override {get298,8164
+    unsigned length() const final { return elemCount; }length303,8305
+    unsigned capacity() const { return reserved; }capacity305,8362
+    void clear() override {clear307,8414
+    std::unique_ptr<ArrayList<A>> filter(std::function<bool(const A &)> predicate) const {filter318,8740
+    unique_ptr<Nullable<A>> removeIf(std::function<bool(const A&)> predicate) {removeIf328,9094
+        int find(std::function<bool(const A &)> predicate) const {find337,9362
+    void foreach(std::function<void(const A &)> consumer) const {foreach350,9723
+    slice(){slice359,10015
+    std::unique_ptr<ArrayList<B>> map(std::function<B(const A &)> mapper) const {map386,10937
+    std::unique_ptr<ArrayList<A>> sort(sort418,12147
+    std::unique_ptr<ArrayList<A>> intersection(ArrayList<A> const &list) const {intersection441,13017
+    std::unique_ptr<ArrayList<A>> difference(ArrayList<A> const &list) const {difference458,13616
+     std::unique_ptr<ArrayList<Tuple<A, B>>> zip(ArrayList<B> const& list) const{zip475,14258
+         using Pair = Tuple<A, B>;Pair476,14340
+    bool operator==(ArrayList<A> const& other){operator ==490,14813
+    static unsigned getDefaultReservedSpace() { return DEFAULT_RESERVED_SPACE; };getDefaultReservedSpace498,15076
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/collection/SortedArrayList.hpp,147
+#define TRAVELLERAPP_SORTEDARRAYLIST_HPPTRAVELLERAPP_SORTEDARRAYLIST_HPP2,41
+class SortedArrayList : public ArrayList<A> {SortedArrayList8,147
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/collection/BinaryNode.hpp,1313
+#define TRAVELLERAPP_BINARYNODE_HPPTRAVELLERAPP_BINARYNODE_HPP6,81
+class BinaryNode {BinaryNode13,220
+    B tag;tag15,247
+    ArrayList<A> value;value16,258
+    BinaryNode<B, A> *left;left17,282
+    BinaryNode<B, A> *right;right18,310
+    BinaryNode<B, A> *parent;parent19,339
+    BinaryNode(B const &tag, A const &value, BinaryNode<B, A> *parent = nullptr) {BinaryNode21,370
+    ~BinaryNode() {~BinaryNode28,583
+    static BinaryNode<B, A> *instance(B const &tag, A const &value, BinaryNode<B, A> *parent = ninstance33,653
+    void print(int depth = 0) {print38,818
+    void populate(B const &ntag, A const &nvalue) {populate62,1410
+    void populate(BinaryNode<B, A> *node) {populate66,1538
+    void populateWithRange(B const &start, B const &end, A const nvalue) {populateWithRange84,2067
+    std::unique_ptr<Stack<BinaryNode<B, A> *>> collect() {collect122,3638
+    void repopulate(BinaryNode<B, A> *node) {repopulate130,3965
+    BinaryNode<B, A> *firstMatch(bool predicate(B)) {firstMatch141,4314
+    BinaryNode<B, A> *firstMatch(B target) {firstMatch154,4742
+    std::unique_ptr<ArrayList<A>> allInRange(B const &lower, B const &upper) const {allInRange168,5155
+    std::unique_ptr<ArrayList<A>> allInRangeT(C const &lower, C const &upper) const {allInRangeT188,5882
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/collection/RangeBinaryTree.hpp,1029
+#define TRAVELLERAPP_RANGEBINARYTREE_HPPTRAVELLERAPP_RANGEBINARYTREE_HPP2,41
+class RangeBinaryTree {RangeBinaryTree9,182
+    BinaryNode<B, A> *root = nullptr;root11,215
+    void free() {free13,254
+    ~RangeBinaryTree() {~RangeBinaryTree19,309
+    RangeBinaryTree() {RangeBinaryTree23,357
+    bool isEmpty() const {isEmpty27,412
+    void setHead(BinaryNode<B, A> newHead) {setHead34,544
+    const BinaryNode<B, A> *viewHead() const {viewHead39,636
+    void populate(B tag, A value) {populate43,711
+    void populateWithRange(B start, B end, A value) {populateWithRange51,905
+    void print() const {print62,1232
+    std::unique_ptr<ArrayList<A>> inRange(B const &lower, B const &upper) const {inRange66,1287
+    std::unique_ptr<ArrayList<A>> inRangeT(C const &lower, C const &upper) const {inRangeT72,1493
+    BinaryNode<B, A> *getHead() {getHead77,1688
+    const BinaryNode<B, A> *findFirst(bool predicate(B)) {findFirst81,1750
+    const BinaryNode<B, A> *findFirst(B target) {findFirst85,1860
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/collection/IList.hpp,218
+#define TRAVELLERAPP_ILIST_HPPTRAVELLERAPP_ILIST_HPP6,76
+class IList {IList16,265
+    std::unique_ptr<Nullable<A>> operator[](unsigned index) const {operator []72,1790
+    bool isEmpty() const {isEmpty142,4087
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/collection/ArraySet.hpp,387
+#define TRAVELLERAPP_ARRAYSET_HPPTRAVELLERAPP_ARRAYSET_HPP6,79
+class ArraySet : public ArrayList<A> {ArraySet12,178
+    ArraySet(ArraySet<A> const &set) : ArrayList<A>(set) {}ArraySet15,226
+    ArraySet(int capacity) : ArrayList<A>(capacity) {}ArraySet17,287
+    ArraySet() : ArrayList<A>() {}ArraySet19,343
+    void insert(A const &elem, unsigned at) override {insert21,379
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/collection/HashMap.hpp,2373
+#define TRAVELLERAPP_HASHMAP_HPPTRAVELLERAPP_HASHMAP_HPP2,33
+struct Entry {Entry15,290
+    Key key;key16,305
+    Value value;value17,318
+    bool operator==(Entry<Key, Value> const &other) const {operator ==19,336
+    bool operator!=(Entry<Key, Value> const &other) const {operator !=23,460
+class HashMap {HashMap50,1306
+    typedef Entry<Key, Value>* SpecEntry;SpecEntry53,1378
+    static const unsigned DEFAULT_SIZE = 16;DEFAULT_SIZE55,1463
+    static constexpr double EXPAND_FACTOR = 0.8;EXPAND_FACTOR57,1580
+    SpecEntry* array;array58,1629
+    unsigned reserved;reserved59,1651
+    unsigned elemCount;elemCount60,1674
+        unsigned char *bytes = (unsigned char *) key;bytes72,2091
+        uint32_t hash = 2166136261u;hash73,2145
+        uint32_t elems = sizeof(*key);elems74,2182
+        for (int i = 0; i < elems; i++) {i75,2221
+    uint32_t hash(const T *key) const {hash91,2709
+    double loadFactor() const {loadFactor110,3235
+    void copy(HashMap<Key, Value> const &other) {copy119,3433
+    unsigned findEntry(Key const &k) const {findEntry138,4109
+    void init(unsigned size) {init156,4623
+    void expand() {expand172,5124
+    void putAll(const SpecEntry *other, unsigned size) {putAll201,5870
+    void free() {free211,6205
+    void putAll(HashMap<Key, Value> const &other) {putAll227,6590
+    HashMap() {HashMap234,6766
+    ~HashMap() {~HashMap238,6817
+    HashMap(HashMap<Key, Value> const &other) {HashMap243,6900
+    HashMap<Key, Value> &operator=(HashMap<Key, Value> const &other) {operator =248,7008
+    unsigned length() const {length260,7282
+    std::unique_ptr<Nullable<Value>> get(Key const &k) {get272,7710
+    bool contains(Key const &k) {contains286,8108
+    unsigned capacity() const {capacity295,8307
+    void put(Key const &k, Value const &v) {put305,8561
+    void put(Key &&k, Value &&v){put318,8893
+    void put(Key &&k, Value const& v){put331,9247
+    void put(Key const& k, Value &&v){put344,9584
+    void remove(Key const &k) {remove363,10170
+    const SpecEntry *underlying() const {underlying376,10500
+    std::unique_ptr<ArrayList<Tuple<Key, Value>>> toList(){toList380,10571
+    std::unique_ptr<ArrayList<Value>> values() const {values397,11172
+    std::unique_ptr<ArrayList<Key>> keys() const {keys414,11683
+    void clear() {clear429,12070
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/collection/Tuple.hpp,2592
+#define TRAVELLERAPP_TUPLE_HPPTRAVELLERAPP_TUPLE_HPP2,31
+class Tuple {Tuple22,501
+    size_t _size = 0;_size24,524
+    struct typeOf{typeOf29,610
+        using type = void;type30,629
+    void* get(){get34,686
+    Tuple(T** tptr){}Tuple39,759
+    constexpr int indexOf(const T& elem){indexOf42,807
+    const void* get() const {get47,896
+    T* at(int ind) const {at52,982
+    constexpr size_t size() const{size56,1040
+    void free(){free60,1104
+    Tuple(){}Tuple66,1131
+    bool operator==(Tuple<> const& other) const {operator ==67,1145
+static std::ostream& operator<<(std::ostream& out,operator <<76,1281
+static std::ostream& operator<<(std::ostream& out,operator <<82,1449
+class Tuple <Head, Tail...> : private Tuple<Tail...> {Tuple94,1730
+    using type = Tuple<Head, Tail...>;type96,1794
+    using inherited  = Tuple<Tail...>;inherited97,1833
+    static constexpr size_t _size = 1+sizeof...(Tail);_size98,1872
+    struct typeOf{typeOf104,1980
+        using type = typename inherited::template typeOf<ind-1, dummy>::type;type105,1999
+    struct typeOf<0, dummy>{typeOf109,2114
+        using type = Head;type110,2143
+    constexpr size_t size() const {size113,2178
+    std::add_const_t<typename typeOf<ind>::type>* get() const {get118,2265
+#define TRAVELLERAPP_TUPLE_HPPTRAVELLERAPP_TUPLE_HPP2,31
+class Tuple {Tuple22,501
+    size_t _size = 0;_size24,524
+    struct typeOf{typeOf29,610
+        using type = void;type30,629
+    void* get(){get34,686
+    Tuple(T** tptr){}Tuple39,759
+    constexpr int indexOf(const T& elem){indexOf42,807
+    const void* get() const {get47,896
+    T* at(int ind) const {at52,982
+    constexpr size_t size() const{size56,1040
+    void free(){free60,1104
+    Tuple(){}Tuple66,1131
+    bool operator==(Tuple<> const& other) const {operator ==67,1145
+static std::ostream& operator<<(std::ostream& out,operator <<76,1281
+static std::ostream& operator<<(std::ostream& out,operator <<82,1449
+class Tuple <Head, Tail...> : private Tuple<Tail...> {Tuple94,1730
+    using type = Tuple<Head, Tail...>;type96,1794
+    using inherited  = Tuple<Tail...>;inherited97,1833
+    static constexpr size_t _size = 1+sizeof...(Tail);_size98,1872
+    struct typeOf{typeOf104,1980
+        using type = typename inherited::template typeOf<ind-1, dummy>::type;type105,1999
+    struct typeOf<0, dummy>{typeOf109,2114
+        using type = Head;type110,2143
+    constexpr size_t size() const {size113,2178
+    std::add_const_t<typename typeOf<ind>::type>* get() const {get118,2265
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/collection/Stack.hpp,508
+#define TRAVELLERAPP_STACK_HPPTRAVELLERAPP_STACK_HPP2,31
+class Stack : private ArrayList<A> {Stack7,107
+    Stack(Stack<A> const &stack) : ArrayList<A>(stack) {}Stack12,214
+    Stack(int capacity) : ArrayList<A>(capacity) {}Stack14,273
+    Stack() : ArrayList<A>() {}Stack16,326
+    void push(A const &elem) {push18,359
+    void pushAll(Stack<A> const &stack) {pushAll22,425
+    std::unique_ptr<ArrayList<A>> asList() {asList27,560
+    std::unique_ptr<Nullable<A>> peek() const {peek35,837
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/collection/LinkedList.hpp,1348
+#define TRAVELLERAPP_LINKEDLIST_HPPTRAVELLERAPP_LINKEDLIST_HPP6,81
+struct Node {Node12,178
+    A elem;elem13,192
+    Node *next;next14,204
+class LinkedList : public IList<A> {LinkedList18,242
+    void free() {free21,289
+    Node<A> *_head;_head35,559
+    Node<A> *_last;_last36,579
+    int elemCount{};elemCount38,600
+    LinkedList() {LinkedList42,631
+    void append(A const &elem) override {append47,707
+    void prepend(A const &elem) override {prepend51,788
+    ~LinkedList() {~LinkedList55,863
+    void insert(A const &elem, unsigned at) override {insert59,906
+    void appendAll(LinkedList<A> const &l) {appendAll85,1619
+    void prependAll(LinkedList<A> const &l) {prependAll91,1758
+    unsigned remove(const A &elem) override {remove97,1899
+    bool contains(A const &elem) const override {contains115,2396
+    A get(unsigned index) const override {get124,2625
+    unsigned int length() const override {length147,3195
+    void clear() override {clear151,3271
+    std::unique_ptr<Nullable<A>> removeAt(unsigned at) override {removeAt155,3322
+    std::unique_ptr<Nullable<A>> pop() override {pop188,4311
+    std::unique_ptr<Nullable<A>> shift() override {shift192,4407
+    std::unique_ptr<Nullable<A>> head() const {head196,4494
+    std::unique_ptr<Nullable<A>> last() const {last201,4673
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/main.cpp,79
+int main(){main13,288
+void signalHandler(int signum){signalHandler147,6597
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/NoValueException.cpp,104
+const char *NoValueException::DEFAULT_MESSAGE = "Attempted to access null value.";DEFAULT_MESSAGE3,33
+
+/home/kalelzar/Code/cpp/TravellersApp/TravellersApp/src/InvalidArgumentException.hpp,591
+#define TRAVELLERAPP_INVALIDARGUMENTEXCEPTION_HPPTRAVELLERAPP_INVALIDARGUMENTEXCEPTION_HPP2,50
+class InvalidArgumentException : public std::exception {InvalidArgumentException8,162
+    static const char *DEFAULT_MESSAGE;DEFAULT_MESSAGE10,228
+    char *msg;msg12,269
+    InvalidArgumentException(const char *_msg) {InvalidArgumentException15,293
+    virtual const char *what() const throw() {what20,418
+    ~InvalidArgumentException() {~InvalidArgumentException25,493
+    InvalidArgumentException() : InvalidArgumentException(DEFAULT_MESSAGE) {}InvalidArgumentException29,556
+
+/home/kalelzar/Code/cpp/TravellersApp/premake5.lua,0
+
+/home/kalelzar/Code/cpp/TravellersApp/Makefile,317
+  config=debugconfig4,82
+  SILENT = @SILENT8,119
+  TravellersApp_config = debugTravellersApp_config12,162
+  TravellersApp_config = releaseTravellersApp_config15,224
+PROJECTS := TravellersAppPROJECTS21,315
+all: $(PROJECTS)all25,379
+TravellersApp:TravellersApp27,397
+clean:clean33,611
+help:help36,685
+
+/home/kalelzar/Code/cpp/TravellersApp/Debug.sh,0
+
+/home/kalelzar/Code/cpp/TravellersApp/README.md,34
+# TravellersAppTravellersApp1,0

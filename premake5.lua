@@ -6,7 +6,7 @@ project "TravellersApp"
     location "TravellersApp"
     kind "ConsoleApp"
     language "C++"
-    cppdialect "C++14"
+    cppdialect "C++17"
 
     targetdir "bin/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"
     objdir ".obj/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}"

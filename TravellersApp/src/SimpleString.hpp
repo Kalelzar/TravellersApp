@@ -12,7 +12,7 @@ private:
     size_t len = 0;
 
     void init(const char *str) {
-        LOG(INFO, "Creating SimpleString instance.");
+        //LOG(INFO, "Creating SimpleString instance.");
         len = strlen(str);
         inner = new char[len + 1];
         strcpy(inner, str);
@@ -26,12 +26,12 @@ public:
     }
 
     ~SimpleString() {
-        LOG(INFO, "Destructor called.");
+        //LOG(INFO, "Destructor called.");
         delete[] inner;
     }
 
     SimpleString(SimpleString&& str){
-        LOG(INFO, "Moving SimpleString");
+        //LOG(INFO, "Moving SimpleString");
         len = str.len;
         inner = str.inner;
 
@@ -41,7 +41,7 @@ public:
 
     SimpleString &operator=(SimpleString&& str) {
         if (&str != inner) {
-            LOG(INFO, "Move(assign) SimpleString");
+            //LOG(INFO, "Move(assign) SimpleString");
             if(inner) delete[] inner;
             len = str.len;
             inner = str.inner;
@@ -54,24 +54,24 @@ public:
 
 
     SimpleString(const char (&&str)[]) {
-        LOG(INFO, "Moving cstring into SimpleString");
+        //LOG(INFO, "Moving cstring into SimpleString");
         len = strlen(str);
         inner = const_cast<char*>(str);
     }
 
     SimpleString(const char* str) {
-        LOG(INFO, "Copying SimpleString from cstring");
+        //LOG(INFO, "Copying SimpleString from cstring");
         init(str);
     }
 
     SimpleString(SimpleString const& str) {
-        LOG(INFO, "Copying SimpleString");
+        //LOG(INFO, "Copying SimpleString");
         init(str.inner);
     }
 
     SimpleString &operator=(SimpleString const &str) {
         if (&str != inner) {
-            LOG(INFO, "Assigning SimpleString");
+            //LOG(INFO, "Assigning SimpleString");
             if(inner) delete[] inner;
             init(str.inner);
         }
@@ -79,7 +79,7 @@ public:
     }
 
     SimpleString &operator=(const char str[]) {
-        LOG(INFO, "Assigning SimpleString from cstring");
+        //LOG(INFO, "Assigning SimpleString from cstring");
         if(inner) delete[] inner;
         init(str);
         return *this;
@@ -109,12 +109,12 @@ public:
 
 
     char *operator&() {
-        LOG(WARN, "Calling override of operator&.");
+        //LOG(WARN, "Calling override of operator&.");
         return inner;
     }
 
     const char *operator&() const {
-        LOG(WARN, "Calling override of operator&");
+        //LOG(WARN, "Calling override of operator&");
         return inner;
     }
 

@@ -18,9 +18,9 @@ public:
         return !isEmpty();
     }
 
-    virtual A const& get() const = 0;
+    virtual A const get() const = 0;
 
-    A const& getOrElse(A const& def) const {
+    A const getOrElse(A const& def) const {
         if (isEmpty()) return def;
         return get();
     }
@@ -29,21 +29,21 @@ public:
 template<class A>
 class NotNull : public Nullable<A> {
 private:
-    const A& value;
+    const A value;
 public:
 
     //Why did I do this?
     //NotNull(A const&&) = delete;
 
-    explicit NotNull(A const &_value) : value(_value) {
-        LOG(INFO, "Created NotNull.");
+    explicit NotNull(A const _value) : value(_value) {
+        LOG(INFO, "Created NotNull( "<<this<<")" );
     }
 
     bool isEmpty() const override {
         return false;
     }
 
-    A const& get() const override {
+    A const get() const override {
         return value;
     }
 };
@@ -60,7 +60,7 @@ public:
         return true;
     }
 
-    A const& get() const override {
+    A const get() const override {
         throw NoValueException();
     }
 };

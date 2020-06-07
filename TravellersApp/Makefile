@@ -37,7 +37,7 @@ TARGET = $(TARGETDIR)/TravellersApp
 OBJDIR = ../.obj/Debug-linux-x86_64/TravellersApp
 DEFINES += -DTRVL_PLATFORM_LINUX -DTRVL_DEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++14
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 define POSTBUILDCMDS
 	@echo Running postbuild commands
@@ -50,7 +50,7 @@ TARGET = $(TARGETDIR)/TravellersApp
 OBJDIR = ../.obj/Release-linux-x86_64/TravellersApp
 DEFINES += -DTRVL_PLATFORM_LINUX -DTRVL_RELEASE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++14
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 define POSTBUILDCMDS
 	@echo Running postbuild commands
@@ -71,6 +71,7 @@ OBJECTS :=
 
 GENERATED += $(OBJDIR)/CSV.o
 GENERATED += $(OBJDIR)/CommandList.o
+GENERATED += $(OBJDIR)/Date.o
 GENERATED += $(OBJDIR)/HTLInterpreter.o
 GENERATED += $(OBJDIR)/Interpreter.o
 GENERATED += $(OBJDIR)/InvalidArgumentException.o
@@ -80,10 +81,12 @@ GENERATED += $(OBJDIR)/ReachedEndOfStreamException.o
 GENERATED += $(OBJDIR)/Scanner.o
 GENERATED += $(OBJDIR)/ScannerContext.o
 GENERATED += $(OBJDIR)/Token.o
+GENERATED += $(OBJDIR)/TravelState.o
 GENERATED += $(OBJDIR)/VisitInterpreter.o
 GENERATED += $(OBJDIR)/main.o
 OBJECTS += $(OBJDIR)/CSV.o
 OBJECTS += $(OBJDIR)/CommandList.o
+OBJECTS += $(OBJDIR)/Date.o
 OBJECTS += $(OBJDIR)/HTLInterpreter.o
 OBJECTS += $(OBJDIR)/Interpreter.o
 OBJECTS += $(OBJDIR)/InvalidArgumentException.o
@@ -93,6 +96,7 @@ OBJECTS += $(OBJDIR)/ReachedEndOfStreamException.o
 OBJECTS += $(OBJDIR)/Scanner.o
 OBJECTS += $(OBJDIR)/ScannerContext.o
 OBJECTS += $(OBJDIR)/Token.o
+OBJECTS += $(OBJDIR)/TravelState.o
 OBJECTS += $(OBJDIR)/VisitInterpreter.o
 OBJECTS += $(OBJDIR)/main.o
 
@@ -158,6 +162,9 @@ endif
 # File Rules
 # #############################################
 
+$(OBJDIR)/Date.o: src/Date.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/InvalidArgumentException.o: src/InvalidArgumentException.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -165,6 +172,9 @@ $(OBJDIR)/NoValueException.o: src/NoValueException.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/ReachedEndOfStreamException.o: src/ReachedEndOfStreamException.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/TravelState.o: src/TravelState.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/main.o: src/main.cpp

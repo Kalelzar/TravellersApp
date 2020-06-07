@@ -8,7 +8,6 @@
 
 namespace Travel {
 
-
     bool HTLInterpreter::general(TravelState& state){
         switch(next().t){
         case TokenType::HELP:
@@ -52,18 +51,18 @@ namespace Travel {
     void HTLInterpreter::friendAdd(TravelState& state){
         auto name = consume(TokenType::STRING, "Expected user name.");
         std::cout<<"Adding "<<name.lexeme<<" to friend's list."<<std::endl;
-        //state.friendAdd(name);
+        state.friendAdd(name.lexeme);
     }
 
     void HTLInterpreter::friendRemove(TravelState& state){
         auto name = consume(TokenType::STRING, "Expected user name.");
         std::cout<<"Removing "<<name.lexeme<<" from friend's list."<<std::endl;
-        //state.friendRemove(name);
+        state.friendRemove(name.lexeme);
     }
 
     void HTLInterpreter::friendList(TravelState& state){
         std::cout<<"Listing friends."<<std::endl;
-        //state.friendList();
+        state.friendList();
     }
 
     void HTLInterpreter::friendVisited(TravelState& state){
