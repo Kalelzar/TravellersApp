@@ -220,7 +220,7 @@ namespace Travel {
         auto destination =
             consume(TokenType::STRING, "Expected destination name.");
         VisitBuilder vb;
-        //vb.destination(destination.lexeme);
+        vb.destination(destination.lexeme);
         bool run = true;
         while (run){
             std::cout<<">>"<<destination.lexeme<<"$ ";
@@ -229,7 +229,7 @@ namespace Travel {
             Travel::VisitInterpreter interpreter{tokens};
             run = interpreter.parse(vb);
         }
-        //state.save(vb);
+        state.save(vb);
     }
 
     bool HTLInterpreter::parse(TravelState& state) {

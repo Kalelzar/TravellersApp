@@ -10,7 +10,7 @@
 #define sprintf sprintf_s
 #endif //_MSC_VER
 
-namespace Hotel {
+namespace Travel {
 
     Date::Date(int year, int month, int day) {
         if (month > 12) {
@@ -93,6 +93,10 @@ namespace Hotel {
     }
 
     void Date::getString(char (&str)[11]) const {
+        sprintf(str, "%04d-%02d-%02d", getYear(), getMonth(), getDay());
+    }
+
+    void Date::getString(char* (&str)) const {
         sprintf(str, "%04d-%02d-%02d", getYear(), getMonth(), getDay());
     }
 

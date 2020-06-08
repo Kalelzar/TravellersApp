@@ -23,7 +23,7 @@ namespace Travel {
                 printCommandsWithDescription ();
             break;
         case TokenType::CANCEL:
-            //vb.clear();
+            vb.clear();
         case TokenType::SAVE:
             return false;
             break;
@@ -71,12 +71,12 @@ namespace Travel {
 
     void VisitInterpreter::rate(VisitBuilder& vb) {
         auto rating = consume(TokenType::NUMBER, "Expected Number(1 - 5)");
-        //vb.rating(atoi(rating.lexeme));
+        vb.rating(atoi(rating.lexeme));
     }
 
     void VisitInterpreter::comment(VisitBuilder& vb) {
         auto comment = consume(TokenType::STRING, "Expected Comment");
-        //vb.comment(comment.lexeme);
+        vb.comment(comment.lexeme);
     }
 
     void VisitInterpreter::photo(VisitBuilder& vb) {
@@ -125,16 +125,18 @@ namespace Travel {
 
     void VisitInterpreter::photoDelete(VisitBuilder& vb) {
         auto uri = consume(TokenType::STRING, "Expected path to photo");
-        //vb.photoDelete(uri.lexeme);
+        std::cout<<"Deleting "<<uri.lexeme<<std::endl;
+        vb.photoDelete(uri.lexeme);
     }
 
     void VisitInterpreter::photoShow(VisitBuilder& vb) {
-        //vb.photoShow(uri.lexeme);
+        vb.photoShow();
     }
 
     void VisitInterpreter::photoUpload(VisitBuilder& vb) {
         auto uri = consume(TokenType::STRING, "Expected path to photo");
-        //vb.photoAdd(uri.lexeme);
+        std::cout<<"Uploading "<<uri.lexeme<<std::endl;
+        vb.photoAdd(uri.lexeme);
     }
 
     bool VisitInterpreter::parse(VisitBuilder& vb){

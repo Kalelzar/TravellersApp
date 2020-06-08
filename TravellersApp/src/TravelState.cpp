@@ -30,6 +30,10 @@ bool Travel::TravelState::login(const char* username, const char* password) {
     return true;
 }
 
+void Travel::TravelState::save(VisitBuilder& vb) {
+    loggedInUser->addVisit(vb);
+}
+
 bool Travel::TravelState::uregister(const char* email,
                                     const char* username,
                                     const char* password) {

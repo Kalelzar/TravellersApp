@@ -5,25 +5,11 @@
 #include "parser/HTLInterpreter.hpp"
 #include "parser/LoginInterpreter.hpp"
 #include "collection/Tuple.hpp"
-#include <csignal>
 #include "parser/CSV.hpp"
 
-void signalHandler( int signum );
 
 int main(){
 
-    std::signal(SIGINT, signalHandler);
-
-    //typename forType<const char*>::repeat<4>::apply<CSV>
-    //    csv("username", "password", "email", "stuff");
-
-    // csv.load("test.csv");
-    // csv.load("test2.csv");
-    // csv.save("test.csv");
-
-    // const int ind = csv.header().indexOf("key");
-    // auto i = csv.getRow(0).template get<ind>();
-    // std::cout<<i<<std::endl;
 
     Travel::CommandList lcl;
     lcl.registerCommand("login",    TokenType::LOGIN,    ScannerContext::ATOPEN,
@@ -140,11 +126,4 @@ int main(){
         run = interpreter.parse(state);
     }
     return 0;
-}
-
-
-
-void signalHandler(int signum){
-    LOG(INFO, "Recieved interupt signal: "<<signum );
-    exit(signum);
 }

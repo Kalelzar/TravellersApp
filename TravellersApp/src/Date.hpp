@@ -2,12 +2,12 @@
 // Created by Kalelzar on 24/03/2020.
 //
 
-#ifndef OOPPROJECT_DATE_HPP
-#define OOPPROJECT_DATE_HPP
+#ifndef TRAVELLERSAPP_DATE_HPP
+#define TRAVELLERSAPP_DATE_HPP
 
 #include <iostream>
 
-namespace Hotel {
+namespace Travel {
 /**
  * Stores a date and has some useful methods for working with dates
  */
@@ -109,6 +109,12 @@ namespace Hotel {
         void getString(char (&str)[11]) const;
 
         /**
+         * Converts this date to the ISO 8601 format
+         * @param str the string to which to write
+         */
+        void getString(char* (&str)) const;
+
+        /**
          * Returns the day represented by this Date
          * @return the day
          */
@@ -204,4 +210,4 @@ namespace Hotel {
 
     };
 }
-#endif //OOPPROJECT_DATE_HPP
+#endif //TRAVELLERSAPP_DATE_HPP

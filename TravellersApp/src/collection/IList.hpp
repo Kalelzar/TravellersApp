@@ -2,8 +2,8 @@
 // Created by Kalelzar on 26/03/2020.
 //
 
-#ifndef TRAVELLERAPP_ILIST_HPP
-#define TRAVELLERAPP_ILIST_HPP
+#ifndef TRAVELLERSAPP_ILIST_HPP
+#define TRAVELLERSAPP_ILIST_HPP
 
 #include "../Nullable.hpp"
 #include<memory>
@@ -81,7 +81,7 @@ public:
      * @param elem the element to remove
      * @return the index of the removed element
      */
-    virtual unsigned remove(const A &elem) = 0;
+    virtual int remove(const A &elem) = 0;
 
     /**
      * Removes the value associated with the given index,
@@ -156,4 +156,4 @@ public:
     virtual unsigned length() const = 0;
 };
 
-#endif //TRAVELLERAPP_ILIST_HPP
+#endif //TRAVELLERSAPP_ILIST_HPP

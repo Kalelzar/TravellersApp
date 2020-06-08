@@ -37,7 +37,7 @@ public:
                 ->filter([](Token const& t){
                              return t.t != TokenType::EOF_T;
                          })
-                ->template map<const char*>(
+                ->template map<typename Entry::template typeOf<0>::type>(
                                       [](Token const& t){
                                           char* s = t.lexeme;
                                           char* d = new char[strlen(s)+1];
@@ -52,7 +52,8 @@ public:
             for(int i = 0; i < columns; i++){
                 delete [] tokens->get(i);
             }
-            auto readEntries = tokens->template slice<columns>();
+            unique_ptr<ArrayList<Tuple<Types...>>> readEntries =
+                tokens->template slice<columns>();
             for(int i = 0; i < readEntries->length(); i++){
                 auto k = getKeys();
                 if(k->find([&readEntries, i](const char* const (&entry)){

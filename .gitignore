@@ -2,3 +2,5 @@
 .obj
 bin
 vgcore*
+*.db
+db.friend?

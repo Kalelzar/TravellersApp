@@ -2,14 +2,14 @@
 // Created by Kalelzar on 25/03/2020.
 //
 
-#ifndef TRAVELLERAPP_ARRAYLIST_HPP
-#define TRAVELLERAPP_ARRAYLIST_HPP
+#ifndef TRAVELLERSAPP_ARRAYLIST_HPP
+#define TRAVELLERSAPP_ARRAYLIST_HPP
 
-#include "IList.hpp"
 #include<iostream>
 #include "../debug.hpp"
-#include<functional>
+#include <functional>
 #include "Tuple.hpp"
+#include "IList.hpp"
 #include "../InvalidArgumentException.hpp"
 /**
  * An implementation of a list backed by a resizable array.
@@ -17,8 +17,8 @@
  * must implement operator==.
  */
 template<class A>
-class ArrayList : public IList<A> {
-private:
+    class ArrayList : public IList<A> {
+    private:
     static const unsigned DEFAULT_RESERVED_SPACE = 4;
 
     /**
@@ -26,8 +26,9 @@ private:
      */
     void free() {
         //LOG(INFO, "Freeing ArrayList.");
+        if(!elems) return;
         for(unsigned i = 0; i < elemCount; i++){
-            delete elems[i];
+            if(elems[i]) delete elems[i];
         }
         delete[] elems;
     }
@@ -67,10 +68,10 @@ private:
      * @return the pivot
      */
     template<typename B>
-    unsigned static partition(std::unique_ptr<ArrayList<B>> const &array,
-                              unsigned from,
-                              unsigned to,
-                              std::function<bool(const B &, const B &)> comparator) {
+        unsigned static partition(std::unique_ptr<ArrayList<B>> const &array,
+                                  unsigned from,
+                                  unsigned to,
+                                  std::function<bool(const B &, const B &)> comparator) {
         B pivot = array->get(to);
         unsigned i = from;
         for (unsigned j = from; j <= to; j++) {
@@ -83,6 +84,8 @@ private:
         return i;
     }
 
+
+
     /**
      * An implementation of the quicksort algorithm that allows for the use
      * of an arbitrary comparison function.
@@ -93,10 +96,10 @@ private:
      * @param comparator the function with which to compare elements
      */
     template<typename B>
-    void static quickSort(std::unique_ptr<ArrayList<B>> const &array,
-                          unsigned from,
-                          unsigned to,
-                          std::function<bool(const B &, const B &)> comparator) {
+        void static quickSort(std::unique_ptr<ArrayList<B>> const &array,
+                              unsigned from,
+                              unsigned to,
+                              std::function<bool(const B &, const B &)> comparator) {
         if (from <= to) {
             unsigned part = partition<B>(array, from, to, comparator);
             if (part != 0) quickSort<B>(array, from, part - 1, comparator);
@@ -104,13 +107,13 @@ private:
         }
     }
 
-protected:
+    protected:
 
     A** elems = nullptr;
     unsigned reserved;
     unsigned elemCount;
 
-public:
+    public:
     ArrayList() {
         create(getDefaultReservedSpace());
     }
@@ -252,8 +255,8 @@ public:
         return false;
     }
 
-    unsigned remove(const A &elem) override {
-        unsigned foundAt = 0;
+    int remove(const A &elem) override {
+        int foundAt = -1;
         unsigned index = 0;
         for (unsigned i = 0; i < length(); i++) {
             if (get(i) == elem) {
@@ -267,7 +270,7 @@ public:
             index++;
         }
 
-        elemCount--;
+        if(foundAt!=-1) elemCount--;
         return foundAt;
     }
 
@@ -325,6 +328,28 @@ public:
         return filtered;
     }
 
+    /**
+     * Construct a new list using the elements of this one but ensuring that
+     * the elements of the new list are distinct. i.e comparing any two elements
+     * of the newly constructed list via operator== results in false.
+     * @return the list of distinct elements
+     */
+    std::unique_ptr<ArrayList<A>> distinct() const {
+        std::unique_ptr<ArrayList<A>> filtered = std::make_unique<ArrayList<A>>();
+        for (int i = 0; i < length(); i++) {
+            if (!filtered->contains(get(i))) {
+                filtered->append(get(i));
+            }
+        }
+        return filtered;
+    }
+
+    /**
+     * Remove the first element of the list that matches the given predicate,
+     * and return it. If no such element exists return Null<A> instead.
+     * @param predicate the condition for removal
+     * @return the removed element or null
+     */
     unique_ptr<Nullable<A>> removeIf(std::function<bool(const A&)> predicate) {
         for (int i = 0; i < length(); i++) {
             if (predicate(get(i))) {
@@ -334,7 +359,7 @@ public:
         return make_unique<Null<A>>();
     }
 
-        int find(std::function<bool(const A &)> predicate) const {
+    int find(std::function<bool(const A &)> predicate) const {
         for (int i = 0; i < length(); i++) {
             if (predicate(get(i))) {
                 return i;
@@ -349,14 +374,14 @@ public:
      */
     void foreach(std::function<void(const A &)> consumer) const {
         for (int i = 0; i < length(); i++) {
-            if(get(i))
+            if(elems[i])
                 consumer(get(i));
         }
     }
 
     template<int sliceSize>
-    unique_ptr<ArrayList<typename Tuple<A>::template ofSize<sliceSize>::type>>
-    slice(){
+        unique_ptr<ArrayList<typename Tuple<A>::template ofSize<sliceSize>::type>>
+        slice(){
         if(length() % sliceSize != 0)
             throw InvalidArgumentException("List size must be evenly divisible"
                                            " by slice size");
@@ -383,7 +408,7 @@ public:
      * @return the new ArrayList
      */
     template<typename B>
-    std::unique_ptr<ArrayList<B>> map(std::function<B(const A &)> mapper) const {
+        std::unique_ptr<ArrayList<B>> map(std::function<B(const A &)> mapper) const {
         std::unique_ptr<ArrayList<B>> mapped = std::make_unique<ArrayList<B>>(capacity());
         for (int i = 0; i < length(); i++) {
             mapped->append(mapper(get(i)));
@@ -416,7 +441,7 @@ public:
      * @return the sorted list
      */
     std::unique_ptr<ArrayList<A>> sort(
-            std::function<bool(const A &, const A &)> comparator) const {
+                                       std::function<bool(const A &, const A &)> comparator) const {
         std::unique_ptr<ArrayList<A>> sorted = std::make_unique<ArrayList<A>>(capacity());
         if(length() == 0) return sorted;
         sorted->appendAll(*this);
@@ -425,7 +450,7 @@ public:
     }
 
     template<typename B, typename = enable_if_t<is_base_of<IList<B>, A>::value>>
-    std::unique_ptr<ArrayList<B>> flatten(){
+        std::unique_ptr<ArrayList<B>> flatten(){
         std::unique_ptr<ArrayList<B>> res = std::make_unique<ArrayList<B>>();
         for(int i = 0; i < length(); i++){
             res->appendAll(get(i));
@@ -471,21 +496,22 @@ public:
         }
     }
 
-     template<typename B>
-     std::unique_ptr<ArrayList<Tuple<A, B>>> zip(ArrayList<B> const& list) const{
-         using Pair = Tuple<A, B>;
-         if(list.length() != length())
-             throw NoValueException("Calling zip on ArrayLists with different"
-                                    "amount of elements)");
-         auto res = std::make_unique<ArrayList<Pair>>(capacity());
-         for(unsigned i = 0; i < length(); i++){
-             A a = this->get(i);
-             B b = list.get(i);
-             res->append(Pair(a, b));
-         }
+    template<typename B>
+        std::unique_ptr<ArrayList<Tuple<A, B>>> zip(ArrayList<B> const& list)
+        const{
+        using Pair = Tuple<A, B>;
+        if(list.length() != length())
+            throw NoValueException("Calling zip on ArrayLists with different"
+                                   "amount of elements)");
+        auto res = std::make_unique<ArrayList<Pair>>(capacity());
+        for(unsigned i = 0; i < length(); i++){
+            A a = this->get(i);
+            B b = list.get(i);
+            res->append(Pair(a, b));
+        }
 
-         return res;
-     }
+        return res;
+    }
 
     bool operator==(ArrayList<A> const& other){
         if(length() != other.length()) return false;
@@ -499,4 +525,14 @@ public:
 };
 
 
-#endif //TRAVELLERAPP_ARRAYLIST_HPP
+template<typename A>
+    static std::ostream& operator<<(std::ostream& out,
+                                    ArrayList<A> list){
+    list.foreach([&out]
+                 (A const& a){
+                     out<<a<<" ";
+                 });
+    return out;
+}
+
+#endif //TRAVELLERSAPP_ARRAYLIST_HPP

@@ -5,6 +5,22 @@
 
 #include "parser/CSV.hpp"
 #include "collection/ArrayList.hpp"
+#include "VisitBuilder.hpp"
+
+#include <cstdlib>
+
+#include <stdio.h>
+#ifdef TRVL_PLATFORM_LINUX
+#include <unistd.h>
+#define workingDirectory(PATH, LENGTH) getcwd(PATH, LENGTH)
+#elif TRVL_PLATFORM_WINDOWS
+#undef _HAS_STD_BYTE
+#include <direct.h>
+//I still have no idea why Windows dislikes being POSIX-compliant
+#define workingDirectory(PATH, LENGTH) _getcwd(PATH, LENGTH)
+#else
+#error "Your platform is not supported."
+#endif
 
 class User {
 private:
@@ -16,7 +32,7 @@ private:
 
     forType<char*>::repeat<5>::apply<CSV> destinations{"dest", "from", "to",
                                                        "rating", "comment"};
-    HashMap<SimpleString, ArrayList<char*>> pics;
+    HashMap<SimpleString, ArrayList<SimpleString>> pics;
 
     void setUserName(const char* _username){
         if(username) delete [] username;
@@ -28,7 +44,7 @@ private:
         strcpy(username, _username);
         strcpy(friendDBPath, _username);
         strcpy(friendDBPath+strlen(_username),
-               "/friend.db");
+               "/db.friend");
         strcpy(usrDBPath, _username);
         strcpy(usrDBPath+strlen(_username),
                ".db");
@@ -42,12 +58,36 @@ public:
         setUserName(name);
         CSV<const char*> friendsCSV("name");
         friendsCSV.load(friendDBPath);
+        destinations.load(usrDBPath);
         auto names = friendsCSV.getKeys();
         if(names.get()){
             for(int i = 0; i < names->length(); i++){
                 addFriend(names->get(i));
             }
         }
+
+        // char* path = new char[FILENAME_MAX+1];
+        // if(!workingDirectory(path, FILENAME_MAX)){
+        //     std::cerr<<"Failed to read current working directory"<<std::endl;
+        // }
+
+
+        for (const auto & entry : std::filesystem::directory_iterator(username)){
+            auto epath = entry.path();
+            if(epath.extension().string().compare(".db") != 0) continue;
+            auto dest = SimpleString(epath.filename().stem().c_str());
+            auto path = epath.c_str();
+            CSV<char*> s("pics");
+            s.load(path);
+            ArrayList<SimpleString> l = *s.getKeys()
+                ->template map<SimpleString>([]
+                                    (char* const(&s)){
+                                        return SimpleString(s);
+                                    });
+            pics.put(dest, l);
+        }
+
+        // delete [] path;
     }
 
     const char* getName() const {
@@ -90,6 +130,37 @@ public:
         return strcmp(getName(), other.getName())==0;
     }
 
+    void addVisit(Travel::VisitBuilder& vb){
+        char* dest = vb.getDestination();
+        Travel::Date from = vb.getFrom();
+        Travel::Date to   = vb.getTo();
+        int rating = vb.getRating();
+        char* comment = vb.getComment() ? vb.getComment() : new char[1];
+        if(!vb.getComment())comment[0] = '\0';
+        char* sfrom = new char[11];
+        char* sto = new char[11];
+
+        from.getString(sfrom);
+        to.getString(sto);
+
+        char* srating = new char[3];
+        if(rating == -1){
+            srating[0] = '-';
+            srating[1] = '1';
+            srating[2] = '\0';
+
+        }else{
+            srating[0] = (char) (48 + rating);
+            srating[1] = '\0';
+        }
+
+
+        destinations.addEntry(dest, sfrom , sto, srating,
+                              comment);
+
+        pics.put(dest, vb.getPics());
+    }
+
     ~User(){
         CSV<char*> friendsCSV("name");
         for(int i = 0; i < friends.length(); i++){
@@ -112,9 +183,9 @@ public:
                 strcpy(kpath+usrln+1+key.length(), ".db");
                 ofstream file(kpath);
                 if(file.is_open()){
-                    file<<"pics"<<std::endl;
+                    file<<"\"pics\""<<std::endl;
                     value
-                        .foreach([&file](char* const(&pic)) {
+                        .foreach([&file](SimpleString const(&pic)) {
                                       file<<"\""<<pic<<"\""<<std::endl;
                                   });
                 }else{
