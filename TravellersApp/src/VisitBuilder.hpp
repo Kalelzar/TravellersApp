@@ -45,8 +45,8 @@ namespace Travel {
                 std::cerr<<"Already set 'from' to "<<_from
                 <<". Changing value."<<std::endl;
             }
-            setFrom=true;
             _from = Travel::Date(fdate);
+            setFrom = true;
         }
 
         void to(char* fdate){
@@ -54,13 +54,14 @@ namespace Travel {
                 std::cerr<<"Already set 'to' to "<<_to
                 <<". Changing value."<<std::endl;
             }
-            setTo=true;
             _to = Travel::Date(fdate);
+            setTo = true;
         }
 
         void rating(int i){
             if(i < 1 || i > 5){
                 std::cerr<<"Rating must be between 1 - 5 inclusive"<<std::endl;
+                return;
             }
             if(_rating != -1){
                 std::cerr<<"Already rated "<<_rating

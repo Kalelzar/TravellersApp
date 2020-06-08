@@ -10,93 +10,94 @@
 
 int main(){
 
+    //TODO: Input validation of paths
 
     Travel::CommandList lcl;
     lcl.registerCommand("login",    TokenType::LOGIN,    ScannerContext::ATOPEN,
-                        "login <user> <password>.");
+                        "login <user> <password>."); //DONE
     lcl.registerCommand("register", TokenType::REGISTER, ScannerContext::ATOPEN,
-                        "register <email> <user> <password>.");
+                        "register <email> <user> <password>."); //DONE
 
     Travel::CommandList::setCommandList(&lcl);
 
     Travel::CommandList cl;
     cl.registerCommand("exit",     TokenType::EXIT,     ScannerContext::ALL,
-                       "Exit the program.");
+                       "Exit the program."); //DONE
     cl.registerCommand("help",     TokenType::HELP,     ScannerContext::ALL,
-                       "Pgrint this help message.");
+                       "Print this help message."); //DONE
     cl.registerCommand("friend",   TokenType::FRIEND,   ScannerContext::GENERAL,
-                       "friend <command> <args> => "
+                       "friend <command> <args> => " //DONE
                        "prefix for all friend commands");
     cl.registerCommand("add",      TokenType::ADD,      ScannerContext::GENERAL,
-                       "friend add <name> "
+                       "friend add <name> " //DONE
                        "=> add user <name> to friend's list");
     cl.registerCommand("remove",   TokenType::REMOVE,   ScannerContext::GENERAL,
-                       "friend remove <name> "
+                       "friend remove <name> " //DONE
                        "=> remove user <name> from friend's list");
     cl.registerCommand("list",     TokenType::LIST,     ScannerContext::GENERAL,
-                       "friend list "
+                       "friend list " //DONE
                        "=> lists friends.");
     cl.registerCommand("visited",  TokenType::VISITED,  ScannerContext::GENERAL,
-                       "friend visited <destination> "
+                       "friend visited <destination> " //DONE
                        "=> show all friends who \nhave visited <destination>, "
                        "along with their comments and ratings.\n"
-                       "friend visited <destination> <user> "
+                       "friend visited <destination> <user> " //DONE
                        "=> show if friend <user> \nhas visited <destination>"
                        ", and if they have: Their comment and rating.\n"
-                       "destination visited <destination> <user> "
+                       "destination visited <destination> <user> " //DONE
                        "=> show if <user> \nhas visited <destination>"
-                       ", and if they have: their comment and destination");
+                       ", and if they have: their comment and rating");
     cl.registerCommand("visit",    TokenType::VISIT,    ScannerContext::GENERAL,
-                       "visit <destination> "
+                       "visit <destination> " //DONE
                        "=> visit <destination>");
 
     cl.registerCommand("from",     TokenType::FROM,     ScannerContext::VISIT,
-                       "from <date> "
+                       "from <date> " //DONE
                        "=> mark the beginning of your visit as <date>");
     cl.registerCommand("to",       TokenType::TO,       ScannerContext::VISIT,
-                       "to <date> "
+                       "to <date> " //DONE
                        "=> mark the end of your visit as <date>");
     cl.registerCommand("rate",     TokenType::RATE,     ScannerContext::VISIT,
-                       "rate <rating : 1 - 5> "
+                       "rate <rating : 1 - 5> " //DONE
                        "=> rate your visit with a <rating> between 1 and 5");
     cl.registerCommand("comment",  TokenType::COMMENT,  ScannerContext::VISIT,
                        "comment <comment> "
                        "=> add comment <comment> to your visit");
     cl.registerCommand("photo",    TokenType::PHOTO,    ScannerContext::VISIT,
-                       "photo "
+                       "photo " //DONE
                        "=> prefix for photo commands>");
     cl.registerCommand("upload",   TokenType::UPLOAD,   ScannerContext::VISIT,
-                       "photo upload <uri> "
+                       "photo upload <uri> " //DONE
                        "=> upload photo with path <uri>");
     cl.registerCommand("delete",   TokenType::DELETE,   ScannerContext::VISIT,
-                       "photo delete <uri> "
+                       "photo delete <uri> " //DONE
                        "=> delete photo with path <uri>");
     cl.registerCommand("show",     TokenType::SHOW,     ScannerContext::VISIT,
-                       "photo show"
+                       "photo show" //DONE
                        "=> show uploaded photos>");
     cl.registerCommand("save",     TokenType::SAVE,     ScannerContext::VISIT,
-                       "save "
+                       "save " //DONE
                        "=> save the information for this visit and return to"
                        " the main menu");
     cl.registerCommand("cancel",   TokenType::CANCEL,   ScannerContext::VISIT,
-                       "cancel "
+                       "cancel " //DONE
                        "=> cancel the information for this visit \n"
                        "and return to the main menu");
 
     cl.registerCommand("destination", TokenType::DESTINATION,
                        ScannerContext::GENERAL,
-                       "prefix for all friend commands");
+                       "prefix for all friend commands"); //DONE
     cl.registerCommand("exists",      TokenType::EXISTS,
                        ScannerContext::GENERAL,
-                       "destination exists <destination>\n"
+                       "destination exists <destination>\n" //DONE
                        "=> Check if <destination> exists in the database.");
     cl.registerCommand("rating",      TokenType::RATING,
                        ScannerContext::GENERAL,
-                       "destination rating <destination>\n"
+                       "destination rating <destination>\n" //DONE
                        "=> Show an average of all ratings for <destination>");
     cl.registerCommand("comments",      TokenType::COMMENTS,
                        ScannerContext::GENERAL,
-                       "destination comments <destination>\n"
+                       "destination comments <destination>\n" //DONE
                        "=> Show all comments for <destination>");
 
     Travel::TravelState state{};

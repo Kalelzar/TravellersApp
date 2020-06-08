@@ -72,10 +72,11 @@ namespace Travel {
             auto user = next();
             std::cout<<"Checking if "<<user.lexeme << " has visited "
                      <<destination.lexeme<<std::endl;
-            //state.friendVisited(destination, user);
+            state.friendVisited(destination.lexeme, user.lexeme);
         }else{
             std::cout<<"Showing all friends who have visited "
                      <<destination.lexeme<<std::endl;
+            state.friendVisited(destination.lexeme);
         }
     }
 
@@ -85,7 +86,11 @@ namespace Travel {
         std::cout<<"Checking if destination "
                  << destination.lexeme
                  <<" exists."<<std::endl;
-        //state.destinationExists(destination)
+        if(state.destinationExists(destination.lexeme)){
+            std::cout<<"It does."<<std::endl;
+        }else{
+            std::cout<<"It doesn't."<<std::endl;
+        }
     }
 
     void HTLInterpreter::destinationRating(TravelState& state) {
@@ -94,7 +99,7 @@ namespace Travel {
         std::cout<<"Showing average rating for destination "
                  << destination.lexeme
                  <<"."<<std::endl;
-        //state.destinationRating(destination)
+        state.destinationRating(destination.lexeme);
     }
 
 
@@ -105,7 +110,7 @@ namespace Travel {
         std::cout<<"Showing comments for destination "
                  << destination.lexeme
                  <<"."<<std::endl;
-        //state.destinationComments(destination)
+        state.destinationComments(destination.lexeme);
     }
 
     void HTLInterpreter::destinationVisited(TravelState& state) {
@@ -115,7 +120,7 @@ namespace Travel {
 
         std::cout<<"Checking if "<<user.lexeme << " has visited "
                  <<destination.lexeme<<std::endl;
-        //state.destinationVisited(destination, user);
+        state.userVisited(destination.lexeme, user.lexeme);
     }
 
     void HTLInterpreter::cfriend(TravelState& state){

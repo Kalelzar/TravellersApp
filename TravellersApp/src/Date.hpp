@@ -23,6 +23,8 @@ namespace Travel {
 
         void setDay(int _day) { day = _day; }
 
+        void validate();
+
     public:
         /**
          * Constructs a date with the provided arguments

@@ -5,6 +5,7 @@
 #include "Date.hpp"
 #include <ctime>
 #include <cstring>
+#include "InvalidArgumentException.hpp"
 
 #ifdef _MSC_VER
 #define sprintf sprintf_s
@@ -12,24 +13,29 @@
 
 namespace Travel {
 
+    void Date::validate(){
+      if (month > 12) {
+          throw InvalidArgumentException("Month cannot be greater than 12.");
+      } else if (month < 1) {
+          throw InvalidArgumentException("Month cannot be less than 1.");
+      }
+
+      int dm = daysOfMonth(month, year);
+
+      if (day < 1) {
+          throw InvalidArgumentException("Day cannot be less than 1.");
+      } else if (day > dm) {
+          throw InvalidArgumentException(
+              "Month cannot have more than that many days");
+      }
+    }
+
+
     Date::Date(int year, int month, int day) {
-        if (month > 12) {
-            std::cout<<"Month cannot be greater than 12."<<std::endl;
-        } else if (month < 1) {
-            std::cout<<"Month cannot be late than 1."<<std::endl;
-        }
-
-        int dm = daysOfMonth(month, year);
-
-        if (day < 1) {
-            std::cout<<"Day cannot be less than 1."<<std::endl;
-        } else if (day > dm) {
-            std::cout<<"Month "<<month<<" cannot have more than " << dm << " days"<<std::endl;
-        }
-
         this->day = day;
         this->month = month;
         this->year = year;
+        validate();
     }
 
     Date Date::today() {
@@ -101,7 +107,8 @@ namespace Travel {
     }
 
     Date::Date(const char str[11]) {
-        sscanf(str, "%04d-%02d-%02d", &year, &month, &day);
+        sscanf(str, "%d-%d-%d", &year, &month, &day);
+        validate();
         // char s_year[5];
         // strncpy(s_year, str + 0, 4);
         // s_year[4] = '\0';

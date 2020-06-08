@@ -52,6 +52,24 @@ private:
 
 public:
 
+    ArrayList<char*>& getFriends(){
+        return friends;
+    }
+
+    forType<char*>::repeat<5>::apply<Tuple>& destinationStats(const char* dest){
+        auto ind = destinations.getKeys()
+            ->find([&dest](char* const (&key)){
+                       return strcmp(dest, key) == 0;
+                   });
+        return destinations.getRow(ind);
+    }
+
+    bool hasVisited(const char* dest){
+      return destinations.getKeys()->find(
+          [&dest](char *const(&key)) { return strcmp(dest, key) == 0;
+          }) >= 0;
+    }
+
     User() = delete;
 
     User(const char* name){
@@ -65,12 +83,6 @@ public:
                 addFriend(names->get(i));
             }
         }
-
-        // char* path = new char[FILENAME_MAX+1];
-        // if(!workingDirectory(path, FILENAME_MAX)){
-        //     std::cerr<<"Failed to read current working directory"<<std::endl;
-        // }
-
 
         for (const auto & entry : std::filesystem::directory_iterator(username)){
             auto epath = entry.path();
@@ -87,7 +99,6 @@ public:
             pics.put(dest, l);
         }
 
-        // delete [] path;
     }
 
     const char* getName() const {
@@ -126,12 +137,19 @@ public:
     }
 
 
+    bool hasFriend(const char* name){
+        return friends.find([&name](char* fr){
+                         return strcmp(name, fr) == 0;
+                     }) >= 0;
+    }
+
     bool operator==(User const& other){
         return strcmp(getName(), other.getName())==0;
     }
 
     void addVisit(Travel::VisitBuilder& vb){
         char* dest = vb.getDestination();
+        if(!dest) return;
         Travel::Date from = vb.getFrom();
         Travel::Date to   = vb.getTo();
         int rating = vb.getRating();

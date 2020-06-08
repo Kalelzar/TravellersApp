@@ -9,10 +9,12 @@
 namespace Travel {
     class TravelState {
     private:
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wwrite-strings"
         static constexpr char* usersDatabase = "users.db";
 #pragma GCC diagnostic pop
+
         CSV<const char*, const char*,const char*> csv{"user", "pass", "email"};
         HashMap<SimpleString, User*> users;
         User* loggedInUser = nullptr;
@@ -42,9 +44,19 @@ namespace Travel {
                        const char* username,
                        const char* password);
 
-        void friendAdd(const char* name);
+        void userVisited(const char *dest,
+                                              const char *name);
+
+        void friendAdd(const char *name);
         void friendRemove(const char* name);
         void friendList();
+        void friendVisited(const char* dest, const char* name);
+        void friendVisited(const char* dest);
+
+        bool destinationExists(const char* dest);
+        void destinationRating(const char* dest);
+        void destinationComments(const char* dest);
+
     };
 }
 

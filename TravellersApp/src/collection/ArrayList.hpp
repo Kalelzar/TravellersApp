@@ -416,6 +416,13 @@ template<class A>
         return mapped;
     }
 
+    A fold(A start, std::function<A(const A&, const A&)> biconsumer){
+        for(int i = 0; i < length(); i++){
+            start = biconsumer(start, get(i));
+        }
+        return start;
+    }
+
     // /**
     //  * Return a new ArrayList containing the result of applying
     //  * the provided mapping function to each element of the list
