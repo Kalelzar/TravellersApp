@@ -1,0 +1,4 @@
+<map id="ReachedEndOfStreamException" name="ReachedEndOfStreamException">
+<area shape="rect" id="node1" title="An exception throw when Interpreter reaches the end of stream unexpectedly." alt="" coords="5,80,212,107"/>
+<area shape="rect" id="node2" title="STL class." alt="" coords="58,5,159,32"/>
+</map>

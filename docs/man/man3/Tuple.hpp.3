@@ -1,0 +1,87 @@
+.TH "TravellersApp/src/collection/Tuple.hpp" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+TravellersApp/src/collection/Tuple.hpp
+.SH SYNOPSIS
+.br
+.PP
+\fC#include '\&.\&./ttype\&.hpp'\fP
+.br
+\fC#include <cstdlib>\fP
+.br
+\fC#include <functional>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <type_traits>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBTuple< Head, Tail\&.\&.\&. >::ofSize< i >\fP"
+.br
+.RI "Construct the type of tuple of the given size by repeating the Head type of tuple used to refer to this struct that many times\&. "
+.ti -1c
+.RI "class \fBTuple< Tail >\fP"
+.br
+.RI "\fBTuple\fP implementation partially taken from www\&.stroustrup\&.com/C++11FAQ\&.html::variadic-templates It wasn't working out of the box since it was meant as an example of variadic templates rather than an actually usable tuple class but I patched it up and added a whole ton of additional (badly designed) features\&. "
+.ti -1c
+.RI "class \fBTuple< Head, Tail\&.\&.\&. >\fP"
+.br
+.ti -1c
+.RI "struct \fBTuple< Head, Tail\&.\&.\&. >::typeOf< ind, dummy >\fP"
+.br
+.RI "Return the type of the element at the provided index\&. "
+.ti -1c
+.RI "struct \fBTuple< Tail >::typeOf< ind, dummy >\fP"
+.br
+.RI "End of recursive template of \fBtypeOf\fP\&. "
+.ti -1c
+.RI "struct \fBTuple< Head, Tail\&.\&.\&. >::typeOf< 0, dummy >\fP"
+.br
+.RI "Bottom o recursion\&. "
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename Head , typename\&.\&.\&. Tail> static std::ostream & \fBoperator<<\fP (std::ostream &out, \fBTuple\fP< Head, Tail\&.\&.\&. > const &tuple)"
+.br
+.ti -1c
+.RI "static std::ostream & \fBoperator<<\fP (std::ostream &out, \fBTuple\fP<> const &tuple)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "template<typename Head , typename\&.\&.\&. Tail> static std::ostream& operator<< (std::ostream & out, \fBTuple\fP< Head, Tail\&.\&.\&. > const & tuple)\fC [static]\fP"
+
+.PP
+Definition at line 61 of file Tuple\&.hpp\&.
+.PP
+.nf
+62                                                                    {
+63   out << "\"" << tuple\&.head() << "\"";
+64   if (tuple\&.size() > 1)
+65     out << " ";
+66   out << tuple\&.tail();
+67   return out;
+68 }
+.fi
+.PP
+References Tuple< Head, Tail\&.\&.\&. >::head(), Tuple< Head, Tail\&.\&.\&. >::size(), and Tuple< Head, Tail\&.\&.\&. >::tail()\&.
+.SS "static std::ostream& operator<< (std::ostream & out, \fBTuple\fP<> const & tuple)\fC [static]\fP"
+
+.PP
+Definition at line 56 of file Tuple\&.hpp\&.
+.PP
+.nf
+56                                                                      {
+57   return out;
+58 }
+.fi
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

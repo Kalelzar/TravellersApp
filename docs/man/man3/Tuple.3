@@ -1,0 +1,190 @@
+.TH "Tuple< Tail >" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Tuple< Tail > \- \fBTuple\fP implementation partially taken from www\&.stroustrup\&.com/C++11FAQ\&.html::variadic-templates It wasn't working out of the box since it was meant as an example of variadic templates rather than an actually usable tuple class but I patched it up and added a whole ton of additional (badly designed) features\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Tuple\&.hpp>\fP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBtypeOf\fP"
+.br
+.RI "End of recursive template of \fBtypeOf\fP\&. "
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename T > T * \fBat\fP (int ind) const"
+.br
+.RI "Return the element at the provided index\&. "
+.ti -1c
+.RI "void \fBfree\fP ()"
+.br
+.RI "Free the elements in the tuple\&. "
+.ti -1c
+.RI "template<int ind> void * \fBget\fP ()"
+.br
+.RI "Return a pointer to the element with the given index\&. "
+.ti -1c
+.RI "template<int ind> const void * \fBget\fP () const"
+.br
+.RI "Return a const pointer to the element with the given index\&. "
+.ti -1c
+.RI "template<typename T > constexpr int \fBindexOf\fP (const T &elem)"
+.br
+.RI "Return the index of the given element\&. "
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBTuple\fP<> const &other) const"
+.br
+.ti -1c
+.RI "constexpr size_t \fBsize\fP () const"
+.br
+.RI "Return the amount of elements in the tuple\&. "
+.ti -1c
+.RI "\fBTuple\fP ()"
+.br
+.ti -1c
+.RI "template<typename T > \fBTuple\fP (T **tptr)"
+.br
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "size_t \fB_size\fP = 0"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename\&.\&.\&. Tail>
+.br
+class Tuple< Tail >"
+\fBTuple\fP implementation partially taken from www\&.stroustrup\&.com/C++11FAQ\&.html::variadic-templates It wasn't working out of the box since it was meant as an example of variadic templates rather than an actually usable tuple class but I patched it up and added a whole ton of additional (badly designed) features\&. 
+.PP
+Definition at line 18 of file Tuple\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename\&.\&.\&. Tail> template<typename T > \fBTuple\fP< Tail >::\fBTuple\fP (T ** tptr)\fC [inline]\fP"
+
+.PP
+Definition at line 31 of file Tuple\&.hpp\&.
+.PP
+.nf
+31 {}
+.fi
+.SS "template<typename\&.\&.\&. Tail> \fBTuple\fP< Tail >::\fBTuple\fP ()\fC [inline]\fP"
+
+.PP
+Definition at line 49 of file Tuple\&.hpp\&.
+.PP
+.nf
+49 {}
+.fi
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename\&.\&.\&. Tail> template<typename T > T* \fBTuple\fP< Tail >::at (int ind) const\fC [inline]\fP"
+
+.PP
+Return the element at the provided index\&. 
+.PP
+Definition at line 41 of file Tuple\&.hpp\&.
+.PP
+.nf
+41 { return nullptr; }
+.fi
+.SS "template<typename\&.\&.\&. Tail> void \fBTuple\fP< Tail >::free ()\fC [inline]\fP"
+
+.PP
+Free the elements in the tuple\&. 
+.PP
+Definition at line 47 of file Tuple\&.hpp\&.
+.PP
+.nf
+47 {}
+.fi
+.SS "template<typename\&.\&.\&. Tail> template<int ind> void* \fBTuple\fP< Tail >::get ()\fC [inline]\fP"
+
+.PP
+Return a pointer to the element with the given index\&. 
+.PP
+\fBBug\fP
+.RS 4
+if the element overloads operator& this breaks\&. Horribly 
+.RE
+.PP
+
+.PP
+Definition at line 29 of file Tuple\&.hpp\&.
+.PP
+.nf
+29 { return nullptr; }
+.fi
+.PP
+Referenced by Tuple< Head, Tail\&.\&.\&. >::get(), and Travel::CommandList::printCommandsWithDescription()\&.
+.SS "template<typename\&.\&.\&. Tail> template<int ind> const void* \fBTuple\fP< Tail >::get () const\fC [inline]\fP"
+
+.PP
+Return a const pointer to the element with the given index\&. 
+.PP
+\fBBug\fP
+.RS 4
+if the element overloads operator& this breaks\&. Horribly 
+.RE
+.PP
+
+.PP
+Definition at line 38 of file Tuple\&.hpp\&.
+.PP
+.nf
+38 { return nullptr; }
+.fi
+.SS "template<typename\&.\&.\&. Tail> template<typename T > constexpr int \fBTuple\fP< Tail >::indexOf (const T & elem)\fC [inline]\fP, \fC [constexpr]\fP"
+
+.PP
+Return the index of the given element\&. 
+.PP
+Definition at line 34 of file Tuple\&.hpp\&.
+.PP
+.nf
+34 { return 1; }
+.fi
+.SS "template<typename\&.\&.\&. Tail> bool \fBTuple\fP< Tail >::operator== (\fBTuple\fP<> const & other) const\fC [inline]\fP"
+
+.PP
+Definition at line 50 of file Tuple\&.hpp\&.
+.PP
+.nf
+50 { return true; }
+.fi
+.SS "template<typename\&.\&.\&. Tail> constexpr size_t \fBTuple\fP< Tail >::size () const\fC [inline]\fP, \fC [constexpr]\fP"
+
+.PP
+Return the amount of elements in the tuple\&. 
+.PP
+Definition at line 44 of file Tuple\&.hpp\&.
+.PP
+.nf
+44 { return _size; }
+.fi
+.PP
+Referenced by Tuple< Head, Tail\&.\&.\&. >::indexOf()\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "template<typename\&.\&.\&. Tail> size_t \fBTuple\fP< Tail >::_size = 0\fC [private]\fP"
+
+.PP
+Definition at line 20 of file Tuple\&.hpp\&.
+.PP
+Referenced by Tuple< Tail\&.\&.\&. >::size(), and Tuple< Head, Tail\&.\&.\&. >::size()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

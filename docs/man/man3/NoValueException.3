@@ -1,0 +1,125 @@
+.TH "NoValueException" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+NoValueException \- An exception thrown when there was an attempt to access a value when no value exists\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <NoValueException\&.hpp>\fP
+.PP
+Inherits std::exception\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBNoValueException\fP ()"
+.br
+.ti -1c
+.RI "\fBNoValueException\fP (const char *_msg)"
+.br
+.ti -1c
+.RI "virtual const char * \fBwhat\fP () const  throw ()"
+.br
+.ti -1c
+.RI "\fB~NoValueException\fP ()"
+.br
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "char * \fBmsg\fP"
+.br
+.in -1c
+.SS "Static Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "static const char * \fBDEFAULT_MESSAGE\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+An exception thrown when there was an attempt to access a value when no value exists\&. 
+
+
+.PP
+\fBSee also\fP
+.RS 4
+\fBNullable\fP 
+.RE
+.PP
+
+.PP
+Definition at line 12 of file NoValueException\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "NoValueException::NoValueException (const char * _msg)\fC [inline]\fP"
+
+.PP
+Definition at line 21 of file NoValueException\&.hpp\&.
+.PP
+.nf
+21                                      {
+22     msg = new char[strlen(_msg) + 1];
+23     strcpy(msg, _msg);
+24   }
+.fi
+.PP
+References msg\&.
+.SS "NoValueException::~NoValueException ()\fC [inline]\fP"
+
+.PP
+Definition at line 26 of file NoValueException\&.hpp\&.
+.PP
+.nf
+26 { delete[] msg; }
+.fi
+.PP
+References msg\&.
+.SS "NoValueException::NoValueException ()\fC [inline]\fP"
+
+.PP
+Definition at line 28 of file NoValueException\&.hpp\&.
+.PP
+.nf
+28 : NoValueException(DEFAULT_MESSAGE) {}
+.fi
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual const char* NoValueException::what () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Definition at line 19 of file NoValueException\&.hpp\&.
+.PP
+.nf
+19 { return msg; }
+.fi
+.PP
+References msg\&.
+.PP
+Referenced by Travel::LoginInterpreter::parse(), Travel::VisitInterpreter::parse(), and Travel::HTLInterpreter::parse()\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "const char * NoValueException::DEFAULT_MESSAGE\fC [static]\fP, \fC [private]\fP"
+\fBInitial value:\fP
+.PP
+.nf
+=
+    "Attempted to access null value\&."
+.fi
+.PP
+Definition at line 14 of file NoValueException\&.hpp\&.
+.SS "char* NoValueException::msg\fC [private]\fP"
+
+.PP
+Definition at line 16 of file NoValueException\&.hpp\&.
+.PP
+Referenced by NoValueException(), what(), and ~NoValueException()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

@@ -1,0 +1,79 @@
+.TH "Null< A >" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Null< A > \- This class represents nothing (null)\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Nullable\&.hpp>\fP
+.PP
+Inherits \fBNullable< A >\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "A const \fBget\fP () const override"
+.br
+.RI "Return the value contained if such exists, else throw a \fBNoValueException\fP\&. "
+.ti -1c
+.RI "bool \fBisEmpty\fP () const override"
+.br
+.RI "Is this value \fBNull\fP? "
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class A>
+.br
+class Null< A >"
+This class represents nothing (null)\&. 
+
+Meant to be used in conjunction with \fBNotNull\fP to represent optional types\&. 
+.PP
+Definition at line 74 of file Nullable\&.hpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class A > A const \fBNull\fP< A >::get () const\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Return the value contained if such exists, else throw a \fBNoValueException\fP\&. 
+.PP
+\fBExceptions\fP
+.RS 4
+\fI\fBNoValueException\fP\fP 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the stored value 
+.RE
+.PP
+
+.PP
+Implements \fBNullable< A >\fP\&.
+.PP
+Definition at line 78 of file Nullable\&.hpp\&.
+.PP
+.nf
+78 { throw NoValueException(); }
+.fi
+.SS "template<class A > bool \fBNull\fP< A >::isEmpty () const\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Is this value \fBNull\fP? 
+.PP
+Implements \fBNullable< A >\fP\&.
+.PP
+Definition at line 76 of file Nullable\&.hpp\&.
+.PP
+.nf
+76 { return true; }
+.fi
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

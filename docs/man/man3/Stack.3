@@ -1,0 +1,144 @@
+.TH "Stack< A >" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Stack< A > \- An implementation of a stack leveraging \fBArrayList\fP\&. Basically an \fBArrayList\fP but most methods are private and some others exist with different names\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Stack\&.hpp>\fP
+.PP
+Inherits \fBArrayList< A >\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "std::unique_ptr< \fBArrayList\fP< A > > \fBasList\fP ()"
+.br
+.RI "Convert to list\&. "
+.ti -1c
+.RI "std::unique_ptr< \fBNullable\fP< A > > \fBpeek\fP () const"
+.br
+.RI "Peek at the top element of the stack\&. "
+.ti -1c
+.RI "void \fBpush\fP (A const &elem)"
+.br
+.RI "Push an element onto the stack\&. "
+.ti -1c
+.RI "void \fBpushAll\fP (\fBStack\fP< A > const &stack)"
+.br
+.RI "Push multiple elements on top of the stack\&. "
+.ti -1c
+.RI "\fBStack\fP ()"
+.br
+.ti -1c
+.RI "\fBStack\fP (int \fBcapacity\fP)"
+.br
+.ti -1c
+.RI "\fBStack\fP (\fBStack\fP< A > const &stack)"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class A>
+.br
+class Stack< A >"
+An implementation of a stack leveraging \fBArrayList\fP\&. Basically an \fBArrayList\fP but most methods are private and some others exist with different names\&. 
+.PP
+Definition at line 11 of file Stack\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class A > \fBStack\fP< A >::\fBStack\fP (\fBStack\fP< A > const & stack)\fC [inline]\fP"
+
+.PP
+Definition at line 16 of file Stack\&.hpp\&.
+.PP
+.nf
+16 : ArrayList<A>(stack) {}
+.fi
+.SS "template<class A > \fBStack\fP< A >::\fBStack\fP (int capacity)\fC [inline]\fP"
+
+.PP
+Definition at line 18 of file Stack\&.hpp\&.
+.PP
+.nf
+18 : ArrayList<A>(capacity) {}
+.fi
+.SS "template<class A > \fBStack\fP< A >::\fBStack\fP ()\fC [inline]\fP"
+
+.PP
+Definition at line 20 of file Stack\&.hpp\&.
+.PP
+.nf
+20 : ArrayList<A>() {}
+.fi
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class A > std::unique_ptr<\fBArrayList\fP<A> > \fBStack\fP< A >::asList ()\fC [inline]\fP"
+
+.PP
+Convert to list\&. 
+.PP
+Definition at line 32 of file Stack\&.hpp\&.
+.PP
+.nf
+32                                        {
+33     std::unique_ptr<ArrayList<A>> list =
+34         std::make_unique<ArrayList<A>>(ArrayList<A>::capacity());
+35     for (int i = 0; i < length(); i++) {
+36       list->append(ArrayList<A>::get(i));
+37     }
+38     return list;
+39   }
+.fi
+.PP
+References ArrayList< A >::capacity(), and ArrayList< A >::length()\&.
+.SS "template<class A > std::unique_ptr<\fBNullable\fP<A> > \fBStack\fP< A >::peek () const\fC [inline]\fP"
+
+.PP
+Peek at the top element of the stack\&. 
+.PP
+Definition at line 42 of file Stack\&.hpp\&.
+.PP
+.nf
+42 { return (*this)[length() - 1]; }
+.fi
+.PP
+References ArrayList< A >::length()\&.
+.SS "template<class A > void \fBStack\fP< A >::push (A const & elem)\fC [inline]\fP"
+
+.PP
+Push an element onto the stack\&. 
+.PP
+Definition at line 23 of file Stack\&.hpp\&.
+.PP
+.nf
+23 { this->append(elem); }
+.fi
+.PP
+References ArrayList< A >::append()\&.
+.PP
+Referenced by Stack< A >::pushAll()\&.
+.SS "template<class A > void \fBStack\fP< A >::pushAll (\fBStack\fP< A > const & stack)\fC [inline]\fP"
+
+.PP
+Push multiple elements on top of the stack\&. 
+.PP
+Definition at line 26 of file Stack\&.hpp\&.
+.PP
+.nf
+26                                       {
+27     for (unsigned i = 0; i < stack\&.length(); i++)
+28       push(stack\&.get(i));
+29   }
+.fi
+.PP
+References ArrayList< A >::get(), ArrayList< A >::length(), and Stack< A >::push()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

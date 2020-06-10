@@ -1,0 +1,116 @@
+.TH "InvalidArgumentException" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+InvalidArgumentException \- An exception thrown when an invalid argument is passed to a function\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <InvalidArgumentException\&.hpp>\fP
+.PP
+Inherits std::exception\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBInvalidArgumentException\fP ()"
+.br
+.ti -1c
+.RI "\fBInvalidArgumentException\fP (const char *_msg)"
+.br
+.ti -1c
+.RI "virtual const char * \fBwhat\fP () const  throw ()"
+.br
+.ti -1c
+.RI "\fB~InvalidArgumentException\fP ()"
+.br
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "char * \fBmsg\fP"
+.br
+.in -1c
+.SS "Static Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "static const char * \fBDEFAULT_MESSAGE\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+An exception thrown when an invalid argument is passed to a function\&. 
+.PP
+Definition at line 9 of file InvalidArgumentException\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "InvalidArgumentException::InvalidArgumentException (const char * _msg)\fC [inline]\fP"
+
+.PP
+Definition at line 16 of file InvalidArgumentException\&.hpp\&.
+.PP
+.nf
+16                                              {
+17     msg = new char[strlen(_msg) + 1];
+18     strcpy(msg, _msg);
+19   }
+.fi
+.PP
+References msg\&.
+.SS "InvalidArgumentException::~InvalidArgumentException ()\fC [inline]\fP"
+
+.PP
+Definition at line 23 of file InvalidArgumentException\&.hpp\&.
+.PP
+.nf
+23 { delete[] msg; }
+.fi
+.PP
+References msg\&.
+.SS "InvalidArgumentException::InvalidArgumentException ()\fC [inline]\fP"
+
+.PP
+Definition at line 25 of file InvalidArgumentException\&.hpp\&.
+.PP
+.nf
+25 : InvalidArgumentException(DEFAULT_MESSAGE) {}
+.fi
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual const char* InvalidArgumentException::what () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Definition at line 21 of file InvalidArgumentException\&.hpp\&.
+.PP
+.nf
+21 { return msg; }
+.fi
+.PP
+References msg\&.
+.PP
+Referenced by Travel::LoginInterpreter::parse(), Travel::VisitInterpreter::parse(), and Travel::HTLInterpreter::parse()\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "const char * InvalidArgumentException::DEFAULT_MESSAGE\fC [static]\fP, \fC [private]\fP"
+\fBInitial value:\fP
+.PP
+.nf
+=
+    "Provided argument was invalid"
+.fi
+.PP
+Definition at line 11 of file InvalidArgumentException\&.hpp\&.
+.SS "char* InvalidArgumentException::msg\fC [private]\fP"
+
+.PP
+Definition at line 13 of file InvalidArgumentException\&.hpp\&.
+.PP
+Referenced by InvalidArgumentException(), what(), and ~InvalidArgumentException()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

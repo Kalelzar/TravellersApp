@@ -1,0 +1,125 @@
+.TH "Nullable< A >" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Nullable< A > \- An optional value container inspired by Haskell's Maybe and Scala's Option\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Nullable\&.hpp>\fP
+.PP
+Inherited by \fBNotNull< A >\fP, and \fBNull< A >\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual A const \fBget\fP () const =0"
+.br
+.RI "Return the value contained if such exists, else throw a \fBNoValueException\fP\&. "
+.ti -1c
+.RI "A const \fBgetOrElse\fP (A const &def) const"
+.br
+.RI "Return the value contained if such exists, else return the provided value\&. "
+.ti -1c
+.RI "bool \fBisDefined\fP () const"
+.br
+.RI "Is this value \fBNotNull\fP? "
+.ti -1c
+.RI "virtual bool \fBisEmpty\fP () const =0"
+.br
+.RI "Is this value \fBNull\fP? "
+.ti -1c
+.RI "virtual \fB~Nullable\fP ()=default"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class A>
+.br
+class Nullable< A >"
+An optional value container inspired by Haskell's Maybe and Scala's Option\&. 
+
+It stores either a value of type A (wrapped into a \fBNotNull\fP instance) or an empty (represented by \fBNull\fP) value\&. It is intended to provide more safety when returning empty values than returning nullptr would\&. It \fBnot\fP mean you shouldn't check if a value is null\&. Rather the entire purpose of the class is for when you do forget to check the value, you don't end up spending 2 hours finding out which nullptr you tried to dereference\&. 
+.PP
+Definition at line 18 of file Nullable\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class A > virtual \fBNullable\fP< A >::~\fBNullable\fP ()\fC [virtual]\fP, \fC [default]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class A > virtual A const \fBNullable\fP< A >::get () const\fC [pure virtual]\fP"
+
+.PP
+Return the value contained if such exists, else throw a \fBNoValueException\fP\&. 
+.PP
+\fBExceptions\fP
+.RS 4
+\fI\fBNoValueException\fP\fP 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the stored value 
+.RE
+.PP
+
+.PP
+Implemented in \fBNull< A >\fP, and \fBNotNull< A >\fP\&.
+.PP
+Referenced by Nullable< A >::getOrElse()\&.
+.SS "template<class A > A const \fBNullable\fP< A >::getOrElse (A const & def) const\fC [inline]\fP"
+
+.PP
+Return the value contained if such exists, else return the provided value\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdef\fP the default value to return 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the stored value or the default value\&. 
+.RE
+.PP
+
+.PP
+Definition at line 42 of file Nullable\&.hpp\&.
+.PP
+.nf
+42                                         {
+43     if (isEmpty())
+44       return def;
+45     return get();
+46   }
+.fi
+.PP
+References Nullable< A >::get(), and Nullable< A >::isEmpty()\&.
+.SS "template<class A > bool \fBNullable\fP< A >::isDefined () const\fC [inline]\fP"
+
+.PP
+Is this value \fBNotNull\fP? 
+.PP
+Definition at line 28 of file Nullable\&.hpp\&.
+.PP
+.nf
+28 { return !isEmpty(); }
+.fi
+.PP
+References Nullable< A >::isEmpty()\&.
+.SS "template<class A > virtual bool \fBNullable\fP< A >::isEmpty () const\fC [pure virtual]\fP"
+
+.PP
+Is this value \fBNull\fP? 
+.PP
+Implemented in \fBNull< A >\fP, and \fBNotNull< A >\fP\&.
+.PP
+Referenced by Nullable< A >::getOrElse(), and Nullable< A >::isDefined()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

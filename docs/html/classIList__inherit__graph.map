@@ -1,0 +1,16 @@
+<map id="IList&lt; A &gt;" name="IList&lt; A &gt;">
+<area shape="rect" id="node1" title="An interface for a generic list." alt="" coords="5,211,84,237"/>
+<area shape="rect" id="node2" href="$classArrayList.html" title="An implementation of a list backed by a resizable array." alt="" coords="251,185,357,212"/>
+<area shape="rect" id="node10" href="$classLinkedList.html" title="An implementation of a singly&#45;linked list." alt="" coords="247,337,361,364"/>
+<area shape="rect" id="node11" href="$classIList.html" title=" " alt="" coords="232,17,376,44"/>
+<area shape="rect" id="node12" href="$classIList.html" title=" " alt="" coords="251,91,357,117"/>
+<area shape="rect" id="node13" href="$classIList.html" title=" " alt="" coords="253,236,355,263"/>
+<area shape="rect" id="node14" href="$classIList.html" title=" " alt="" coords="253,287,355,313"/>
+<area shape="rect" id="node3" href="$classArraySet.html" title="Literally an ArrayList but when adding items it checks if the element is already in the list." alt="" coords="558,185,661,212"/>
+<area shape="rect" id="node4" href="$classSortedArrayList.html" title="NOT IMPLEMENTED An array list that keeps itself sorted at all times." alt="" coords="538,236,681,263"/>
+<area shape="rect" id="node5" href="$classStack.html" title="An implementation of a stack leveraging ArrayList. Basically an ArrayList but most methods are privat..." alt="" coords="566,135,653,161"/>
+<area shape="rect" id="node6" href="$classArrayList.html" title=" " alt="" coords="524,5,695,32"/>
+<area shape="rect" id="node7" href="$classArrayList.html" title=" " alt="" coords="543,65,675,92"/>
+<area shape="rect" id="node8" href="$classArrayList.html" title=" " alt="" coords="545,296,673,323"/>
+<area shape="rect" id="node9" href="$classArrayList.html" title=" " alt="" coords="545,365,674,392"/>
+</map>

@@ -1,0 +1,344 @@
+.TH "Tuple< Head, Tail... >" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Tuple< Head, Tail... >
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Tuple\&.hpp>\fP
+.PP
+Inherits \fBTuple< Tail\&.\&.\&. >\fP\&.
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBofSize\fP"
+.br
+.RI "Construct the type of tuple of the given size by repeating the Head type of tuple used to refer to this struct that many times\&. "
+.ti -1c
+.RI "struct \fBtypeOf\fP"
+.br
+.RI "Return the type of the element at the provided index\&. "
+.ti -1c
+.RI "struct \fBtypeOf< 0, dummy >\fP"
+.br
+.RI "Bottom o recursion\&. "
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename T , std::enable_if_t< std::is_same< type, typename Tuple< std::remove_reference_t< T >>::template ofSize< _size >::type >::value > *  = nullptr> T const  * \fBat\fP (int ind) const"
+.br
+.ti -1c
+.RI "void \fBfree\fP ()"
+.br
+.ti -1c
+.RI "template<int ind> typeOf< ind >::\fBtype\fP * \fBget\fP ()"
+.br
+.ti -1c
+.RI "template<int ind> std::add_const_t< typename typeOf< ind >::\fBtype\fP > * \fBget\fP () const"
+.br
+.ti -1c
+.RI "Head & \fBhead\fP ()"
+.br
+.RI "The head element\&. "
+.ti -1c
+.RI "const Head & \fBhead\fP () const"
+.br
+.RI "The head element\&. "
+.ti -1c
+.RI "template<typename T , std::enable_if_t< std::is_same< Head, T >::value > *  = nullptr> constexpr int \fBindexOf\fP (Head const &elem)"
+.br
+.ti -1c
+.RI "template<typename T , std::enable_if_t<!std::is_same< Head, T >::value > *  = nullptr> constexpr int \fBindexOf\fP (T const &elem)"
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBtype\fP const &other) const"
+.br
+.ti -1c
+.RI "constexpr size_t \fBsize\fP () const"
+.br
+.ti -1c
+.RI "\fBinherited\fP & \fBtail\fP ()"
+.br
+.RI "All elements except the first one\&. "
+.ti -1c
+.RI "const \fBinherited\fP & \fBtail\fP () const"
+.br
+.RI "All elements except the first one\&. "
+.ti -1c
+.RI "\fBTuple\fP ()=delete"
+.br
+.RI "Issue a compiler error if tuple not constructed with enough elements\&. "
+.ti -1c
+.RI "template<typename\&.\&.\&. VariadicValues> \fBTuple\fP (Head &&\fBhead\fP, VariadicValues &&\&.\&.\&. \fBtail\fP)"
+.br
+.ti -1c
+.RI "template<typename\&.\&.\&. VariadicValues> \fBTuple\fP (Head const &\fBhead\fP, VariadicValues\&.\&.\&. \fBtail\fP)"
+.br
+.ti -1c
+.RI "template<typename T , std::enable_if_t< std::is_same< type, typename Tuple< T >::template ofSize< _size >::type >::value > *  = nullptr> \fBTuple\fP (T **tptr)"
+.br
+.ti -1c
+.RI "\fBTuple\fP (\fBtype\fP const &other)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "Head \fB_head\fP"
+.br
+.in -1c
+.SS "Private Types"
+
+.in +1c
+.ti -1c
+.RI "using \fBinherited\fP = \fBTuple\fP< Tail\&.\&.\&. >"
+.br
+.RI "The type if the tuple this tuple inherits from\&. "
+.ti -1c
+.RI "using \fBtype\fP = \fBTuple\fP< Head, Tail\&.\&.\&. >"
+.br
+.RI "The type of the tuple\&. "
+.in -1c
+.SS "Static Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "static constexpr size_t \fB_size\fP = 1 + sizeof\&.\&.\&.(Tail)"
+.br
+.RI "The size of the tuple\&. "
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename Head, typename\&.\&.\&. Tail>
+.br
+class Tuple< Head, Tail\&.\&.\&. >"
+
+.PP
+Definition at line 71 of file Tuple\&.hpp\&.
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<typename Head , typename\&.\&.\&. Tail> using \fBTuple\fP< Head, Tail\&.\&.\&. >::\fBinherited\fP =  \fBTuple\fP<Tail\&.\&.\&.>\fC [private]\fP"
+
+.PP
+The type if the tuple this tuple inherits from\&. 
+.PP
+Definition at line 76 of file Tuple\&.hpp\&.
+.SS "template<typename Head , typename\&.\&.\&. Tail> using \fBTuple\fP< Head, Tail\&.\&.\&. >::\fBtype\fP =  \fBTuple\fP<Head, Tail\&.\&.\&.>\fC [private]\fP"
+
+.PP
+The type of the tuple\&. 
+.PP
+Definition at line 74 of file Tuple\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename Head , typename\&.\&.\&. Tail> \fBTuple\fP< Head, Tail\&.\&.\&. >::\fBTuple\fP ()\fC [delete]\fP"
+
+.PP
+Issue a compiler error if tuple not constructed with enough elements\&. 
+.SS "template<typename Head , typename\&.\&.\&. Tail> template<typename\&.\&.\&. VariadicValues> \fBTuple\fP< Head, Tail\&.\&.\&. >::\fBTuple\fP (Head const & head, VariadicValues\&.\&.\&. tail)\fC [inline]\fP"
+
+.PP
+Definition at line 133 of file Tuple\&.hpp\&.
+.PP
+.nf
+134       : _head(head), inherited(tail\&.\&.\&.) {}
+.fi
+.SS "template<typename Head , typename\&.\&.\&. Tail> template<typename\&.\&.\&. VariadicValues> \fBTuple\fP< Head, Tail\&.\&.\&. >::\fBTuple\fP (Head && head, VariadicValues &&\&.\&.\&. tail)\fC [inline]\fP"
+
+.PP
+Definition at line 137 of file Tuple\&.hpp\&.
+.PP
+.nf
+138       : _head(std::move(head)), inherited(tail\&.\&.\&.) {}
+.fi
+.SS "template<typename Head , typename\&.\&.\&. Tail> template<typename T , std::enable_if_t< std::is_same< type, typename Tuple< T >::template ofSize< _size >::type >::value > *  = nullptr> \fBTuple\fP< Head, Tail\&.\&.\&. >::\fBTuple\fP (T ** tptr)\fC [inline]\fP"
+
+.PP
+Definition at line 167 of file Tuple\&.hpp\&.
+.PP
+.nf
+167 : _head(**tptr), inherited(tptr + 1) {}
+.fi
+.SS "template<typename Head , typename\&.\&.\&. Tail> \fBTuple\fP< Head, Tail\&.\&.\&. >::\fBTuple\fP (\fBtype\fP const & other)\fC [inline]\fP"
+
+.PP
+Definition at line 169 of file Tuple\&.hpp\&.
+.PP
+.nf
+169 : _head(other\&.head()), inherited(other\&.tail()) {}
+.fi
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename Head , typename\&.\&.\&. Tail> template<typename T , std::enable_if_t< std::is_same< type, typename Tuple< std::remove_reference_t< T >>::template ofSize< _size >::type >::value > *  = nullptr> T const* \fBTuple\fP< Head, Tail\&.\&.\&. >::at (int ind) const\fC [inline]\fP"
+
+.PP
+Definition at line 103 of file Tuple\&.hpp\&.
+.PP
+.nf
+103                              {
+104     if (ind == 0)
+105       return &head();
+106     else
+107       return tail()\&.template at<T>(ind - 1);
+108   }
+.fi
+.SS "template<typename Head , typename\&.\&.\&. Tail> void \fBTuple\fP< Head, Tail\&.\&.\&. >::free ()\fC [inline]\fP"
+
+.PP
+Definition at line 201 of file Tuple\&.hpp\&.
+.PP
+.nf
+201               {
+202     delete[] _head;
+203     tail()\&.free();
+204   }
+.fi
+.SS "template<typename Head , typename\&.\&.\&. Tail> template<int ind> typeOf<ind>::\fBtype\fP* \fBTuple\fP< Head, Tail\&.\&.\&. >::get ()\fC [inline]\fP"
+
+.PP
+Definition at line 110 of file Tuple\&.hpp\&.
+.PP
+.nf
+110                                                      {
+111     if (ind <= 0)
+112       return reinterpret_cast<typename typeOf<ind>::type *>(&head());
+113     return reinterpret_cast<typename typeOf<ind>::type *>(
+114         tail()\&.template get<ind - 1>());
+115   }
+.fi
+.PP
+References Tuple< Tail >::get()\&.
+.SS "template<typename Head , typename\&.\&.\&. Tail> template<int ind> std::add_const_t<typename typeOf<ind>::\fBtype\fP>* \fBTuple\fP< Head, Tail\&.\&.\&. >::get () const\fC [inline]\fP"
+
+.PP
+Definition at line 91 of file Tuple\&.hpp\&.
+.PP
+.nf
+91                                                                            {
+92     if (ind <= 0)
+93       return reinterpret_cast<std::add_const_t<typename typeOf<ind>::type> *>(
+94           &head());
+95     return reinterpret_cast<std::add_const_t<typename typeOf<ind>::type> *>(
+96         tail()\&.template get<ind - 1>());
+97   }
+.fi
+.PP
+References Tuple< Tail >::get()\&.
+.SS "template<typename Head , typename\&.\&.\&. Tail> Head& \fBTuple\fP< Head, Tail\&.\&.\&. >::head ()\fC [inline]\fP"
+
+.PP
+The head element\&. 
+.PP
+Definition at line 172 of file Tuple\&.hpp\&.
+.PP
+.nf
+172 { return _head; }
+.fi
+.PP
+Referenced by operator<<(), and operator==()\&.
+.SS "template<typename Head , typename\&.\&.\&. Tail> const Head& \fBTuple\fP< Head, Tail\&.\&.\&. >::head () const\fC [inline]\fP"
+
+.PP
+The head element\&. 
+.PP
+Definition at line 189 of file Tuple\&.hpp\&.
+.PP
+.nf
+189 { return _head; }
+.fi
+.SS "template<typename Head , typename\&.\&.\&. Tail> template<typename T , std::enable_if_t< std::is_same< Head, T >::value > *  = nullptr> constexpr int \fBTuple\fP< Head, Tail\&.\&.\&. >::indexOf (Head const & elem)\fC [inline]\fP, \fC [constexpr]\fP"
+
+.PP
+Definition at line 183 of file Tuple\&.hpp\&.
+.PP
+.nf
+183                                           {
+184     int ind = elem == head() ? 0 : 1 + tail()\&.template indexOf<T>(elem);
+185     return ind > size() || ind < 0 ? -2 : ind;
+186   }
+.fi
+.PP
+References Tuple< Tail >::size()\&.
+.SS "template<typename Head , typename\&.\&.\&. Tail> template<typename T , std::enable_if_t<!std::is_same< Head, T >::value > *  = nullptr> constexpr int \fBTuple\fP< Head, Tail\&.\&.\&. >::indexOf (T const & elem)\fC [inline]\fP, \fC [constexpr]\fP"
+
+.PP
+Definition at line 176 of file Tuple\&.hpp\&.
+.PP
+.nf
+176                                        {
+177     int ind = 1 + tail()\&.template indexOf<T>(elem);
+178     return ind >= size() || ind < 0 ? -2 : ind;
+179   }
+.fi
+.PP
+References Tuple< Tail >::size()\&.
+.SS "template<typename Head , typename\&.\&.\&. Tail> bool \fBTuple\fP< Head, Tail\&.\&.\&. >::operator== (\fBtype\fP const & other) const\fC [inline]\fP"
+
+.PP
+Definition at line 197 of file Tuple\&.hpp\&.
+.PP
+.nf
+197                                            {
+198     return head() == other\&.head() && tail() == other\&.tail();
+199   }
+.fi
+.PP
+References head(), and tail()\&.
+.SS "template<typename Head , typename\&.\&.\&. Tail> constexpr size_t \fBTuple\fP< Head, Tail\&.\&.\&. >::size () const\fC [inline]\fP, \fC [constexpr]\fP"
+
+.PP
+Definition at line 89 of file Tuple\&.hpp\&.
+.PP
+.nf
+89 { return _size; }
+.fi
+.PP
+References Tuple< Tail >::_size\&.
+.PP
+Referenced by operator<<()\&.
+.SS "template<typename Head , typename\&.\&.\&. Tail> \fBinherited\fP& \fBTuple\fP< Head, Tail\&.\&.\&. >::tail ()\fC [inline]\fP"
+
+.PP
+All elements except the first one\&. 
+.PP
+Definition at line 192 of file Tuple\&.hpp\&.
+.PP
+.nf
+192 { return *this; }
+.fi
+.PP
+Referenced by operator<<(), and operator==()\&.
+.SS "template<typename Head , typename\&.\&.\&. Tail> const \fBinherited\fP& \fBTuple\fP< Head, Tail\&.\&.\&. >::tail () const\fC [inline]\fP"
+
+.PP
+All elements except the first one\&. 
+.PP
+Definition at line 195 of file Tuple\&.hpp\&.
+.PP
+.nf
+195 { return *this; }
+.fi
+.SH "Member Data Documentation"
+.PP 
+.SS "template<typename Head , typename\&.\&.\&. Tail> Head \fBTuple\fP< Head, Tail\&.\&.\&. >::_head\fC [protected]\fP"
+
+.PP
+Definition at line 207 of file Tuple\&.hpp\&.
+.SS "template<typename Head , typename\&.\&.\&. Tail> constexpr size_t \fBTuple\fP< Head, Tail\&.\&.\&. >::_size = 1 + sizeof\&.\&.\&.(Tail)\fC [static]\fP, \fC [constexpr]\fP, \fC [private]\fP"
+
+.PP
+The size of the tuple\&. 
+.PP
+Definition at line 78 of file Tuple\&.hpp\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

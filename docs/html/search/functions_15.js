@@ -1,0 +1,5 @@
+var searchData=
+[
+  ['what_677',['what',['../classInvalidArgumentException_a75d0c4c870be09b8473cb17b6cb27f3a.html#a75d0c4c870be09b8473cb17b6cb27f3a',1,'InvalidArgumentException::what()'],['../classNoValueException_ae546992311695ca3f54de0ff08c3c95b.html#ae546992311695ca3f54de0ff08c3c95b',1,'NoValueException::what()'],['../classReachedEndOfStreamException_af5b423b463bd4fb7ac22ab8c6bdc4078.html#af5b423b463bd4fb7ac22ab8c6bdc4078',1,'ReachedEndOfStreamException::what()'],['../classWrongTokenTypeException_a1128edaa0b5b8fd644c7686a3b4a2543.html#a1128edaa0b5b8fd644c7686a3b4a2543',1,'WrongTokenTypeException::what()']]],
+  ['wrongtokentypeexception_678',['WrongTokenTypeException',['../classWrongTokenTypeException_ad23fc1238a621784ab068e41b67472c3.html#ad23fc1238a621784ab068e41b67472c3',1,'WrongTokenTypeException::WrongTokenTypeException(const char *_msg)'],['../classWrongTokenTypeException_a8884730cdf5a6b45c10797516d6ed594.html#a8884730cdf5a6b45c10797516d6ed594',1,'WrongTokenTypeException::WrongTokenTypeException(WrongTokenTypeException const &amp;other)']]]
+];

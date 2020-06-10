@@ -1,0 +1,629 @@
+.TH "LinkedList< A >" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+LinkedList< A > \- An implementation of a singly-linked list\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <LinkedList\&.hpp>\fP
+.PP
+Inherits \fBIList< A >\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBappend\fP (A const &elem) override"
+.br
+.RI "Appends the given element to the list\&. "
+.ti -1c
+.RI "void \fBappendAll\fP (\fBLinkedList\fP< A > const &l)"
+.br
+.RI "Append all elements of the given list to this one\&. "
+.ti -1c
+.RI "void \fBclear\fP () override"
+.br
+.RI "Clears the list\&. "
+.ti -1c
+.RI "bool \fBcontains\fP (A const &elem) const override"
+.br
+.RI "Returns true if the given element is contained in the list\&. "
+.ti -1c
+.RI "A \fBget\fP (unsigned index) const override"
+.br
+.RI "Returns the value at the index\&. "
+.ti -1c
+.RI "std::unique_ptr< \fBNullable\fP< A > > \fBhead\fP () const"
+.br
+.RI "Return the first element of the list\&. "
+.ti -1c
+.RI "void \fBinsert\fP (A const &elem, unsigned at) override"
+.br
+.RI "Inserts the given element in the list at the specified position\&. "
+.ti -1c
+.RI "std::unique_ptr< \fBNullable\fP< A > > \fBlast\fP () const"
+.br
+.RI "Return the last element of the list\&. "
+.ti -1c
+.RI "unsigned int \fBlength\fP () const override"
+.br
+.RI "Returns the amount of elements contained in the list\&. "
+.ti -1c
+.RI "\fBLinkedList\fP ()"
+.br
+.ti -1c
+.RI "std::unique_ptr< \fBNullable\fP< A > > \fBpop\fP () override"
+.br
+.RI "Removes the last element of the list, if any, and returns it\&. "
+.ti -1c
+.RI "void \fBprepend\fP (A const &elem) override"
+.br
+.RI "Prepends the given element to the list\&. "
+.ti -1c
+.RI "void \fBprependAll\fP (\fBLinkedList\fP< A > const &l)"
+.br
+.RI "Prepend all elements of the given list to this one\&. "
+.ti -1c
+.RI "unsigned \fBremove\fP (const A &elem) override"
+.br
+.RI "Remove the first occurence of the given element in the list\&. "
+.ti -1c
+.RI "std::unique_ptr< \fBNullable\fP< A > > \fBremoveAt\fP (unsigned at) override"
+.br
+.RI "Removes the value associated with the given index, if any, and returns it\&. "
+.ti -1c
+.RI "std::unique_ptr< \fBNullable\fP< A > > \fBshift\fP () override"
+.br
+.RI "Removes the first element of the list, if any, and returns it\&. "
+.ti -1c
+.RI "\fB~LinkedList\fP ()"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBNode\fP< A > * \fB_head\fP"
+.br
+.ti -1c
+.RI "\fBNode\fP< A > * \fB_last\fP"
+.br
+.ti -1c
+.RI "int \fBelemCount\fP {}"
+.br
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBfree\fP ()"
+.br
+.RI "Free all nodes created by this list\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class A>
+.br
+class LinkedList< A >"
+An implementation of a singly-linked list\&. 
+.PP
+Definition at line 21 of file LinkedList\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class A > \fBLinkedList\fP< A >::\fBLinkedList\fP ()\fC [inline]\fP"
+
+.PP
+Definition at line 43 of file LinkedList\&.hpp\&.
+.PP
+.nf
+43                {
+44     _head = nullptr;
+45     _last = nullptr;
+46   }
+.fi
+.PP
+References LinkedList< A >::_head, and LinkedList< A >::_last\&.
+.SS "template<class A > \fBLinkedList\fP< A >::~\fBLinkedList\fP ()\fC [inline]\fP"
+
+.PP
+Definition at line 52 of file LinkedList\&.hpp\&.
+.PP
+.nf
+52 { free(); }
+.fi
+.PP
+References LinkedList< A >::free()\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class A > void \fBLinkedList\fP< A >::append (A const & elem)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Appends the given element to the list\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 48 of file LinkedList\&.hpp\&.
+.PP
+.nf
+48 { insert(elem, length()); }
+.fi
+.PP
+References LinkedList< A >::insert(), and LinkedList< A >::length()\&.
+.PP
+Referenced by LinkedList< A >::appendAll()\&.
+.SS "template<class A > void \fBLinkedList\fP< A >::appendAll (\fBLinkedList\fP< A > const & l)\fC [inline]\fP"
+
+.PP
+Append all elements of the given list to this one\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIl\fP the list to append 
+.RE
+.PP
+
+.PP
+Definition at line 85 of file LinkedList\&.hpp\&.
+.PP
+.nf
+85                                          {
+86     for (int i = 0; i < l\&.length(); i++) {
+87       append(l\&.get(i));
+88     }
+89   }
+.fi
+.PP
+References LinkedList< A >::append(), LinkedList< A >::get(), and LinkedList< A >::length()\&.
+.SS "template<class A > void \fBLinkedList\fP< A >::clear ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Clears the list\&. 
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 172 of file LinkedList\&.hpp\&.
+.PP
+.nf
+172 { free(); }
+.fi
+.PP
+References LinkedList< A >::free()\&.
+.SS "template<class A > bool \fBLinkedList\fP< A >::contains (A const & elem) const\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Returns true if the given element is contained in the list\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element to search for 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+if the element is contained 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 133 of file LinkedList\&.hpp\&.
+.PP
+.nf
+133                                               {
+134     Node<A> *cur = _head;
+135     while (cur != nullptr) {
+136       if (cur->elem == elem)
+137         return true;
+138       cur = cur->next;
+139     }
+140     return false;
+141   }
+.fi
+.PP
+References LinkedList< A >::_head, Node< A >::elem, and Node< A >::next\&.
+.SS "template<class A > void \fBLinkedList\fP< A >::free ()\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Free all nodes created by this list\&. 
+.PP
+Definition at line 24 of file LinkedList\&.hpp\&.
+.PP
+.nf
+24               {
+25     Node<A> *cur = _head;
+26     while (cur != nullptr) {
+27       Node<A> *next = cur->next;
+28       delete cur;
+29       cur = next;
+30     }
+31     _head = nullptr;
+32     _last = nullptr;
+33     elemCount = 0;
+34   }
+.fi
+.PP
+References LinkedList< A >::_head, LinkedList< A >::_last, LinkedList< A >::elemCount, and Node< A >::next\&.
+.PP
+Referenced by LinkedList< A >::clear(), and LinkedList< A >::~LinkedList()\&.
+.SS "template<class A > A \fBLinkedList\fP< A >::get (unsigned index) const\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Returns the value at the index\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIindex\fP the index 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the value 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 143 of file LinkedList\&.hpp\&.
+.PP
+.nf
+143                                        {
+144     if (index < 0)
+145       return get(0);
+146     if (index > length() - 1 && length() - 1 > 0)
+147       return get(length() - 1);
+148 
+149     if (index == 0)
+150       return _head->elem;
+151     if (index == length() - 1)
+152       return _last->elem;
+153 
+154     Node<A> *cur = _head;
+155     A value{};
+156     int counter = 0;
+157 
+158     while (cur != nullptr) {
+159       if (counter == index) {
+160         value = cur->elem;
+161         break;
+162       }
+163       cur = cur->next;
+164       counter++;
+165     }
+166 
+167     return value;
+168   }
+.fi
+.PP
+References LinkedList< A >::_head, LinkedList< A >::_last, Node< A >::elem, LinkedList< A >::length(), and Node< A >::next\&.
+.PP
+Referenced by LinkedList< A >::appendAll(), and LinkedList< A >::prependAll()\&.
+.SS "template<class A > std::unique_ptr<\fBNullable\fP<A> > \fBLinkedList\fP< A >::head () const\fC [inline]\fP"
+
+.PP
+Return the first element of the list\&. 
+.PP
+Definition at line 214 of file LinkedList\&.hpp\&.
+.PP
+.nf
+214                                           {
+215     if (_head == nullptr)
+216       return std::make_unique<Null<A>>();
+217     return std::make_unique<NotNull<A>>(_head->elem);
+218   }
+.fi
+.PP
+References LinkedList< A >::_head\&.
+.SS "template<class A > void \fBLinkedList\fP< A >::insert (A const & elem, unsigned at)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Inserts the given element in the list at the specified position\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element 
+.br
+\fIat\fP the position 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 54 of file LinkedList\&.hpp\&.
+.PP
+.nf
+54                                                    {
+55 
+56     if (at < 0)
+57       return;
+58 
+59     if (_head == nullptr) {
+60       Node<A> *s = new Node<A>{elem, nullptr};
+61       _head = _last = s;
+62     } else if (at == 0) {
+63       Node<A> *s = new Node<A>{elem, _head};
+64       _head = s;
+65     } else if (at >= length()) {
+66       Node<A> *s = new Node<A>{elem, nullptr};
+67       _last->next = s;
+68       _last = s;
+69     } else {
+70       Node<A> *cur = _head;
+71       for (int i = 0; i < at - 1; i++) {
+72         cur = cur->next;
+73       }
+74       Node<A> *s = new Node<A>{elem, cur->next};
+75       cur->next = s;
+76     }
+77 
+78     elemCount++;
+79   }
+.fi
+.PP
+References LinkedList< A >::_head, LinkedList< A >::_last, LinkedList< A >::elemCount, LinkedList< A >::length(), and Node< A >::next\&.
+.PP
+Referenced by LinkedList< A >::append(), and LinkedList< A >::prepend()\&.
+.SS "template<class A > std::unique_ptr<\fBNullable\fP<A> > \fBLinkedList\fP< A >::last () const\fC [inline]\fP"
+
+.PP
+Return the last element of the list\&. 
+.PP
+Definition at line 221 of file LinkedList\&.hpp\&.
+.PP
+.nf
+221                                           {
+222     if (_last == nullptr)
+223       return std::make_unique<Null<A>>();
+224     return std::make_unique<NotNull<A>>(_last->elem);
+225   }
+.fi
+.PP
+References LinkedList< A >::_last\&.
+.SS "template<class A > unsigned int \fBLinkedList\fP< A >::length () const\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Returns the amount of elements contained in the list\&. 
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 170 of file LinkedList\&.hpp\&.
+.PP
+.nf
+170 { return elemCount; }
+.fi
+.PP
+References LinkedList< A >::elemCount\&.
+.PP
+Referenced by LinkedList< A >::append(), LinkedList< A >::appendAll(), LinkedList< A >::get(), LinkedList< A >::insert(), LinkedList< A >::pop(), LinkedList< A >::prependAll(), and LinkedList< A >::removeAt()\&.
+.SS "template<class A > std::unique_ptr<\fBNullable\fP<A> > \fBLinkedList\fP< A >::pop ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Removes the last element of the list, if any, and returns it\&. This is done by returning a pointer to a \fBNullable\fP instance\&. It is an instance of \fBNull\fP if the list is empty or an instance of \fBNotNull\fP wrapped around the value\&.
+.PP
+\fBReturns\fP
+.RS 4
+the value, if any 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 209 of file LinkedList\&.hpp\&.
+.PP
+.nf
+209 { return removeAt(length() - 1); }
+.fi
+.PP
+References LinkedList< A >::length(), and LinkedList< A >::removeAt()\&.
+.SS "template<class A > void \fBLinkedList\fP< A >::prepend (A const & elem)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Prepends the given element to the list\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 50 of file LinkedList\&.hpp\&.
+.PP
+.nf
+50 { insert(elem, 0); }
+.fi
+.PP
+References LinkedList< A >::insert()\&.
+.PP
+Referenced by LinkedList< A >::prependAll()\&.
+.SS "template<class A > void \fBLinkedList\fP< A >::prependAll (\fBLinkedList\fP< A > const & l)\fC [inline]\fP"
+
+.PP
+Prepend all elements of the given list to this one\&. Very slow for large lists\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIl\fP the list to prepend 
+.RE
+.PP
+
+.PP
+Definition at line 96 of file LinkedList\&.hpp\&.
+.PP
+.nf
+96                                           {
+97     for (int i = 0; i < l\&.length(); i++) {
+98       prepend(l\&.get(i));
+99     }
+100   }
+.fi
+.PP
+References LinkedList< A >::get(), LinkedList< A >::length(), and LinkedList< A >::prepend()\&.
+.SS "template<class A > unsigned \fBLinkedList\fP< A >::remove (const A & elem)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Remove the first occurence of the given element in the list\&. All following elements are brought back by one index in order to fill the hole left by the removal 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element to remove 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the index of the removed element 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 114 of file LinkedList\&.hpp\&.
+.PP
+.nf
+114                                           {
+115     if (_head == nullptr)
+116       return 0;
+117     unsigned foundAt = 0;
+118     Node<A> *cur = _head;
+119     while (cur != nullptr) {
+120       if (cur->next->elem == elem) {
+121         Node<A> *temp = cur->next;
+122         cur->next = temp->next;
+123         delete temp;
+124         foundAt++;
+125         elemCount--;
+126         break;
+127       }
+128       cur = cur->next;
+129     }
+130     return foundAt;
+131   }
+.fi
+.PP
+References LinkedList< A >::_head, Node< A >::elem, LinkedList< A >::elemCount, and Node< A >::next\&.
+.SS "template<class A > std::unique_ptr<\fBNullable\fP<A> > \fBLinkedList\fP< A >::removeAt (unsigned ind)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Removes the value associated with the given index, if any, and returns it\&. This is done by returning a pointer to a \fBNullable\fP instance\&. It is an instance of \fBNull\fP if the index doesn't exist or an instance of \fBNotNull\fP wrapped around the value\&.
+.PP
+All following elements are moved back by one index to fill the hole left by the removal
+.PP
+\fBParameters\fP
+.RS 4
+\fIindex\fP the index, whose value to remove 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the value, if any 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 174 of file LinkedList\&.hpp\&.
+.PP
+.nf
+174                                                             {
+175     if (_head == nullptr)
+176       return std::make_unique<Null<A>>();
+177     if (at > length() - 1)
+178       return removeAt(length() - 1);
+179 
+180     A ret;
+181     if (at == 0) {
+182       Node<A> *temp = _head;
+183       _head = _head->next;
+184       ret = temp->elem;
+185       delete temp;
+186     } else {
+187       int counter = 0;
+188       Node<A> *cur = _head;
+189       while (cur != nullptr) {
+190         if (counter + 1 == at) {
+191           Node<A> *temp = cur->next;
+192           cur->next = temp->next;
+193           if (at == length() - 1) {
+194             _last = cur;
+195           }
+196           ret = temp->elem;
+197           delete temp;
+198           break;
+199         }
+200         counter++;
+201         cur = cur->next;
+202       }
+203     }
+204 
+205     elemCount--;
+206     return std::make_unique<NotNull<A>>(ret);
+207   }
+.fi
+.PP
+References LinkedList< A >::_head, LinkedList< A >::_last, Node< A >::elem, LinkedList< A >::elemCount, LinkedList< A >::length(), and Node< A >::next\&.
+.PP
+Referenced by LinkedList< A >::pop(), and LinkedList< A >::shift()\&.
+.SS "template<class A > std::unique_ptr<\fBNullable\fP<A> > \fBLinkedList\fP< A >::shift ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Removes the first element of the list, if any, and returns it\&. This is done by returning a pointer to a \fBNullable\fP instance\&. It is an instance of \fBNull\fP if the list is empty or an instance of \fBNotNull\fP wrapped around the value\&.
+.PP
+All following elements are moved back by one index to fill the hole left by the removal
+.PP
+\fBReturns\fP
+.RS 4
+the value, if any 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 211 of file LinkedList\&.hpp\&.
+.PP
+.nf
+211 { return removeAt(0); }
+.fi
+.PP
+References LinkedList< A >::removeAt()\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "template<class A > \fBNode\fP<A>* \fBLinkedList\fP< A >::_head\fC [protected]\fP"
+
+.PP
+Definition at line 37 of file LinkedList\&.hpp\&.
+.PP
+Referenced by LinkedList< A >::contains(), LinkedList< A >::free(), LinkedList< A >::get(), LinkedList< A >::head(), LinkedList< A >::insert(), LinkedList< A >::LinkedList(), LinkedList< A >::remove(), and LinkedList< A >::removeAt()\&.
+.SS "template<class A > \fBNode\fP<A>* \fBLinkedList\fP< A >::_last\fC [protected]\fP"
+
+.PP
+Definition at line 38 of file LinkedList\&.hpp\&.
+.PP
+Referenced by LinkedList< A >::free(), LinkedList< A >::get(), LinkedList< A >::insert(), LinkedList< A >::last(), LinkedList< A >::LinkedList(), and LinkedList< A >::removeAt()\&.
+.SS "template<class A > int \fBLinkedList\fP< A >::elemCount {}\fC [protected]\fP"
+
+.PP
+Definition at line 40 of file LinkedList\&.hpp\&.
+.PP
+Referenced by LinkedList< A >::free(), LinkedList< A >::insert(), LinkedList< A >::length(), LinkedList< A >::remove(), and LinkedList< A >::removeAt()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

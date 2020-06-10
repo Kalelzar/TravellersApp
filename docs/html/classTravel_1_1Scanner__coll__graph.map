@@ -1,0 +1,13 @@
+<map id="Travel::Scanner" name="Travel::Scanner">
+<area shape="rect" id="node1" title="A general&#45;purpose scanner that can be adopted to scan most forms of structured text files." alt="" coords="1147,105,1259,132"/>
+<area shape="rect" id="node2" title="STL class." alt="" coords="949,59,1039,85"/>
+<area shape="rect" id="node3" title="STL class." alt="" coords="640,6,767,47"/>
+<area shape="rect" id="node4" title="STL class." alt="" coords="226,5,377,32"/>
+<area shape="rect" id="node5" title="STL class." alt="" coords="23,5,122,32"/>
+<area shape="rect" id="node6" href="$classTravel_1_1CommandList.html" title="This class represents a list of unique, reserved keywords for the scanner." alt="" coords="921,149,1067,176"/>
+<area shape="rect" id="node7" href="$classHashMap.html" title=" " alt="" coords="620,145,787,186"/>
+<area shape="rect" id="node8" href="$structEntry.html" title="An Entry describes a key&#45;value pair." alt="" coords="5,229,140,256"/>
+<area shape="rect" id="node9" href="$classHashMap.html" title="A generic implementation of a HashMap." alt="" coords="220,163,383,189"/>
+<area shape="rect" id="node10" href="$classHashMap.html" title=" " alt="" coords="625,79,782,121"/>
+<area shape="rect" id="node11" href="$classHashMap.html" title=" " alt="" coords="620,210,787,251"/>
+</map>

@@ -1,0 +1,58 @@
+.TH "TravellersApp/src/collection/ArrayList.hpp" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+TravellersApp/src/collection/ArrayList.hpp
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <functional>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <memory>\fP
+.br
+\fC#include '\&.\&./InvalidArgumentException\&.hpp'\fP
+.br
+\fC#include '\&.\&./debug\&.hpp'\fP
+.br
+\fC#include '\&.\&./Nullable\&.hpp'\fP
+.br
+\fC#include 'IList\&.hpp'\fP
+.br
+\fC#include 'Tuple\&.hpp'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBArrayList< A >\fP"
+.br
+.RI "An implementation of a list backed by a resizable array\&. "
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename A > static std::ostream & \fBoperator<<\fP (std::ostream &out, \fBArrayList\fP< A > list)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "template<typename A > static std::ostream& operator<< (std::ostream & out, \fBArrayList\fP< A > list)\fC [static]\fP"
+
+.PP
+Definition at line 538 of file ArrayList\&.hpp\&.
+.PP
+.nf
+538                                                                   {
+539   list\&.foreach ([&out](A const &a) { out << a << " "; });
+540   return out;
+541 }
+.fi
+.PP
+References ArrayList< A >::foreach()\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

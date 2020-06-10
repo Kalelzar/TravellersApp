@@ -5,45 +5,56 @@
 #ifndef TRAVELLERAPP_VISITINTERPRETER_HPP
 #define TRAVELLERAPP_VISITINTERPRETER_HPP
 
-#include "Interpreter.hpp"
-#include "Token.hpp"
-#include "../ReachedEndOfStreamException.hpp"
-#include "../WrongTokenTypeException.hpp"
 #include "../InvalidArgumentException.hpp"
+#include "../ReachedEndOfStreamException.hpp"
 #include "../TravelState.hpp"
 #include "../VisitBuilder.hpp"
+#include "../WrongTokenTypeException.hpp"
 #include "CommandList.hpp"
+#include "Interpreter.hpp"
+#include "Token.hpp"
+#include <cstdlib>
 #include <cstring>
 #include <iostream>
-#include <cstdlib>
 
 namespace Travel {
 
-    class VisitInterpreter : public Interpreter<VisitBuilder>{
+/**
+ * An interpreter for the visit mode started by
+ * the visit <destination> command.
+ */
+class VisitInterpreter : public Interpreter<VisitBuilder> {
 
-    private:
-        bool general(VisitBuilder& vb);
-        void from(VisitBuilder& vb);
-        void to(VisitBuilder& vb);
-        void rate(VisitBuilder& vb);
-        void comment(VisitBuilder& vb);
+private:
+  /// Interprets all commands not part of a prefix.
+  /// (from, to, rate, comment)
+  bool general(VisitBuilder &vb);
+  /// Interprets the from command.
+  void from(VisitBuilder &vb);
+  /// Interprets the to command.
+  void to(VisitBuilder &vb);
+  /// Interprets the rate command.
+  void rate(VisitBuilder &vb);
+  /// Interprets the comment command
+  void comment(VisitBuilder &vb);
 
-        void photo(VisitBuilder& vb);
-        void photoDelete(VisitBuilder& vb);
-        void photoShow(VisitBuilder& vb);
-        void photoUpload(VisitBuilder& vb);
+  /// Interprets all commands that are part of the photo prefix.
+  ///(delete, show, upload)
+  void photo(VisitBuilder &vb);
+  /// Interprets the photo delete command.
+  void photoDelete(VisitBuilder &vb);
+  /// Interprets the photo show command.
+  void photoShow(VisitBuilder &vb);
+  /// Interprets the photo upload command.
+  void photoUpload(VisitBuilder &vb);
 
+public:
+  /// Parses the provided tokens into the given {@link Travel::VisitBuilder}
+  bool parse(VisitBuilder &state) override;
 
+  /// Inherits the constructors of Interpreter
+  using Interpreter::Interpreter;
+};
 
-
-    public:
-
-        bool parse(VisitBuilder &state) override;
-
-        using Interpreter::Interpreter;
-
-
-    };
-
-}
-#endif //TRAVELLERAPP_VISITINTERPRETER_HPP
+} // namespace Travel
+#endif // TRAVELLERAPP_VISITINTERPRETER_HPP

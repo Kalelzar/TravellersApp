@@ -1,0 +1,24 @@
+.TH "bug" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+bug \- Bug List 
+
+.IP "\fBMember \fBTuple< Tail >::get\fP ()\fP" 1c
+if the element overloads operator& this breaks\&. Horribly  
+.IP "\fBMember \fBTuple< Tail >::get\fP () const\fP" 1c
+if the element overloads operator& this breaks\&. Horribly  
+.IP "\fBClass \fBCSV< Types >\fP \fP" 1c
+It ignores the actual header names inside the file\&. It just cares about their count\&.  
+.IP "\fBMember \fBCSV< Types >::load\fP (const char *filepath)\fP" 1c
+Ignores the header\&. 
+.PP
+This doesn't really work as advertised\&. It doesn't check if each row contains the exact amount of columns as this class\&. Rather it checks that the total number of separate entries (including the header) is evenly divisible by the amount of columns\&. EXAMPLE: Assuming that this class expects a file like this 
+.IP "\fBClass \fBSimpleString\fP \fP" 1c
+Because of the \fBHashMap\fP workaround trying to retrieve \fBSimpleString\fP from \fBTuple\fP via the \fBTuple::get\fP method will fail as it will attempt to reinterpret_cast a char* to SimpleString*\&.  
+.IP "\fBMember \fBSimpleString::operator&\fP ()\fP" 1c
+Messes up \fBTuple::get\fP\&.  
+.IP "\fBMember \fBSimpleString::operator&\fP () const\fP" 1c
+Messes up \fBTuple::get\fP\&. 
+.PP
+

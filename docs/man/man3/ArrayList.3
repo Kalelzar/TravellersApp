@@ -1,0 +1,1350 @@
+.TH "ArrayList< A >" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ArrayList< A > \- An implementation of a list backed by a resizable array\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ArrayList\&.hpp>\fP
+.PP
+Inherits \fBIList< A >\fP\&.
+.PP
+Inherited by \fBArraySet< A >\fP, \fBSortedArrayList< A >\fP, and \fBStack< A >\fP\fC [private]\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBappend\fP (A &&elem) override"
+.br
+.RI "Appends the given element to the list\&. "
+.ti -1c
+.RI "void \fBappend\fP (A const &elem) override"
+.br
+.RI "Appends the given element to the list\&. "
+.ti -1c
+.RI "void \fBappendAll\fP (\fBArrayList\fP< A > const &l)"
+.br
+.RI "Append all elements of the given list to this one\&. "
+.ti -1c
+.RI "\fBArrayList\fP ()"
+.br
+.ti -1c
+.RI "\fBArrayList\fP (\fBArrayList\fP< A > const &other)"
+.br
+.ti -1c
+.RI "\fBArrayList\fP (unsigned \fBreserved\fP)"
+.br
+.RI "Preallocate memory for the given amount of elements\&. "
+.ti -1c
+.RI "unsigned \fBcapacity\fP () const"
+.br
+.RI "return the current maximum capacity of the array "
+.ti -1c
+.RI "void \fBclear\fP () override"
+.br
+.RI "Clears the list\&. "
+.ti -1c
+.RI "bool \fBcontains\fP (A const &elem) const override"
+.br
+.RI "Returns true if the given element is contained in the list\&. "
+.ti -1c
+.RI "std::unique_ptr< \fBArrayList\fP< A > > \fBdifference\fP (\fBArrayList\fP< A > const &list) const"
+.br
+.RI "Returns the set difference of this list and the provided one\&. "
+.ti -1c
+.RI "std::unique_ptr< \fBArrayList\fP< A > > \fBdistinct\fP () const"
+.br
+.RI "Construct a new list using the elements of this one but ensuring that the elements of the new list are distinct\&. "
+.ti -1c
+.RI "void \fBexpand\fP ()"
+.br
+.RI "Double the capacity of the array\&. "
+.ti -1c
+.RI "void \fBfill\fP ()"
+.br
+.RI "Fill the array with elements created with the default constructor\&. "
+.ti -1c
+.RI "void \fBfill\fP (A const &elem)"
+.br
+.RI "Fill the entire array with the given element\&. "
+.ti -1c
+.RI "std::unique_ptr< \fBArrayList\fP< A > > \fBfilter\fP (std::function< bool(const A &)> predicate) const"
+.br
+.RI "Return a new \fBArrayList\fP containing all elements in the current list that match the provided predicate\&. "
+.ti -1c
+.RI "int \fBfind\fP (std::function< bool(const A &)> predicate) const"
+.br
+.ti -1c
+.RI "template<typename B , typename  = std::enable_if_t<std::is_base_of<IList<B>, A>::value>> std::unique_ptr< \fBArrayList\fP< B > > \fBflatten\fP ()"
+.br
+.RI "Convert a list of lists into a single list containing all elements of the previously contained lists\&. "
+.ti -1c
+.RI "A \fBfold\fP (A start, std::function< A(const A &, const A &)> biconsumer)"
+.br
+.RI "Return the result of applying the provided function to the result of the previous application or the provided starting value and the next element in the list until all the elements of the list have been consumed\&. "
+.ti -1c
+.RI "void \fBforeach\fP (std::function< void(const A &)> consumer) const"
+.br
+.RI "Applies the provided function to each element of the list in order\&. "
+.ti -1c
+.RI "A & \fBget\fP (unsigned index) const override"
+.br
+.RI "Returns the value at the index\&. "
+.ti -1c
+.RI "void \fBinsert\fP (A &&elem, unsigned at) override"
+.br
+.RI "Inserts the given element in the list at the specified position\&. "
+.ti -1c
+.RI "void \fBinsert\fP (A const &elem, unsigned at) override"
+.br
+.RI "Inserts the given element in the list at the specified position\&. "
+.ti -1c
+.RI "std::unique_ptr< \fBArrayList\fP< A > > \fBintersection\fP (\fBArrayList\fP< A > const &list) const"
+.br
+.RI "Returns the set intersection of this list and the provided one\&. "
+.ti -1c
+.RI "unsigned \fBlength\fP () const final"
+.br
+.RI "return the amount of elements currently in the array "
+.ti -1c
+.RI "template<typename B > std::unique_ptr< \fBArrayList\fP< B > > \fBmap\fP (std::function< B(const A &)> mapper) const"
+.br
+.RI "Return a new \fBArrayList\fP containing the result of applying the provided mapping function to each element of the list in order\&. "
+.ti -1c
+.RI "\fBArrayList\fP< A > & \fBoperator=\fP (\fBArrayList\fP< A > const &other)"
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBArrayList\fP< A > const &other)"
+.br
+.ti -1c
+.RI "std::unique_ptr< \fBNullable\fP< A > > \fBpop\fP () override"
+.br
+.RI "Removes the last element of the list, if any, and returns it\&. "
+.ti -1c
+.RI "void \fBprepend\fP (A &&elem) override"
+.br
+.RI "Prepends the given element to the list\&. "
+.ti -1c
+.RI "void \fBprepend\fP (A const &elem) override"
+.br
+.RI "Prepends the given element to the list\&. "
+.ti -1c
+.RI "void \fBprependAll\fP (\fBArrayList\fP< A > const &l)"
+.br
+.RI "Prepend all elements of the given list to this one\&. "
+.ti -1c
+.RI "int \fBremove\fP (const A &elem) override"
+.br
+.RI "Remove the first occurence of the given element in the list\&. "
+.ti -1c
+.RI "std::unique_ptr< \fBNullable\fP< A > > \fBremoveAt\fP (unsigned ind) override"
+.br
+.RI "Removes the value associated with the given index, if any, and returns it\&. "
+.ti -1c
+.RI "std::unique_ptr< \fBNullable\fP< A > > \fBremoveIf\fP (std::function< bool(const A &)> predicate)"
+.br
+.RI "Remove the first element of the list that matches the given predicate, and return it\&. "
+.ti -1c
+.RI "std::unique_ptr< \fBNullable\fP< A > > \fBshift\fP () override"
+.br
+.RI "Removes the first element of the list, if any, and returns it\&. "
+.ti -1c
+.RI "template<int sliceSize> std::unique_ptr< \fBArrayList\fP< typename \fBTuple\fP< A >::template ofSize< sliceSize >::type > > \fBslice\fP ()"
+.br
+.RI "Slices the array in parts of the provided size\&. "
+.ti -1c
+.RI "std::unique_ptr< \fBArrayList\fP< A > > \fBsort\fP (std::function< bool(const A &, const A &)> comparator) const"
+.br
+.RI "Returns a new \fBArrayList\fP containing the elements of this list sorted with the QuickSort algorithm by the provided comparison function\&. "
+.ti -1c
+.RI "template<typename B > std::unique_ptr< \fBArrayList\fP< \fBTuple\fP< A, B > > > \fBzip\fP (\fBArrayList\fP< B > const &list) const"
+.br
+.RI "Return a list of pairs where each pair is composed of the elements of the two lists with the same index\&. "
+.ti -1c
+.RI "\fB~ArrayList\fP ()"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static unsigned \fBgetDefaultReservedSpace\fP ()"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fBelemCount\fP"
+.br
+.ti -1c
+.RI "A ** \fBelems\fP = nullptr"
+.br
+.ti -1c
+.RI "unsigned \fBreserved\fP"
+.br
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBcopy\fP (\fBArrayList\fP< A > const &other)"
+.br
+.RI "Copies another list into this one\&. "
+.ti -1c
+.RI "void \fBcreate\fP (unsigned reserve)"
+.br
+.RI "Initializes the list with the given size\&. "
+.ti -1c
+.RI "void \fBfree\fP ()"
+.br
+.RI "Frees the resizable array\&. "
+.in -1c
+.SS "Static Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename B > static unsigned \fBpartition\fP (std::unique_ptr< \fBArrayList\fP< B >> const &array, unsigned from, unsigned to, std::function< bool(const B &, const B &)> comparator)"
+.br
+.RI "The partition function of the quicksort algorithm\&. "
+.ti -1c
+.RI "template<typename B > static void \fBquickSort\fP (std::unique_ptr< \fBArrayList\fP< B >> const &array, unsigned from, unsigned to, std::function< bool(const B &, const B &)> comparator)"
+.br
+.RI "An implementation of the quicksort algorithm that allows for the use of an arbitrary comparison function\&. "
+.in -1c
+.SS "Static Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "static const unsigned \fBDEFAULT_RESERVED_SPACE\fP = 4"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class A>
+.br
+class ArrayList< A >"
+An implementation of a list backed by a resizable array\&. 
+
+Due to some quirks of the implementation, type A must implement operator==\&. 
+.PP
+Definition at line 22 of file ArrayList\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class A > \fBArrayList\fP< A >::\fBArrayList\fP ()\fC [inline]\fP"
+
+.PP
+Definition at line 117 of file ArrayList\&.hpp\&.
+.PP
+.nf
+117 { create(getDefaultReservedSpace()); }
+.fi
+.SS "template<class A > \fBArrayList\fP< A >::\fBArrayList\fP (unsigned reserved)\fC [inline]\fP, \fC [explicit]\fP"
+
+.PP
+Preallocate memory for the given amount of elements\&. 
+.PP
+Definition at line 141 of file ArrayList\&.hpp\&.
+.PP
+.nf
+141 { create(reserved); }
+.fi
+.SS "template<class A > \fBArrayList\fP< A >::\fBArrayList\fP (\fBArrayList\fP< A > const & other)\fC [inline]\fP"
+
+.PP
+Definition at line 143 of file ArrayList\&.hpp\&.
+.PP
+.nf
+143                                        {
+144     if (&other != this)
+145       copy(other);
+146   }
+.fi
+.SS "template<class A > \fBArrayList\fP< A >::~\fBArrayList\fP ()\fC [inline]\fP"
+
+.PP
+Definition at line 154 of file ArrayList\&.hpp\&.
+.PP
+.nf
+154 { free(); }
+.fi
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class A > void \fBArrayList\fP< A >::append (A && elem)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Appends the given element to the list\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 234 of file ArrayList\&.hpp\&.
+.PP
+.nf
+234 { insert(std::move(elem), length()); }
+.fi
+.SS "template<class A > void \fBArrayList\fP< A >::append (A const & elem)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Appends the given element to the list\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 232 of file ArrayList\&.hpp\&.
+.PP
+.nf
+232 { insert(elem, length()); }
+.fi
+.PP
+Referenced by User::addFriend(), ArrayList< char * >::appendAll(), ArrayList< char * >::fill(), Travel::VisitBuilder::photoAdd(), and Stack< A >::push()\&.
+.SS "template<class A > void \fBArrayList\fP< A >::appendAll (\fBArrayList\fP< A > const & l)\fC [inline]\fP"
+
+.PP
+Append all elements of the given list to this one\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIl\fP the list to append 
+.RE
+.PP
+
+.PP
+Definition at line 134 of file ArrayList\&.hpp\&.
+.PP
+.nf
+134                                         {
+135     for (int i = 0; i < l\&.length(); i++) {
+136       append(l\&.get(i));
+137     }
+138   }
+.fi
+.PP
+Referenced by ArrayList< char * >::copy()\&.
+.SS "template<class A > unsigned \fBArrayList\fP< A >::capacity () const\fC [inline]\fP"
+
+.PP
+return the current maximum capacity of the array 
+.PP
+Definition at line 299 of file ArrayList\&.hpp\&.
+.PP
+.nf
+299 { return reserved; }
+.fi
+.PP
+Referenced by Stack< A >::asList(), ArrayList< char * >::copy(), ArrayList< char * >::expand(), ArrayList< char * >::fill(), ArrayList< char * >::insert(), ArrayList< char * >::map(), ArrayList< char * >::sort(), and ArrayList< char * >::zip()\&.
+.SS "template<class A > void \fBArrayList\fP< A >::clear ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Clears the list\&. 
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 301 of file ArrayList\&.hpp\&.
+.PP
+.nf
+301                         {
+302     free();
+303     create(getDefaultReservedSpace());
+304   }
+.fi
+.PP
+Referenced by Travel::VisitBuilder::clear()\&.
+.SS "template<class A > bool \fBArrayList\fP< A >::contains (A const & elem) const\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Returns true if the given element is contained in the list\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element to search for 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+if the element is contained 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 240 of file ArrayList\&.hpp\&.
+.PP
+.nf
+240                                               {
+241     for (int i = 0; i < length(); i++) {
+242       if (get(i) == elem)
+243         return true;
+244     }
+245     return false;
+246   }
+.fi
+.PP
+Referenced by ArrayList< char * >::difference(), ArrayList< char * >::intersection(), and ArrayList< char * >::operator==()\&.
+.SS "template<class A > void \fBArrayList\fP< A >::copy (\fBArrayList\fP< A > const & other)\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Copies another list into this one\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIother\fP the other list\&. 
+.RE
+.PP
+
+.PP
+Definition at line 55 of file ArrayList\&.hpp\&.
+.PP
+.nf
+55                                        {
+56     // LOG(INFO, "Copying ArrayList");
+57     free();
+58     elems = new A *[other\&.capacity()];
+59     reserved = other\&.capacity();
+60     elemCount = 0;
+61     appendAll(other);
+62   }
+.fi
+.PP
+Referenced by ArrayList< char * >::ArrayList(), and ArrayList< char * >::operator=()\&.
+.SS "template<class A > void \fBArrayList\fP< A >::create (unsigned reserve)\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Initializes the list with the given size\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIreserve\fP the starting size to allocate for the resizable array 
+.RE
+.PP
+
+.PP
+Definition at line 44 of file ArrayList\&.hpp\&.
+.PP
+.nf
+44                                 {
+45     // LOG(INFO, "Creating ArrayList");
+46     elems = new A *[reserve];
+47     reserved = reserve;
+48     elemCount = 0;
+49   }
+.fi
+.PP
+Referenced by ArrayList< char * >::ArrayList(), and ArrayList< char * >::clear()\&.
+.SS "template<class A > std::unique_ptr<\fBArrayList\fP<A> > \fBArrayList\fP< A >::difference (\fBArrayList\fP< A > const & list) const\fC [inline]\fP"
+
+.PP
+Returns the set difference of this list and the provided one\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIlist\fP the other list 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the set difference of the two lists 
+.RE
+.PP
+
+.PP
+Definition at line 486 of file ArrayList\&.hpp\&.
+.PP
+.nf
+486                                                                          {
+487     std::unique_ptr<ArrayList<A>> res = std::make_unique<ArrayList<A>>();
+488     if (length() >= list\&.length()) {
+489       for (int i = 0; i < length(); i++) {
+490         if (!list\&.contains(get(i)))
+491           res->append(get(i));
+492       }
+493       for (int i = 0; i < list\&.length(); i++) {
+494         if (!contains(list\&.get(i)) && !res->contains(list\&.get(i)))
+495           res->append(list\&.get(i));
+496       }
+497       return res;
+498     } else {
+499       return list\&.difference(*this);
+500     }
+501   }
+.fi
+.PP
+Referenced by ArrayList< char * >::difference()\&.
+.SS "template<class A > std::unique_ptr<\fBArrayList\fP<A> > \fBArrayList\fP< A >::distinct () const\fC [inline]\fP"
+
+.PP
+Construct a new list using the elements of this one but ensuring that the elements of the new list are distinct\&. i\&.e comparing any two elements of the newly constructed list via operator== results in false\&. 
+.PP
+\fBReturns\fP
+.RS 4
+the list of distinct elements 
+.RE
+.PP
+
+.PP
+Definition at line 329 of file ArrayList\&.hpp\&.
+.PP
+.nf
+329                                                {
+330     std::unique_ptr<ArrayList<A>> filtered = std::make_unique<ArrayList<A>>();
+331     for (int i = 0; i < length(); i++) {
+332       if (!filtered->contains(get(i))) {
+333         filtered->append(get(i));
+334       }
+335     }
+336     return filtered;
+337   }
+.fi
+.SS "template<class A > void \fBArrayList\fP< A >::expand ()\fC [inline]\fP"
+
+.PP
+Double the capacity of the array\&. 
+.PP
+Definition at line 207 of file ArrayList\&.hpp\&.
+.PP
+.nf
+207                 {
+208     // LOG(VERBOSE, "Expanding array");
+209     unsigned newCapacity = capacity() * 2;
+210     reserved = newCapacity;
+211 
+212     A **newRooms = new A *[newCapacity];
+213 
+214     for (int i = 0; i < length(); i++) {
+215       newRooms[i] = new A(get(i));
+216     }
+217 
+218     free();
+219     elems = newRooms;
+220   }
+.fi
+.PP
+Referenced by ArrayList< char * >::insert()\&.
+.SS "template<class A > void \fBArrayList\fP< A >::fill ()\fC [inline]\fP"
+
+.PP
+Fill the array with elements created with the default constructor\&. 
+.PP
+Definition at line 223 of file ArrayList\&.hpp\&.
+.PP
+.nf
+223 { fill(A{}); }
+.fi
+.PP
+Referenced by ArrayList< char * >::fill()\&.
+.SS "template<class A > void \fBArrayList\fP< A >::fill (A const & elem)\fC [inline]\fP"
+
+.PP
+Fill the entire array with the given element\&. 
+.PP
+Definition at line 226 of file ArrayList\&.hpp\&.
+.PP
+.nf
+226                            {
+227     for (int i = 0; i < capacity(); i++) {
+228       append(elem);
+229     }
+230   }
+.fi
+.SS "template<class A > std::unique_ptr<\fBArrayList\fP<A> > \fBArrayList\fP< A >::filter (std::function< bool(const A &)> predicate) const\fC [inline]\fP"
+
+.PP
+Return a new \fBArrayList\fP containing all elements in the current list that match the provided predicate\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIpredicate\fP the condition that elements need to satisfy 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the filtered list 
+.RE
+.PP
+
+.PP
+Definition at line 313 of file ArrayList\&.hpp\&.
+.PP
+.nf
+313                                                        {
+314     std::unique_ptr<ArrayList<A>> filtered = std::make_unique<ArrayList<A>>();
+315     for (int i = 0; i < length(); i++) {
+316       if (predicate(get(i))) {
+317         filtered->append(get(i));
+318       }
+319     }
+320     return filtered;
+321   }
+.fi
+.SS "template<class A > int \fBArrayList\fP< A >::find (std::function< bool(const A &)> predicate) const\fC [inline]\fP"
+
+.PP
+Definition at line 354 of file ArrayList\&.hpp\&.
+.PP
+.nf
+354                                                          {
+355     for (int i = 0; i < length(); i++) {
+356       if (predicate(get(i))) {
+357         return i;
+358       }
+359     }
+360     return -1;
+361   }
+.fi
+.PP
+Referenced by User::addFriend(), and User::hasFriend()\&.
+.SS "template<class A > template<typename B , typename  = std::enable_if_t<std::is_base_of<IList<B>, A>::value>> std::unique_ptr<\fBArrayList\fP<B> > \fBArrayList\fP< A >::flatten ()\fC [inline]\fP"
+
+.PP
+Convert a list of lists into a single list containing all elements of the previously contained lists\&. 
+.PP
+Definition at line 455 of file ArrayList\&.hpp\&.
+.PP
+.nf
+455                                         {
+456     std::unique_ptr<ArrayList<B>> res = std::make_unique<ArrayList<B>>();
+457     for (int i = 0; i < length(); i++) {
+458       res->appendAll(get(i));
+459     }
+460     return res;
+461   }
+.fi
+.SS "template<class A > A \fBArrayList\fP< A >::fold (A start, std::function< A(const A &, const A &)> biconsumer)\fC [inline]\fP"
+
+.PP
+Return the result of applying the provided function to the result of the previous application or the provided starting value and the next element in the list until all the elements of the list have been consumed\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstart\fP the starting value 
+.br
+\fIbiconsumer\fP the function to apply 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the result of the application 
+.RE
+.PP
+
+.PP
+Definition at line 425 of file ArrayList\&.hpp\&.
+.PP
+.nf
+425                                                                    {
+426     for (int i = 0; i < length(); i++) {
+427       start = biconsumer(start, get(i));
+428     }
+429     return start;
+430   }
+.fi
+.SS "template<class A > void \fBArrayList\fP< A >::foreach (std::function< void(const A &)> consumer) const\fC [inline]\fP"
+
+.PP
+Applies the provided function to each element of the list in order\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIconsumer\fP the function to apply 
+.RE
+.PP
+
+.PP
+Definition at line 367 of file ArrayList\&.hpp\&.
+.PP
+.nf
+367                                                              {
+368     for (int i = 0; i < length(); i++) {
+369       if (elems[i])
+370         consumer(get(i));
+371     }
+372   }
+.fi
+.PP
+Referenced by User::listFriends(), operator<<(), and Travel::VisitBuilder::photoShow()\&.
+.SS "template<class A > void \fBArrayList\fP< A >::free ()\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Frees the resizable array\&. 
+.PP
+Definition at line 29 of file ArrayList\&.hpp\&.
+.PP
+.nf
+29               {
+30     // LOG(INFO, "Freeing ArrayList\&.");
+31     if (!elems)
+32       return;
+33     for (unsigned i = 0; i < elemCount; i++) {
+34       if (elems[i])
+35         delete elems[i];
+36     }
+37     delete[] elems;
+38   }
+.fi
+.PP
+Referenced by ArrayList< char * >::clear(), ArrayList< char * >::copy(), ArrayList< char * >::expand(), and ArrayList< char * >::~ArrayList()\&.
+.SS "template<class A > A& \fBArrayList\fP< A >::get (unsigned index) const\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Returns the value at the index\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIindex\fP the index 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the value 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 290 of file ArrayList\&.hpp\&.
+.PP
+.nf
+290                                         {
+291     if (index >= length())
+292       return *elems[length() - 1];
+293     return *elems[index];
+294   }
+.fi
+.PP
+Referenced by ArrayList< char * >::appendAll(), ArrayList< char * >::contains(), ArrayList< char * >::difference(), ArrayList< char * >::distinct(), ArrayList< char * >::expand(), ArrayList< char * >::filter(), ArrayList< char * >::find(), ArrayList< char * >::flatten(), ArrayList< char * >::fold(), ArrayList< char * >::foreach(), ArraySet< A >::insert(), ArrayList< char * >::intersection(), ArrayList< char * >::map(), ArrayList< char * >::operator==(), ArrayList< char * >::prependAll(), Stack< A >::pushAll(), ArrayList< char * >::remove(), ArrayList< char * >::removeIf(), ArrayList< char * >::zip(), and User::~User()\&.
+.SS "template<class A > static unsigned \fBArrayList\fP< A >::getDefaultReservedSpace ()\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Definition at line 534 of file ArrayList\&.hpp\&.
+.PP
+.nf
+534 { return DEFAULT_RESERVED_SPACE; };
+.fi
+.PP
+Referenced by ArrayList< char * >::ArrayList(), and ArrayList< char * >::clear()\&.
+.SS "template<class A > void \fBArrayList\fP< A >::insert (A && elem, unsigned at)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Inserts the given element in the list at the specified position\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element 
+.br
+\fIat\fP the position 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 180 of file ArrayList\&.hpp\&.
+.PP
+.nf
+180                                               {
+181     if (elemCount + 1 > capacity()) {
+182       expand(); // Expand the list if inserting one more element would
+183                 // exceed the dynamic array's current capacity
+184     }
+185 
+186     if (at >= length()) { // Assume that indexes greater or equal to the
+187       // list's length mean an insertion at the end of
+188       // the list\&.
+189       elems[elemCount] = new A(std::move(elem));
+190       elemCount++;
+191       return;
+192     }
+193 
+194     for (int i = length(); i > at; i--) {
+195       elems[i] = elems[i - 1]; // Shift all elements from index at to
+196                                // length() left by one to make space for
+197                                // the new element
+198     }
+199 
+200     *elems[at] = std::move(elem);
+201     elemCount++;
+202   }
+.fi
+.SS "template<class A > void \fBArrayList\fP< A >::insert (A const & elem, unsigned at)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Inserts the given element in the list at the specified position\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element 
+.br
+\fIat\fP the position 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Reimplemented in \fBArraySet< A >\fP\&.
+.PP
+Definition at line 156 of file ArrayList\&.hpp\&.
+.PP
+.nf
+156                                                    {
+157     if (elemCount + 1 > capacity()) {
+158       expand(); // Expand the list if inserting one more element would
+159                 // exceed the dynamic array's current capacity
+160     }
+161 
+162     if (at >= length()) { // Assume that indexes greater or equal to the
+163       // list's length mean an insertion at the end of
+164       // the list\&.
+165       elems[elemCount] = new A(elem);
+166       elemCount++;
+167       return;
+168     }
+169 
+170     for (int i = length(); i > at; i--) {
+171       elems[i] = elems[i - 1]; // Shift all elements from index at to
+172                                // length() left by one to make space for
+173                                // the new element
+174     }
+175 
+176     *elems[at] = elem;
+177     elemCount++;
+178   }
+.fi
+.PP
+Referenced by ArrayList< char * >::append(), ArraySet< A >::insert(), and ArrayList< char * >::prepend()\&.
+.SS "template<class A > std::unique_ptr<\fBArrayList\fP<A> > \fBArrayList\fP< A >::intersection (\fBArrayList\fP< A > const & list) const\fC [inline]\fP"
+
+.PP
+Returns the set intersection of this list and the provided one\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIlist\fP the other list 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the set intersection of the two lists 
+.RE
+.PP
+
+.PP
+Definition at line 468 of file ArrayList\&.hpp\&.
+.PP
+.nf
+468                                                                            {
+469     std::unique_ptr<ArrayList<A>> res = std::make_unique<ArrayList<A>>();
+470     if (length() >= list\&.length()) {
+471       for (int i = 0; i < length(); i++) {
+472         if (list\&.contains(get(i)))
+473           res->append(get(i));
+474       }
+475       return res;
+476     } else {
+477       return list\&.intersection(*this);
+478     }
+479   }
+.fi
+.PP
+Referenced by ArrayList< char * >::intersection()\&.
+.SS "template<class A > unsigned \fBArrayList\fP< A >::length () const\fC [inline]\fP, \fC [final]\fP, \fC [virtual]\fP"
+
+.PP
+return the amount of elements currently in the array 
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 297 of file ArrayList\&.hpp\&.
+.PP
+.nf
+297 { return elemCount; }
+.fi
+.PP
+Referenced by ArrayList< char * >::append(), ArrayList< char * >::appendAll(), Stack< A >::asList(), ArrayList< char * >::contains(), ArrayList< char * >::difference(), ArrayList< char * >::distinct(), ArrayList< char * >::expand(), ArrayList< char * >::filter(), ArrayList< char * >::find(), ArrayList< char * >::flatten(), ArrayList< char * >::fold(), ArrayList< char * >::foreach(), ArrayList< char * >::get(), ArraySet< A >::insert(), ArrayList< char * >::insert(), ArrayList< char * >::intersection(), ArrayList< char * >::map(), ArrayList< char * >::operator==(), Stack< A >::peek(), ArrayList< char * >::pop(), ArrayList< char * >::prependAll(), Stack< A >::pushAll(), ArrayList< char * >::remove(), ArrayList< char * >::removeAt(), ArrayList< char * >::removeIf(), ArrayList< char * >::slice(), ArrayList< char * >::sort(), ArrayList< char * >::zip(), and User::~User()\&.
+.SS "template<class A > template<typename B > std::unique_ptr<\fBArrayList\fP<B> > \fBArrayList\fP< A >::map (std::function< B(const A &)> mapper) const\fC [inline]\fP"
+
+.PP
+Return a new \fBArrayList\fP containing the result of applying the provided mapping function to each element of the list in order\&. 
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIB\fP the type of elements in the new list 
+.RE
+.PP
+\fBParameters\fP
+.RS 4
+\fImapper\fP the mapping function 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the new \fBArrayList\fP 
+.RE
+.PP
+
+.PP
+Definition at line 408 of file ArrayList\&.hpp\&.
+.PP
+.nf
+408                                                                           {
+409     std::unique_ptr<ArrayList<B>> mapped =
+410         std::make_unique<ArrayList<B>>(capacity());
+411     for (int i = 0; i < length(); i++) {
+412       mapped->append(mapper(get(i)));
+413     }
+414     return mapped;
+415   }
+.fi
+.SS "template<class A > \fBArrayList\fP<A>& \fBArrayList\fP< A >::operator= (\fBArrayList\fP< A > const & other)\fC [inline]\fP"
+
+.PP
+Definition at line 148 of file ArrayList\&.hpp\&.
+.PP
+.nf
+148                                                      {
+149     if (&other != this)
+150       copy(other);
+151     return *this;
+152   }
+.fi
+.SS "template<class A > bool \fBArrayList\fP< A >::operator== (\fBArrayList\fP< A > const & other)\fC [inline]\fP"
+
+.PP
+Definition at line 524 of file ArrayList\&.hpp\&.
+.PP
+.nf
+524                                              {
+525     if (length() != other\&.length())
+526       return false;
+527     for (int i = 0; i < length(); i++) {
+528       if (!other\&.contains(get(i)) || !contains(other\&.get(i)))
+529         return false;
+530     }
+531     return true;
+532   }
+.fi
+.SS "template<class A > template<typename B > static unsigned \fBArrayList\fP< A >::partition (std::unique_ptr< \fBArrayList\fP< B >> const & array, unsigned from, unsigned to, std::function< bool(const B &, const B &)> comparator)\fC [inline]\fP, \fC [static]\fP, \fC [private]\fP"
+
+.PP
+The partition function of the quicksort algorithm\&. 
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIB\fP the type of the elements in the list 
+.RE
+.PP
+\fBParameters\fP
+.RS 4
+\fIarray\fP the list to sort 
+.br
+\fIfrom\fP the start of the range to partition in 
+.br
+\fIto\fP the end of the range to partition in 
+.br
+\fIcomparator\fP the function with which to compare elements 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the pivot 
+.RE
+.PP
+
+.PP
+Definition at line 75 of file ArrayList\&.hpp\&.
+.PP
+.nf
+77                                                           {
+78     B pivot = array->get(to);
+79     unsigned i = from;
+80     for (unsigned j = from; j <= to; j++) {
+81       if (comparator(array->get(j), pivot)) {
+82         swap(array->elems[j], array->elems[i]);
+83         i++;
+84       }
+85     }
+86     swap(array->elems[i], array->elems[to]);
+87     return i;
+88   }
+.fi
+.SS "template<class A > std::unique_ptr<\fBNullable\fP<A> > \fBArrayList\fP< A >::pop ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Removes the last element of the list, if any, and returns it\&. This is done by returning a pointer to a \fBNullable\fP instance\&. It is an instance of \fBNull\fP if the list is empty or an instance of \fBNotNull\fP wrapped around the value\&.
+.PP
+\fBReturns\fP
+.RS 4
+the value, if any 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 286 of file ArrayList\&.hpp\&.
+.PP
+.nf
+286 { return removeAt(length() - 1); }
+.fi
+.SS "template<class A > void \fBArrayList\fP< A >::prepend (A && elem)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Prepends the given element to the list\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 238 of file ArrayList\&.hpp\&.
+.PP
+.nf
+238 { insert(std::move(elem), 0); }
+.fi
+.SS "template<class A > void \fBArrayList\fP< A >::prepend (A const & elem)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Prepends the given element to the list\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 236 of file ArrayList\&.hpp\&.
+.PP
+.nf
+236 { insert(elem, 0); }
+.fi
+.PP
+Referenced by ArrayList< char * >::prependAll()\&.
+.SS "template<class A > void \fBArrayList\fP< A >::prependAll (\fBArrayList\fP< A > const & l)\fC [inline]\fP"
+
+.PP
+Prepend all elements of the given list to this one\&. Very slow for large lists\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIl\fP the list to prepend 
+.RE
+.PP
+
+.PP
+Definition at line 124 of file ArrayList\&.hpp\&.
+.PP
+.nf
+124                                          {
+125     for (int i = 0; i < l\&.length(); i++) {
+126       prepend(l\&.get(i));
+127     }
+128   }
+.fi
+.SS "template<class A > template<typename B > static void \fBArrayList\fP< A >::quickSort (std::unique_ptr< \fBArrayList\fP< B >> const & array, unsigned from, unsigned to, std::function< bool(const B &, const B &)> comparator)\fC [inline]\fP, \fC [static]\fP, \fC [private]\fP"
+
+.PP
+An implementation of the quicksort algorithm that allows for the use of an arbitrary comparison function\&. 
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIB\fP the type of the elements in the list 
+.RE
+.PP
+\fBParameters\fP
+.RS 4
+\fIarray\fP the list to sort 
+.br
+\fIfrom\fP the start of the range to sort in 
+.br
+\fIto\fP the end of the range to sort in 
+.br
+\fIcomparator\fP the function with which to compare elements 
+.RE
+.PP
+
+.PP
+Definition at line 100 of file ArrayList\&.hpp\&.
+.PP
+.nf
+102                                                                             {
+103     if (from <= to) {
+104       unsigned part = partition<B>(array, from, to, comparator);
+105       if (part != 0)
+106         quickSort<B>(array, from, part - 1, comparator);
+107       quickSort<B>(array, part + 1, to, comparator);
+108     }
+109   }
+.fi
+.SS "template<class A > int \fBArrayList\fP< A >::remove (const A & elem)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Remove the first occurence of the given element in the list\&. All following elements are brought back by one index in order to fill the hole left by the removal 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element to remove 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the index of the removed element 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 248 of file ArrayList\&.hpp\&.
+.PP
+.nf
+248                                      {
+249     int foundAt = -1;
+250     unsigned index = 0;
+251     for (unsigned i = 0; i < length(); i++) {
+252       if (get(i) == elem) {
+253         delete elems[i];
+254         foundAt = i;
+255         continue;
+256       }
+257       if (index != i) {
+258         elems[index] = elems[i];
+259       }
+260       index++;
+261     }
+262 
+263     if (foundAt != -1)
+264       elemCount--;
+265     return foundAt;
+266   }
+.fi
+.PP
+Referenced by Travel::VisitBuilder::photoDelete()\&.
+.SS "template<class A > std::unique_ptr<\fBNullable\fP<A> > \fBArrayList\fP< A >::removeAt (unsigned ind)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Removes the value associated with the given index, if any, and returns it\&. This is done by returning a pointer to a \fBNullable\fP instance\&. It is an instance of \fBNull\fP if the index doesn't exist or an instance of \fBNotNull\fP wrapped around the value\&.
+.PP
+All following elements are moved back by one index to fill the hole left by the removal
+.PP
+\fBParameters\fP
+.RS 4
+\fIindex\fP the index, whose value to remove 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the value, if any 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 268 of file ArrayList\&.hpp\&.
+.PP
+.nf
+268                                                              {
+269     if (length() == 0)
+270       return std::make_unique<Null<A>>(); // No element to remove
+271     // so just return null
+272 
+273     A ret =
+274         *elems[ind >= length() ? length() - 1
+275                                : ind]; // Save the element that will be removed
+276     delete elems[ind >= length() ? length() - 1 : ind];
+277     if (ind < length() - 1) {
+278       for (unsigned i = ind; i < length() - 1; i++) {
+279         elems[i] = elems[i + 1];
+280       }
+281     }
+282     elemCount--;
+283     return std::make_unique<NotNull<A>>(ret);
+284   }
+.fi
+.PP
+Referenced by ArrayList< char * >::pop(), ArrayList< char * >::removeIf(), and ArrayList< char * >::shift()\&.
+.SS "template<class A > std::unique_ptr<\fBNullable\fP<A> > \fBArrayList\fP< A >::removeIf (std::function< bool(const A &)> predicate)\fC [inline]\fP"
+
+.PP
+Remove the first element of the list that matches the given predicate, and return it\&. If no such element exists return \fBNull\fP instead\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIpredicate\fP the condition for removal 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the removed element or null 
+.RE
+.PP
+
+.PP
+Definition at line 345 of file ArrayList\&.hpp\&.
+.PP
+.nf
+345                                                                                 {
+346     for (int i = 0; i < length(); i++) {
+347       if (predicate(get(i))) {
+348         return removeAt(i);
+349       }
+350     }
+351     return std::make_unique<Null<A>>();
+352   }
+.fi
+.PP
+Referenced by User::removeFriend()\&.
+.SS "template<class A > std::unique_ptr<\fBNullable\fP<A> > \fBArrayList\fP< A >::shift ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Removes the first element of the list, if any, and returns it\&. This is done by returning a pointer to a \fBNullable\fP instance\&. It is an instance of \fBNull\fP if the list is empty or an instance of \fBNotNull\fP wrapped around the value\&.
+.PP
+All following elements are moved back by one index to fill the hole left by the removal
+.PP
+\fBReturns\fP
+.RS 4
+the value, if any 
+.RE
+.PP
+
+.PP
+Implements \fBIList< A >\fP\&.
+.PP
+Definition at line 288 of file ArrayList\&.hpp\&.
+.PP
+.nf
+288 { return removeAt(0); }
+.fi
+.SS "template<class A > template<int sliceSize> std::unique_ptr<\fBArrayList\fP<typename \fBTuple\fP<A>::template ofSize<sliceSize>::type> > \fBArrayList\fP< A >::slice ()\fC [inline]\fP"
+
+.PP
+Slices the array in parts of the provided size\&. Those slices are stored in a tuple and an array list of all the resulting tuples is returned\&. 
+.PP
+Definition at line 382 of file ArrayList\&.hpp\&.
+.PP
+.nf
+382           {
+383     if (length() % sliceSize != 0)
+384       throw InvalidArgumentException("List size must be evenly divisible"
+385                                      " by slice size");
+386     int slices = length() / sliceSize;
+387     auto list = std::make_unique<
+388         ArrayList<typename Tuple<A>::template ofSize<sliceSize>::type>>(slices);
+389 
+390     for (int i = 1; i < slices; i++) {
+391       typename Tuple<A>::template ofSize<sliceSize>::type tuple(elems +
+392                                                                 sliceSize * i);
+393       list->append(tuple);
+394     }
+395 
+396     return list;
+397   }
+.fi
+.SS "template<class A > std::unique_ptr<\fBArrayList\fP<A> > \fBArrayList\fP< A >::sort (std::function< bool(const A &, const A &)> comparator) const\fC [inline]\fP"
+
+.PP
+Returns a new \fBArrayList\fP containing the elements of this list sorted with the QuickSort algorithm by the provided comparison function\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIcomparator\fP the comparison function 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the sorted list 
+.RE
+.PP
+
+.PP
+Definition at line 440 of file ArrayList\&.hpp\&.
+.PP
+.nf
+440                                                                  {
+441     std::unique_ptr<ArrayList<A>> sorted =
+442         std::make_unique<ArrayList<A>>(capacity());
+443     if (length() == 0)
+444       return sorted;
+445     sorted->appendAll(*this);
+446     quickSort<A>(sorted, 0, sorted->length() - 1, comparator);
+447     return sorted;
+448   }
+.fi
+.SS "template<class A > template<typename B > std::unique_ptr<\fBArrayList\fP<\fBTuple\fP<A, B> > > \fBArrayList\fP< A >::zip (\fBArrayList\fP< B > const & list) const\fC [inline]\fP"
+
+.PP
+Return a list of pairs where each pair is composed of the elements of the two lists with the same index\&. The lists must have the same amount of elements 
+.PP
+Definition at line 509 of file ArrayList\&.hpp\&.
+.PP
+.nf
+509                                                                             {
+510     using Pair = Tuple<A, B>;
+511     if (list\&.length() != length())
+512       throw NoValueException("Calling zip on ArrayLists with different"
+513                              "amount of elements)");
+514     auto res = std::make_unique<ArrayList<Pair>>(capacity());
+515     for (unsigned i = 0; i < length(); i++) {
+516       A a = this->get(i);
+517       B b = list\&.get(i);
+518       res->append(Pair(a, b));
+519     }
+520 
+521     return res;
+522   }
+.fi
+.SH "Member Data Documentation"
+.PP 
+.SS "template<class A > const unsigned \fBArrayList\fP< A >::DEFAULT_RESERVED_SPACE = 4\fC [static]\fP, \fC [private]\fP"
+
+.PP
+Definition at line 24 of file ArrayList\&.hpp\&.
+.PP
+Referenced by ArrayList< char * >::getDefaultReservedSpace()\&.
+.SS "template<class A > unsigned \fBArrayList\fP< A >::elemCount\fC [protected]\fP"
+
+.PP
+Definition at line 114 of file ArrayList\&.hpp\&.
+.PP
+Referenced by ArrayList< char * >::copy(), ArrayList< char * >::create(), ArrayList< char * >::free(), ArrayList< char * >::insert(), ArrayList< char * >::length(), ArrayList< char * >::remove(), and ArrayList< char * >::removeAt()\&.
+.SS "template<class A > A** \fBArrayList\fP< A >::elems = nullptr\fC [protected]\fP"
+
+.PP
+Definition at line 112 of file ArrayList\&.hpp\&.
+.PP
+Referenced by ArrayList< char * >::copy(), ArrayList< char * >::create(), ArrayList< char * >::expand(), ArrayList< char * >::foreach(), ArrayList< char * >::free(), ArrayList< char * >::get(), ArrayList< char * >::insert(), ArrayList< char * >::remove(), ArrayList< char * >::removeAt(), and ArrayList< char * >::slice()\&.
+.SS "template<class A > unsigned \fBArrayList\fP< A >::reserved\fC [protected]\fP"
+
+.PP
+Definition at line 113 of file ArrayList\&.hpp\&.
+.PP
+Referenced by ArrayList< char * >::ArrayList(), ArrayList< char * >::capacity(), ArrayList< char * >::copy(), ArrayList< char * >::create(), and ArrayList< char * >::expand()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

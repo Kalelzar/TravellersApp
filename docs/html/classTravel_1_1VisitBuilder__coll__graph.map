@@ -1,0 +1,9 @@
+<map id="Travel::VisitBuilder" name="Travel::VisitBuilder">
+<area shape="rect" id="node1" title="Holds all information necessary to construct a visit." alt="" coords="236,288,367,315"/>
+<area shape="rect" id="node2" href="$classArrayList.html" title=" " alt="" coords="139,184,309,211"/>
+<area shape="rect" id="node3" href="$classIList.html" title=" " alt="" coords="5,95,149,121"/>
+<area shape="rect" id="node4" href="$classIList.html" title="An interface for a generic list." alt="" coords="113,5,191,32"/>
+<area shape="rect" id="node6" href="$classArrayList.html" title="An implementation of a list backed by a resizable array." alt="" coords="174,95,279,121"/>
+<area shape="rect" id="node5" href="$classSimpleString.html" title="An exceedingly simple implementation of a string class." alt="" coords="307,95,403,121"/>
+<area shape="rect" id="node7" href="$classTravel_1_1Date.html" title="Stores a date (in ISO 8601) and has some useful methods for working with dates." alt="" coords="333,184,424,211"/>
+</map>

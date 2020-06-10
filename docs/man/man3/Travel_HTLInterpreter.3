@@ -1,0 +1,510 @@
+.TH "Travel::HTLInterpreter" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Travel::HTLInterpreter \- An interpreter for general commands\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <HTLInterpreter\&.hpp>\fP
+.PP
+Inherits \fBInterpreter< TravelState >\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBInterpreter\fP (std::shared_ptr< \fBArrayList\fP< \fBToken\fP >> _tokens)"
+.br
+.RI "Inherits the constructors of \fBInterpreter\fP\&. "
+.ti -1c
+.RI "bool \fBparse\fP (\fBTravelState\fP &state) override"
+.br
+.RI "Parses the provided tokens into the given \fBTravel::TravelState\fP\&. "
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBcfriend\fP (\fBTravelState\fP &state)"
+.br
+.RI "Interprets all commands in the friend prefix\&. "
+.ti -1c
+.RI "void \fBdestination\fP (\fBTravelState\fP &state)"
+.br
+.RI "Interprets all commands in the destination prefix\&. "
+.ti -1c
+.RI "void \fBdestinationComments\fP (\fBTravelState\fP &state)"
+.br
+.RI "Interprets the destination comments command\&. "
+.ti -1c
+.RI "void \fBdestinationExists\fP (\fBTravelState\fP &state)"
+.br
+.RI "Interprets the destination exists command\&. "
+.ti -1c
+.RI "void \fBdestinationRating\fP (\fBTravelState\fP &state)"
+.br
+.RI "Interprets the destination rating command\&. "
+.ti -1c
+.RI "void \fBdestinationVisited\fP (\fBTravelState\fP &state)"
+.br
+.RI "Interprets the destination visited command\&. "
+.ti -1c
+.RI "void \fBfriendAdd\fP (\fBTravelState\fP &state)"
+.br
+.RI "Interprets the friend add command\&. "
+.ti -1c
+.RI "void \fBfriendList\fP (\fBTravelState\fP &state)"
+.br
+.RI "Interprets the friend list command\&. "
+.ti -1c
+.RI "void \fBfriendRemove\fP (\fBTravelState\fP &state)"
+.br
+.RI "Interprets the friend remove command\&. "
+.ti -1c
+.RI "void \fBfriendVisited\fP (\fBTravelState\fP &state)"
+.br
+.RI "Interprets the friend visited command\&. "
+.ti -1c
+.RI "bool \fBgeneral\fP (\fBTravelState\fP &state)"
+.br
+.RI "Interprets all commands not in a prefix\&. "
+.ti -1c
+.RI "void \fBvisit\fP (\fBTravelState\fP &state)"
+.br
+.RI "Starts visit mode\&. "
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+An interpreter for general commands\&. 
+.PP
+Definition at line 24 of file HTLInterpreter\&.hpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void Travel::HTLInterpreter::cfriend (\fBTravelState\fP & state)\fC [private]\fP"
+
+.PP
+Interprets all commands in the friend prefix\&. 
+.PP
+Definition at line 112 of file HTLInterpreter\&.cpp\&.
+.PP
+.nf
+112                                                {
+113   if (isAtEnd()) {
+114     throw ReachedEndOfStreamException();
+115   }
+116 
+117   switch (next()\&.t) {
+118   case TokenType::ADD:
+119     friendAdd(state);
+120     break;
+121   case TokenType::REMOVE:
+122     friendRemove(state);
+123     break;
+124   case TokenType::LIST:
+125     friendList(state);
+126     break;
+127   case TokenType::VISITED:
+128     friendVisited(state);
+129     break;
+130   case TokenType::EOF_T:
+131     std::cout << "Friend is a command prefix\&. It doesn't do anything by "
+132                  "itself\&."
+133               << std::endl;
+134     break;
+135   case TokenType::NUMBER:
+136     errorflag = true;
+137     std::cerr << "(Line " << prev()\&.line << ") "
+138               << "Unexpected Number -> " << prev()\&.lexeme << std::endl;
+139     break;
+140   case TokenType::DATE:
+141     errorflag = true;
+142     std::cerr << "(Line " << prev()\&.line << ") "
+143               << "Unexpected Date -> " << prev()\&.lexeme << std::endl;
+144     break;
+145   case TokenType::ERROR:
+146     errorflag = true;
+147     std::cerr << "(Line " << prev()\&.line << ") "
+148               << "Parsing error: " << prev()\&.lexeme << std::endl;
+149     break;
+150   default:
+151     errorflag = true;
+152     std::cerr << "(Line " << prev()\&.line << ") "
+153               << "Unexpected String -> " << prev()\&.lexeme << std::endl;
+154     break;
+155   }
+156 }
+.fi
+.PP
+References ADD, DATE, EOF_T, ERROR, Interpreter< TravelState >::errorflag, friendAdd(), friendList(), friendRemove(), friendVisited(), Interpreter< TravelState >::isAtEnd(), Token::lexeme, Token::line, LIST, Interpreter< TravelState >::next(), NUMBER, Interpreter< TravelState >::prev(), REMOVE, and VISITED\&.
+.PP
+Referenced by parse()\&.
+.SS "void Travel::HTLInterpreter::destination (\fBTravelState\fP & state)\fC [private]\fP"
+
+.PP
+Interprets all commands in the destination prefix\&. 
+.PP
+Definition at line 158 of file HTLInterpreter\&.cpp\&.
+.PP
+.nf
+158                                                    {
+159   if (isAtEnd())
+160     throw ReachedEndOfStreamException();
+161 
+162   switch (next()\&.t) {
+163   case TokenType::EXISTS:
+164     destinationExists(state);
+165     break;
+166   case TokenType::RATING:
+167     destinationRating(state);
+168     break;
+169   case TokenType::COMMENTS:
+170     destinationComments(state);
+171     break;
+172   case TokenType::VISITED:
+173     destinationVisited(state);
+174     break;
+175   case TokenType::EOF_T:
+176     std::cout << "Destination is a command prefix\&. It doesn't do anything"
+177                  " by itself\&."
+178               << std::endl;
+179     break;
+180   case TokenType::NUMBER:
+181     errorflag = true;
+182     std::cerr << "(Line " << prev()\&.line << ") "
+183               << "Unexpected Number -> " << prev()\&.lexeme << std::endl;
+184     break;
+185   case TokenType::DATE:
+186     errorflag = true;
+187     std::cerr << "(Line " << prev()\&.line << ") "
+188               << "Unexpected Date -> " << prev()\&.lexeme << std::endl;
+189     break;
+190   case TokenType::ERROR:
+191     errorflag = true;
+192     std::cerr << "(Line " << prev()\&.line << ") "
+193               << "Parsing error: " << prev()\&.lexeme << std::endl;
+194     break;
+195   default:
+196     errorflag = true;
+197     std::cerr << "(Line " << prev()\&.line << ") "
+198               << "Unexpected String -> " << prev()\&.lexeme << std::endl;
+199     break;
+200   }
+201 }
+.fi
+.PP
+References COMMENTS, DATE, destinationComments(), destinationExists(), destinationRating(), destinationVisited(), EOF_T, ERROR, Interpreter< TravelState >::errorflag, EXISTS, Interpreter< TravelState >::isAtEnd(), Token::lexeme, Token::line, Interpreter< TravelState >::next(), NUMBER, Interpreter< TravelState >::prev(), RATING, and VISITED\&.
+.PP
+Referenced by destinationComments(), destinationExists(), destinationRating(), destinationVisited(), friendVisited(), parse(), and visit()\&.
+.SS "void Travel::HTLInterpreter::destinationComments (\fBTravelState\fP & state)\fC [private]\fP"
+
+.PP
+Interprets the destination comments command\&. 
+.PP
+Definition at line 96 of file HTLInterpreter\&.cpp\&.
+.PP
+.nf
+96                                                            {
+97   auto destination = consume(TokenType::STRING, "Expected destination name\&.");
+98   std::cout << "Showing comments for destination " << destination\&.lexeme << "\&."
+99             << std::endl;
+100   state\&.destinationComments(destination\&.lexeme);
+101 }
+.fi
+.PP
+References Interpreter< TravelState >::consume(), destination(), Travel::TravelState::destinationComments(), and STRING\&.
+.PP
+Referenced by destination()\&.
+.SS "void Travel::HTLInterpreter::destinationExists (\fBTravelState\fP & state)\fC [private]\fP"
+
+.PP
+Interprets the destination exists command\&. 
+.PP
+Definition at line 78 of file HTLInterpreter\&.cpp\&.
+.PP
+.nf
+78                                                          {
+79   auto destination = consume(TokenType::STRING, "Expected destination name\&.");
+80   std::cout << "Checking if destination " << destination\&.lexeme << " exists\&."
+81             << std::endl;
+82   if (state\&.destinationExists(destination\&.lexeme)) {
+83     std::cout << "It does\&." << std::endl;
+84   } else {
+85     std::cout << "It doesn't\&." << std::endl;
+86   }
+87 }
+.fi
+.PP
+References Interpreter< TravelState >::consume(), destination(), Travel::TravelState::destinationExists(), and STRING\&.
+.PP
+Referenced by destination()\&.
+.SS "void Travel::HTLInterpreter::destinationRating (\fBTravelState\fP & state)\fC [private]\fP"
+
+.PP
+Interprets the destination rating command\&. 
+.PP
+Definition at line 89 of file HTLInterpreter\&.cpp\&.
+.PP
+.nf
+89                                                          {
+90   auto destination = consume(TokenType::STRING, "Expected destination name\&.");
+91   std::cout << "Showing average rating for destination " << destination\&.lexeme
+92             << "\&." << std::endl;
+93   state\&.destinationRating(destination\&.lexeme);
+94 }
+.fi
+.PP
+References Interpreter< TravelState >::consume(), destination(), Travel::TravelState::destinationRating(), and STRING\&.
+.PP
+Referenced by destination()\&.
+.SS "void Travel::HTLInterpreter::destinationVisited (\fBTravelState\fP & state)\fC [private]\fP"
+
+.PP
+Interprets the destination visited command\&. 
+.PP
+Definition at line 103 of file HTLInterpreter\&.cpp\&.
+.PP
+.nf
+103                                                           {
+104   auto destination = consume(TokenType::STRING, "Expected destination name\&.");
+105   auto user = consume(TokenType::STRING, "Expected user name\&.");
+106 
+107   std::cout << "Checking if " << user\&.lexeme << " has visited "
+108             << destination\&.lexeme << std::endl;
+109   state\&.userVisited(destination\&.lexeme, user\&.lexeme);
+110 }
+.fi
+.PP
+References Interpreter< TravelState >::consume(), destination(), STRING, and Travel::TravelState::userVisited()\&.
+.PP
+Referenced by destination()\&.
+.SS "void Travel::HTLInterpreter::friendAdd (\fBTravelState\fP & state)\fC [private]\fP"
+
+.PP
+Interprets the friend add command\&. 
+.PP
+Definition at line 46 of file HTLInterpreter\&.cpp\&.
+.PP
+.nf
+46                                                  {
+47   auto name = consume(TokenType::STRING, "Expected user name\&.");
+48   std::cout << "Adding " << name\&.lexeme << " to friend's list\&." << std::endl;
+49   state\&.friendAdd(name\&.lexeme);
+50 }
+.fi
+.PP
+References Interpreter< TravelState >::consume(), Travel::TravelState::friendAdd(), and STRING\&.
+.PP
+Referenced by cfriend()\&.
+.SS "void Travel::HTLInterpreter::friendList (\fBTravelState\fP & state)\fC [private]\fP"
+
+.PP
+Interprets the friend list command\&. 
+.PP
+Definition at line 59 of file HTLInterpreter\&.cpp\&.
+.PP
+.nf
+59                                                   {
+60   std::cout << "Listing friends\&." << std::endl;
+61   state\&.friendList();
+62 }
+.fi
+.PP
+References Travel::TravelState::friendList()\&.
+.PP
+Referenced by cfriend()\&.
+.SS "void Travel::HTLInterpreter::friendRemove (\fBTravelState\fP & state)\fC [private]\fP"
+
+.PP
+Interprets the friend remove command\&. 
+.PP
+Definition at line 52 of file HTLInterpreter\&.cpp\&.
+.PP
+.nf
+52                                                     {
+53   auto name = consume(TokenType::STRING, "Expected user name\&.");
+54   std::cout << "Removing " << name\&.lexeme << " from friend's list\&."
+55             << std::endl;
+56   state\&.friendRemove(name\&.lexeme);
+57 }
+.fi
+.PP
+References Interpreter< TravelState >::consume(), Travel::TravelState::friendRemove(), and STRING\&.
+.PP
+Referenced by cfriend()\&.
+.SS "void Travel::HTLInterpreter::friendVisited (\fBTravelState\fP & state)\fC [private]\fP"
+
+.PP
+Interprets the friend visited command\&. 
+.PP
+Definition at line 64 of file HTLInterpreter\&.cpp\&.
+.PP
+.nf
+64                                                      {
+65   auto destination = consume(TokenType::STRING, "Expected destination name\&.");
+66   if (matches(TokenType::STRING)) {
+67     auto user = next();
+68     std::cout << "Checking if " << user\&.lexeme << " has visited "
+69               << destination\&.lexeme << std::endl;
+70     state\&.friendVisited(destination\&.lexeme, user\&.lexeme);
+71   } else {
+72     std::cout << "Showing all friends who have visited " << destination\&.lexeme
+73               << std::endl;
+74     state\&.friendVisited(destination\&.lexeme);
+75   }
+76 }
+.fi
+.PP
+References Interpreter< TravelState >::consume(), destination(), Travel::TravelState::friendVisited(), Interpreter< TravelState >::matches(), Interpreter< TravelState >::next(), and STRING\&.
+.PP
+Referenced by cfriend()\&.
+.SS "bool Travel::HTLInterpreter::general (\fBTravelState\fP & state)\fC [private]\fP"
+
+.PP
+Interprets all commands not in a prefix\&. 
+.PP
+Definition at line 11 of file HTLInterpreter\&.cpp\&.
+.PP
+.nf
+11                                                {
+12   switch (next()\&.t) {
+13   case TokenType::HELP:
+14     CommandList::getCommandList()->printCommandsWithDescription();
+15     break;
+16   case TokenType::EXIT:
+17     return false;
+18     break;
+19   case TokenType::NUMBER:
+20     errorflag = true;
+21     std::cerr << "(Line " << prev()\&.line << ") "
+22               << "Unexpected Number -> " << prev()\&.lexeme << std::endl;
+23     break;
+24   case TokenType::DATE:
+25     errorflag = true;
+26     std::cerr << "(Line " << prev()\&.line << ") "
+27               << "Unexpected Date -> " << prev()\&.lexeme << std::endl;
+28     break;
+29   case TokenType::ERROR:
+30     errorflag = true;
+31     std::cerr << "(Line " << prev()\&.line << ") "
+32               << "Parsing error: " << prev()\&.lexeme << std::endl;
+33     break;
+34   case TokenType::EOF_T:
+35     return true;
+36     break;
+37   default:
+38     errorflag = true;
+39     std::cerr << "(Line " << prev()\&.line << ") "
+40               << "Unexpected String -> " << prev()\&.lexeme << std::endl;
+41     break;
+42   }
+43   return true;
+44 }
+.fi
+.PP
+References DATE, EOF_T, ERROR, Interpreter< TravelState >::errorflag, EXIT, Travel::CommandList::getCommandList(), HELP, Token::lexeme, Token::line, Interpreter< TravelState >::next(), NUMBER, Interpreter< TravelState >::prev(), and Travel::CommandList::printCommandsWithDescription()\&.
+.PP
+Referenced by parse()\&.
+.SS "\fBInterpreter\fP< Controller >::\fBInterpreter\fP\fC [inline]\fP, \fC [explicit]\fP"
+
+.PP
+Inherits the constructors of \fBInterpreter\fP\&. 
+.PP
+Definition at line 83 of file Interpreter\&.hpp\&.
+.PP
+.nf
+84       : tokens(_tokens) {}
+.fi
+.SS "bool Travel::HTLInterpreter::parse (\fBTravelState\fP & state)\fC [override]\fP"
+
+.PP
+Parses the provided tokens into the given \fBTravel::TravelState\fP\&. 
+.PP
+Definition at line 220 of file HTLInterpreter\&.cpp\&.
+.PP
+.nf
+220                                              {
+221   errorflag = false;
+222   while (!isAtEnd()) {
+223     try {
+224       if (matches(TokenType::FRIEND)) {
+225         LOG(INFO, "Friend prefix");
+226         next();
+227         cfriend(state);
+228       } else if (matches(TokenType::DESTINATION)) {
+229         LOG(INFO, "Destination prefix");
+230         next();
+231         destination(state);
+232       } else if (matches(TokenType::VISIT)) {
+233         LOG(INFO, "Destination prefix");
+234         next();
+235         visit(state);
+236       } else {
+237         LOG(INFO, "Generic commandline");
+238         if (!general(state))
+239           return false;
+240       }
+241     } catch (NoValueException &e) {
+242       errorflag = true;
+243       std::cerr << e\&.what() << std::endl;
+244     } catch (InvalidArgumentException &e) {
+245       errorflag = true;
+246       std::cerr << e\&.what() << std::endl;
+247     } catch (ReachedEndOfStreamException &e) {
+248       errorflag = true;
+249       std::cerr << e\&.what() << std::endl;
+250       return true;
+251     } catch (WrongTokenTypeException &e) {
+252       errorflag = true;
+253       std::cerr << e\&.what() << std::endl;
+254       while (peek()\&.t == TokenType::STRING || peek()\&.t == TokenType::NUMBER ||
+255              peek()\&.t == TokenType::DATE || peek()\&.t == TokenType::ERROR) {
+256         Token n = next();
+257         if (n\&.t == TokenType::ERROR) {
+258           std::cerr << "Error: " << n\&.lexeme << std::endl;
+259         }
+260       }
+261     }
+262   }
+263   return true;
+264 }
+.fi
+.PP
+References cfriend(), DATE, destination(), DESTINATION, ERROR, Interpreter< TravelState >::errorflag, FRIEND, general(), Interpreter< TravelState >::isAtEnd(), Token::lexeme, LOG, Interpreter< TravelState >::matches(), Interpreter< TravelState >::next(), NUMBER, Interpreter< TravelState >::peek(), STRING, Token::t, VISIT, visit(), WrongTokenTypeException::what(), NoValueException::what(), ReachedEndOfStreamException::what(), and InvalidArgumentException::what()\&.
+.PP
+Referenced by main()\&.
+.SS "void Travel::HTLInterpreter::visit (\fBTravelState\fP & state)\fC [private]\fP"
+
+.PP
+Starts visit mode\&. 
+.PP
+Definition at line 203 of file HTLInterpreter\&.cpp\&.
+.PP
+.nf
+203                                              {
+204   Travel::Scanner sc(ScannerContext::VISIT, &std::cin,
+205                      Travel::CommandList::getCommandList());
+206   auto destination = consume(TokenType::STRING, "Expected destination name\&.");
+207   VisitBuilder vb;
+208   vb\&.destination(destination\&.lexeme);
+209   bool run = true;
+210   while (run) {
+211     std::cout << ">>" << destination\&.lexeme << "$ ";
+212     auto tokens = sc\&.scanNext();
+213     // tokens->foreach([](Token const& t){ std::cout<<t<<std::endl;});
+214     Travel::VisitInterpreter interpreter{tokens};
+215     run = interpreter\&.parse(vb);
+216   }
+217   state\&.save(vb);
+218 }
+.fi
+.PP
+References Interpreter< TravelState >::consume(), destination(), Travel::VisitBuilder::destination(), Travel::CommandList::getCommandList(), Travel::TravelState::save(), Travel::Scanner::scanNext(), STRING, Interpreter< TravelState >::tokens, and VISIT\&.
+.PP
+Referenced by parse()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

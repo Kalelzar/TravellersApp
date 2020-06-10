@@ -1,0 +1,11 @@
+<map id="ArrayList&lt; A &gt;" name="ArrayList&lt; A &gt;">
+<area shape="rect" id="node1" title="An implementation of a list backed by a resizable array." alt="" coords="133,157,239,184"/>
+<area shape="rect" id="node3" href="$classArraySet.html" title="Literally an ArrayList but when adding items it checks if the element is already in the list." alt="" coords="421,5,523,32"/>
+<area shape="rect" id="node4" href="$classSortedArrayList.html" title="NOT IMPLEMENTED An array list that keeps itself sorted at all times." alt="" coords="401,56,543,83"/>
+<area shape="rect" id="node5" href="$classStack.html" title="An implementation of a stack leveraging ArrayList. Basically an ArrayList but most methods are privat..." alt="" coords="429,107,515,133"/>
+<area shape="rect" id="node6" href="$classArrayList.html" title=" " alt="" coords="387,157,557,184"/>
+<area shape="rect" id="node7" href="$classArrayList.html" title=" " alt="" coords="406,208,538,235"/>
+<area shape="rect" id="node8" href="$classArrayList.html" title=" " alt="" coords="408,259,536,285"/>
+<area shape="rect" id="node9" href="$classArrayList.html" title=" " alt="" coords="407,309,537,336"/>
+<area shape="rect" id="node2" href="$classIList.html" title="An interface for a generic list." alt="" coords="5,157,84,184"/>
+</map>

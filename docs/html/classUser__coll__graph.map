@@ -1,0 +1,12 @@
+<map id="User" name="User">
+<area shape="rect" id="node1" title="This class is responsible for storing and loading information regarding the user." alt="" coords="911,109,961,136"/>
+<area shape="rect" id="node2" href="$structforType.html" title=" " alt="" coords="637,28,757,55"/>
+<area shape="rect" id="node3" href="$structforType.html" title="A collection of template magic that operates on the provided type There is only a single piece of mag..." alt="" coords="271,5,385,32"/>
+<area shape="rect" id="node4" href="$classHashMap.html" title=" " alt="" coords="605,102,789,143"/>
+<area shape="rect" id="node5" href="$structEntry.html" title="An Entry describes a key&#45;value pair." alt="" coords="5,103,140,129"/>
+<area shape="rect" id="node6" href="$classHashMap.html" title="A generic implementation of a HashMap." alt="" coords="247,119,409,145"/>
+<area shape="rect" id="node7" href="$classArrayList.html" title=" " alt="" coords="633,169,762,196"/>
+<area shape="rect" id="node8" href="$classIList.html" title=" " alt="" coords="277,169,379,196"/>
+<area shape="rect" id="node9" href="$classIList.html" title="An interface for a generic list." alt="" coords="33,175,112,201"/>
+<area shape="rect" id="node10" href="$classArrayList.html" title="An implementation of a list backed by a resizable array." alt="" coords="275,220,381,247"/>
+</map>

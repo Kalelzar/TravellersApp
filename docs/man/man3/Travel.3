@@ -1,0 +1,131 @@
+.TH "Travel" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Travel \- Collects all code that is not necessarily easily reusable\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBCommandList\fP"
+.br
+.RI "This class represents a list of unique, reserved keywords for the scanner\&. "
+.ti -1c
+.RI "class \fBDate\fP"
+.br
+.RI "Stores a date (in ISO 8601) and has some useful methods for working with dates\&. "
+.ti -1c
+.RI "class \fBHTLInterpreter\fP"
+.br
+.RI "An interpreter for general commands\&. "
+.ti -1c
+.RI "class \fBLoginInterpreter\fP"
+.br
+.RI "Interprets all commands in the \fBATOPEN\fP ScannerContext\&. "
+.ti -1c
+.RI "class \fBScanner\fP"
+.br
+.RI "A general-purpose scanner that can be adopted to scan most forms of structured text files\&. "
+.ti -1c
+.RI "class \fBTravelState\fP"
+.br
+.ti -1c
+.RI "class \fBVisitBuilder\fP"
+.br
+.RI "Holds all information necessary to construct a visit\&. "
+.ti -1c
+.RI "class \fBVisitInterpreter\fP"
+.br
+.RI "An interpreter for the visit mode started by the visit <destination> command\&. "
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static bool \fBisDash\fP (std::istream &in)"
+.br
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &out, const \fBDate\fP &date)"
+.br
+.ti -1c
+.RI "std::istream & \fBoperator>>\fP (std::istream &in, \fBDate\fP &date)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Collects all code that is not necessarily easily reusable\&. 
+
+(i\&. e\&. is too specialized to the project) 
+.SH "Function Documentation"
+.PP 
+.SS "static bool Travel::isDash (std::istream & in)\fC [static]\fP"
+
+.PP
+Definition at line 162 of file Date\&.cpp\&.
+.PP
+.nf
+162 { return in\&.get() == '-'; }
+.fi
+.PP
+Referenced by operator>>()\&.
+.SS "std::ostream& Travel::operator<< (std::ostream & out, const \fBDate\fP & date)"
+
+.PP
+Definition at line 153 of file Date\&.cpp\&.
+.PP
+.nf
+153                                                           {
+154   char str[11];
+155   date\&.getString(str);
+156 
+157   out << str;
+158 
+159   return out;
+160 }
+.fi
+.PP
+References Travel::Date::getString()\&.
+.SS "std::istream& Travel::operator>> (std::istream & in, \fBDate\fP & date)"
+
+.PP
+Definition at line 164 of file Date\&.cpp\&.
+.PP
+.nf
+164                                                    {
+165 
+166   int year;
+167   int month;
+168   int day;
+169 
+170   in >> year;
+171 
+172   if (!isDash(in)) {
+173     in\&.setstate(std::ios::failbit);
+174     return in;
+175   }
+176 
+177   in >> month;
+178 
+179   if (!isDash(in)) {
+180     in\&.setstate(std::ios::failbit);
+181     return in;
+182   }
+183 
+184   in >> day;
+185 
+186   date\&.setYear(year);
+187   date\&.setMonth(month);
+188   date\&.setDay(day);
+189 
+190   return in;
+191 }
+.fi
+.PP
+References isDash(), Travel::Date::setDay(), Travel::Date::setMonth(), and Travel::Date::setYear()\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

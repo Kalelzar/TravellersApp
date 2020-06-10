@@ -1,0 +1,412 @@
+.TH "Travel::CommandList" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Travel::CommandList \- This class represents a list of unique, reserved keywords for the scanner\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <CommandList\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCommandList\fP ()"
+.br
+.ti -1c
+.RI "\fBCommandList\fP (\fBCommandList\fP const &other)"
+.br
+.ti -1c
+.RI "std::unique_ptr< \fBNullable\fP< \fBScannerContext\fP > > \fBcontextFor\fP (\fBTokenType\fP tokenType)"
+.br
+.RI "Returns a pointer to a \fBNotNull\fP of the \fBScannerContext\fP associated with the given \fBTokenType\fP if such exists and \fBNull\fP otherwise\&. "
+.ti -1c
+.RI "bool \fBisCommand\fP (\fBSimpleString\fP const &name)"
+.br
+.RI "Returns true if there is a registered command with the provided name\&. "
+.ti -1c
+.RI "bool \fBisCommand\fP (\fBTokenType\fP tokenType)"
+.br
+.RI "Returns true if there is a registered command with the provided \fBTokenType\fP\&. "
+.ti -1c
+.RI "\fBCommandList\fP & \fBoperator=\fP (\fBCommandList\fP const &other)"
+.br
+.ti -1c
+.RI "void \fBprintCommandsWithDescription\fP ()"
+.br
+.RI "Prints the registered commands along with their description\&. "
+.ti -1c
+.RI "void \fBregisterCommand\fP (\fBSimpleString\fP &&name, \fBTokenType\fP tokenType, \fBScannerContext\fP ctx, const char *&&descr)"
+.br
+.RI "Registers the command with the given information\&. "
+.ti -1c
+.RI "void \fBregisterCommand\fP (\fBSimpleString\fP const &name, \fBTokenType\fP tokenType, \fBScannerContext\fP ctx, const char *descr)"
+.br
+.RI "Registers the command with the given information\&. "
+.ti -1c
+.RI "std::unique_ptr< \fBNullable\fP< \fBTokenType\fP > > \fBtokenFor\fP (\fBSimpleString\fP const &name)"
+.br
+.RI "Returns a pointer to a \fBNotNull\fP of the \fBTokenType\fP associated with the given name if such exists and \fBNull\fP otherwise\&. "
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static \fBCommandList\fP * \fBgetCommandList\fP ()"
+.br
+.RI "Returns the global command list\&. "
+.ti -1c
+.RI "static void \fBsetCommandList\fP (\fBCommandList\fP *cl)"
+.br
+.RI "Sets the global command list\&. "
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBcopy\fP (\fBCommandList\fP const &other)"
+.br
+.RI "Convenience method for copying another \fBCommandList\fP to this one\&. "
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBHashMap\fP< \fBTokenType\fP, \fBScannerContext\fP > \fBcommandMap\fP"
+.br
+.ti -1c
+.RI "\fBHashMap\fP< \fBSimpleString\fP, const char * > \fBnameToDescr\fP"
+.br
+.ti -1c
+.RI "\fBHashMap\fP< \fBSimpleString\fP, \fBTokenType\fP > \fBnameToToken\fP"
+.br
+.in -1c
+.SS "Static Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "static \fBCommandList\fP * \fBglobalCommandList\fP = nullptr"
+.br
+.RI "A convenience value so \fBCommandList\fP doesn't need to be passed around as much\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+This class represents a list of unique, reserved keywords for the scanner\&. 
+
+It stores their text representation, their corresponding \fBTokenType\fP and \fBScannerContext\fP, as well as a description for the \fC help \fP command 
+.PP
+Definition at line 18 of file CommandList\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Travel::CommandList::CommandList ()"
+
+.PP
+Definition at line 13 of file CommandList\&.cpp\&.
+.PP
+.nf
+13 { LOG(INFO, "Create CommandList\&."); }
+.fi
+.PP
+References LOG\&.
+.SS "Travel::CommandList::CommandList (\fBCommandList\fP const & other)"
+
+.PP
+Definition at line 15 of file CommandList\&.cpp\&.
+.PP
+.nf
+15                                                        {
+16   if (&other != this) {
+17     copy(other);
+18   }
+19 }
+.fi
+.SH "Member Function Documentation"
+.PP 
+.SS "std::unique_ptr< \fBNullable\fP< \fBScannerContext\fP > > Travel::CommandList::contextFor (\fBTokenType\fP tokenType)"
+
+.PP
+Returns a pointer to a \fBNotNull\fP of the \fBScannerContext\fP associated with the given \fBTokenType\fP if such exists and \fBNull\fP otherwise\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fItokenType\fP the tokenType to find the context for 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the context 
+.RE
+.PP
+
+.PP
+Definition at line 86 of file CommandList\&.cpp\&.
+.PP
+.nf
+86                                                  {
+87   LOG(VERBOSE, "Get context for token type");
+88   return commandMap\&.get(tokenType);
+89 }
+.fi
+.PP
+References LOG\&.
+.SS "void Travel::CommandList::copy (\fBCommandList\fP const & other)\fC [private]\fP"
+
+.PP
+Convenience method for copying another \fBCommandList\fP to this one\&. 
+.PP
+Definition at line 6 of file CommandList\&.cpp\&.
+.PP
+.nf
+6                                                      {
+7   LOG(INFO, "Copying CommandList instance\&.");
+8   nameToToken = other\&.nameToToken;
+9   commandMap = other\&.commandMap;
+10   nameToDescr = other\&.nameToDescr;
+11 }
+.fi
+.PP
+References commandMap, LOG, nameToDescr, and nameToToken\&.
+.SS "static \fBCommandList\fP* Travel::CommandList::getCommandList ()\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Returns the global command list\&. 
+.PP
+\fBReturns\fP
+.RS 4
+the global command list 
+.RE
+.PP
+
+.PP
+Definition at line 40 of file CommandList\&.hpp\&.
+.PP
+.nf
+40                                        {
+41     return CommandList::globalCommandList;
+42   }
+.fi
+.PP
+References globalCommandList\&.
+.PP
+Referenced by Travel::HTLInterpreter::general(), Travel::VisitInterpreter::general(), and Travel::HTLInterpreter::visit()\&.
+.SS "bool Travel::CommandList::isCommand (\fBSimpleString\fP const & name)"
+
+.PP
+Returns true if there is a registered command with the provided name\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIname\fP the name to check for 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+is there a registered command with that name 
+.RE
+.PP
+
+.PP
+Definition at line 81 of file CommandList\&.cpp\&.
+.PP
+.nf
+81                                                           {
+82   return nameToToken\&.contains(name);
+83 }
+.fi
+.SS "bool Travel::CommandList::isCommand (\fBTokenType\fP tokenType)"
+
+.PP
+Returns true if there is a registered command with the provided \fBTokenType\fP\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fItokenType\fP the TokenType to check for 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+is there a registered command with that TokenType 
+.RE
+.PP
+
+.PP
+Definition at line 77 of file CommandList\&.cpp\&.
+.PP
+.nf
+77                                                      {
+78   return commandMap\&.contains(tokenType);
+79 }
+.fi
+.SS "\fBTravel::CommandList\fP & Travel::CommandList::operator= (\fBTravel::CommandList\fP const & other)"
+
+.PP
+Definition at line 22 of file CommandList\&.cpp\&.
+.PP
+.nf
+22                                                            {
+23   if (&other != this) {
+24     copy(other);
+25   }
+26   return *this;
+27 }
+.fi
+.SS "void Travel::CommandList::printCommandsWithDescription ()"
+
+.PP
+Prints the registered commands along with their description\&. No promises are made in regards to the order they are printed in\&. Meant to be used as a documentation for the registered commands\&. 
+.PP
+Definition at line 51 of file CommandList\&.cpp\&.
+.PP
+.nf
+51                                                      {
+52   std::cout << "Simple Command-line interface for Travel Management"
+53             << std::endl;
+54   // auto keys = nameToDescr\&.keys();
+55   // auto values = nameToDescr\&.values();
+56   using Pair = Tuple<SimpleString, const char *>;
+57   auto keysAndValues = nameToDescr\&.toList();
+58   // keys->zip(*values)
+59   // ->sort([](Tuple<SimpleString, const char*> const& t1,
+60   //           Tuple<SimpleString, const char*> const& t2){
+61   //            return t2\&.head() > t1\&.head();
+62   //        });
+63   std::cout
+64       << "================================================================="
+65          "==============="
+66       << std::endl;
+67   for (unsigned i = 0; i < keysAndValues->length(); i++) {
+68     std::cout << "[" << keysAndValues->get(i)\&.head() << "] "
+69               << *keysAndValues->get(i)\&.get<1>() << std::endl;
+70     std::cout
+71         << "================================================================="
+72            "==============="
+73         << std::endl;
+74   }
+75 }
+.fi
+.PP
+References Tuple< Tail >::get()\&.
+.PP
+Referenced by Travel::HTLInterpreter::general(), and Travel::VisitInterpreter::general()\&.
+.SS "void Travel::CommandList::registerCommand (\fBSimpleString\fP && name, \fBTokenType\fP tokenType, \fBScannerContext\fP ctx, const char *&& descr)"
+
+.PP
+Registers the command with the given information\&. A second call to registerCommand with different parameters but the same command name will overwrite the previous one\&. 
+.PP
+Definition at line 40 of file CommandList\&.cpp\&.
+.PP
+.nf
+43                                                                {
+44   LOG(INFO, "Registering command: " << name);
+45   nameToDescr\&.put(name, std::move(descr));
+46   commandMap\&.put(tokenType, ctx);
+47   nameToToken\&.put(std::move(name), tokenType);
+48   LOG(INFO, nameToDescr\&.length() << " commands registered\&.");
+49 }
+.fi
+.PP
+References LOG\&.
+.SS "void Travel::CommandList::registerCommand (\fBSimpleString\fP const & name, \fBTokenType\fP tokenType, \fBScannerContext\fP ctx, const char * descr)"
+
+.PP
+Registers the command with the given information\&. A second call to registerCommand with different parameters but the same command name will overwrite the previous one\&. 
+.PP
+Definition at line 29 of file CommandList\&.cpp\&.
+.PP
+.nf
+32                                                              {
+33   LOG(INFO, "Registering command: " << name);
+34   nameToDescr\&.put(name, descr);
+35   commandMap\&.put(tokenType, ctx);
+36   nameToToken\&.put(name, tokenType);
+37   LOG(INFO, nameToDescr\&.length() << " commands registered\&.");
+38 }
+.fi
+.PP
+References LOG\&.
+.PP
+Referenced by main()\&.
+.SS "static void Travel::CommandList::setCommandList (\fBCommandList\fP * cl)\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Sets the global command list\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIcl\fP the new command list 
+.RE
+.PP
+
+.PP
+Definition at line 48 of file CommandList\&.hpp\&.
+.PP
+.nf
+48                                               {
+49     CommandList::globalCommandList = cl;
+50   }
+.fi
+.PP
+References globalCommandList\&.
+.PP
+Referenced by main()\&.
+.SS "std::unique_ptr< \fBNullable\fP< \fBTokenType\fP > > Travel::CommandList::tokenFor (\fBSimpleString\fP const & name)"
+
+.PP
+Returns a pointer to a \fBNotNull\fP of the \fBTokenType\fP associated with the given name if such exists and \fBNull\fP otherwise\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIname\fP the name to find the token type for 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the token type 
+.RE
+.PP
+
+.PP
+Definition at line 92 of file CommandList\&.cpp\&.
+.PP
+.nf
+92                                                     {
+93   LOG(VERBOSE, "Get token type for command\&.");
+94   return nameToToken\&.get(name);
+95 }
+.fi
+.PP
+References LOG\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBHashMap\fP<\fBTokenType\fP, \fBScannerContext\fP> Travel::CommandList::commandMap\fC [private]\fP"
+
+.PP
+Definition at line 20 of file CommandList\&.hpp\&.
+.PP
+Referenced by copy()\&.
+.SS "\fBTravel::CommandList\fP * Travel::CommandList::globalCommandList = nullptr\fC [static]\fP, \fC [private]\fP"
+
+.PP
+A convenience value so \fBCommandList\fP doesn't need to be passed around as much\&. 
+.PP
+Definition at line 28 of file CommandList\&.hpp\&.
+.PP
+Referenced by getCommandList(), and setCommandList()\&.
+.SS "\fBHashMap\fP<\fBSimpleString\fP, const char *> Travel::CommandList::nameToDescr\fC [private]\fP"
+
+.PP
+Definition at line 22 of file CommandList\&.hpp\&.
+.PP
+Referenced by copy()\&.
+.SS "\fBHashMap\fP<\fBSimpleString\fP, \fBTokenType\fP> Travel::CommandList::nameToToken\fC [private]\fP"
+
+.PP
+Definition at line 21 of file CommandList\&.hpp\&.
+.PP
+Referenced by copy()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

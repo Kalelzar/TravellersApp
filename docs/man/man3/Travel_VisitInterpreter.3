@@ -1,0 +1,373 @@
+.TH "Travel::VisitInterpreter" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Travel::VisitInterpreter \- An interpreter for the visit mode started by the visit <destination> command\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <VisitInterpreter\&.hpp>\fP
+.PP
+Inherits \fBInterpreter< VisitBuilder >\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBInterpreter\fP (std::shared_ptr< \fBArrayList\fP< \fBToken\fP >> _tokens)"
+.br
+.RI "Inherits the constructors of \fBInterpreter\fP\&. "
+.ti -1c
+.RI "bool \fBparse\fP (\fBVisitBuilder\fP &state) override"
+.br
+.RI "Parses the provided tokens into the given \fBTravel::VisitBuilder\fP\&. "
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBcomment\fP (\fBVisitBuilder\fP &vb)"
+.br
+.RI "Interprets the comment command\&. "
+.ti -1c
+.RI "void \fBfrom\fP (\fBVisitBuilder\fP &vb)"
+.br
+.RI "Interprets the from command\&. "
+.ti -1c
+.RI "bool \fBgeneral\fP (\fBVisitBuilder\fP &vb)"
+.br
+.RI "Interprets all commands not part of a prefix\&. (from, to, rate, comment) "
+.ti -1c
+.RI "void \fBphoto\fP (\fBVisitBuilder\fP &vb)"
+.br
+.RI "Interprets all commands that are part of the photo prefix\&. (delete, show, upload) "
+.ti -1c
+.RI "void \fBphotoDelete\fP (\fBVisitBuilder\fP &vb)"
+.br
+.RI "Interprets the photo delete command\&. "
+.ti -1c
+.RI "void \fBphotoShow\fP (\fBVisitBuilder\fP &vb)"
+.br
+.RI "Interprets the photo show command\&. "
+.ti -1c
+.RI "void \fBphotoUpload\fP (\fBVisitBuilder\fP &vb)"
+.br
+.RI "Interprets the photo upload command\&. "
+.ti -1c
+.RI "void \fBrate\fP (\fBVisitBuilder\fP &vb)"
+.br
+.RI "Interprets the rate command\&. "
+.ti -1c
+.RI "void \fBto\fP (\fBVisitBuilder\fP &vb)"
+.br
+.RI "Interprets the to command\&. "
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+An interpreter for the visit mode started by the visit <destination> command\&. 
+.PP
+Definition at line 26 of file VisitInterpreter\&.hpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void Travel::VisitInterpreter::comment (\fBVisitBuilder\fP & vb)\fC [private]\fP"
+
+.PP
+Interprets the comment command\&. 
+.PP
+Definition at line 71 of file VisitInterpreter\&.cpp\&.
+.PP
+.nf
+71                                                {
+72   auto comment = consume(TokenType::STRING, "Expected Comment");
+73   vb\&.comment(comment\&.lexeme);
+74 }
+.fi
+.PP
+References Travel::VisitBuilder::comment(), Interpreter< VisitBuilder >::consume(), and STRING\&.
+.PP
+Referenced by general()\&.
+.SS "void Travel::VisitInterpreter::from (\fBVisitBuilder\fP & vb)\fC [private]\fP"
+
+.PP
+Interprets the from command\&. 
+.PP
+Definition at line 56 of file VisitInterpreter\&.cpp\&.
+.PP
+.nf
+56                                             {
+57   auto from = consume(TokenType::DATE, "Expected Date");
+58   vb\&.from(from\&.lexeme);
+59 }
+.fi
+.PP
+References Interpreter< VisitBuilder >::consume(), DATE, and Travel::VisitBuilder::from()\&.
+.PP
+Referenced by general()\&.
+.SS "bool Travel::VisitInterpreter::general (\fBVisitBuilder\fP & vb)\fC [private]\fP"
+
+.PP
+Interprets all commands not part of a prefix\&. (from, to, rate, comment) 
+.PP
+Definition at line 5 of file VisitInterpreter\&.cpp\&.
+.PP
+.nf
+5                                                {
+6   switch (next()\&.t) {
+7   case TokenType::FROM:
+8     from(vb);
+9     break;
+10   case TokenType::TO:
+11     to(vb);
+12     break;
+13   case TokenType::COMMENT:
+14     comment(vb);
+15     break;
+16   case TokenType::RATE:
+17     rate(vb);
+18     break;
+19   case TokenType::HELP:
+20     // TODO: Maybe filter the commands so only the right ones are
+21     // shown?
+22     CommandList::getCommandList()->printCommandsWithDescription();
+23     break;
+24   case TokenType::CANCEL:
+25     vb\&.clear();
+26   case TokenType::SAVE:
+27     return false;
+28     break;
+29   case TokenType::NUMBER:
+30     errorflag = true;
+31     std::cerr << "(Line " << prev()\&.line << ") "
+32               << "Unexpected Number -> " << prev()\&.lexeme << std::endl;
+33     break;
+34   case TokenType::DATE:
+35     errorflag = true;
+36     std::cerr << "(Line " << prev()\&.line << ") "
+37               << "Unexpected Date -> " << prev()\&.lexeme << std::endl;
+38     break;
+39   case TokenType::ERROR:
+40     errorflag = true;
+41     std::cerr << "(Line " << prev()\&.line << ") "
+42               << "Parsing error: " << prev()\&.lexeme << std::endl;
+43     break;
+44   case TokenType::EOF_T:
+45     return true;
+46     break;
+47   default:
+48     errorflag = true;
+49     std::cerr << "(Line " << prev()\&.line << ") "
+50               << "Unexpected String -> " << prev()\&.lexeme << std::endl;
+51     break;
+52   }
+53   return true;
+54 }
+.fi
+.PP
+References CANCEL, Travel::VisitBuilder::clear(), COMMENT, comment(), DATE, EOF_T, ERROR, Interpreter< VisitBuilder >::errorflag, FROM, from(), Travel::CommandList::getCommandList(), HELP, Token::lexeme, Token::line, Interpreter< VisitBuilder >::next(), NUMBER, Interpreter< VisitBuilder >::prev(), Travel::CommandList::printCommandsWithDescription(), RATE, rate(), SAVE, TO, and to()\&.
+.PP
+Referenced by parse()\&.
+.SS "\fBInterpreter\fP< Controller >::\fBInterpreter\fP\fC [inline]\fP, \fC [explicit]\fP"
+
+.PP
+Inherits the constructors of \fBInterpreter\fP\&. 
+.PP
+Definition at line 83 of file Interpreter\&.hpp\&.
+.PP
+.nf
+84       : tokens(_tokens) {}
+.fi
+.SS "bool Travel::VisitInterpreter::parse (\fBVisitBuilder\fP & state)\fC [override]\fP"
+
+.PP
+Parses the provided tokens into the given \fBTravel::VisitBuilder\fP\&. 
+.PP
+Definition at line 132 of file VisitInterpreter\&.cpp\&.
+.PP
+.nf
+132                                              {
+133   errorflag = false;
+134   // vb\&.destination(destination);
+135 
+136   while (!isAtEnd()) {
+137     try {
+138       if (matches(TokenType::PHOTO)) {
+139         LOG(INFO, "Photo prefix");
+140         next();
+141         photo(vb);
+142       } else {
+143         LOG(INFO, "General");
+144         if (!general(vb))
+145           return false;
+146       }
+147     } catch (NoValueException &e) {
+148       errorflag = true;
+149       std::cerr << e\&.what() << std::endl;
+150     } catch (InvalidArgumentException &e) {
+151       errorflag = true;
+152       std::cerr << e\&.what() << std::endl;
+153     } catch (ReachedEndOfStreamException &e) {
+154       errorflag = true;
+155       std::cerr << e\&.what() << std::endl;
+156       return true;
+157     } catch (WrongTokenTypeException &e) {
+158       errorflag = true;
+159       std::cerr << e\&.what() << std::endl;
+160       while (peek()\&.t == TokenType::STRING || peek()\&.t == TokenType::NUMBER ||
+161              peek()\&.t == TokenType::DATE || peek()\&.t == TokenType::ERROR) {
+162         Token n = next();
+163         if (n\&.t == TokenType::ERROR) {
+164           std::cerr << "Error: " << n\&.lexeme << std::endl;
+165         }
+166       }
+167     }
+168   }
+169 
+170   return true;
+171 }
+.fi
+.PP
+References DATE, ERROR, Interpreter< VisitBuilder >::errorflag, general(), Interpreter< VisitBuilder >::isAtEnd(), Token::lexeme, LOG, Interpreter< VisitBuilder >::matches(), Interpreter< VisitBuilder >::next(), NUMBER, Interpreter< VisitBuilder >::peek(), PHOTO, photo(), STRING, Token::t, WrongTokenTypeException::what(), NoValueException::what(), ReachedEndOfStreamException::what(), and InvalidArgumentException::what()\&.
+.SS "void Travel::VisitInterpreter::photo (\fBVisitBuilder\fP & vb)\fC [private]\fP"
+
+.PP
+Interprets all commands that are part of the photo prefix\&. (delete, show, upload) 
+.PP
+Definition at line 76 of file VisitInterpreter\&.cpp\&.
+.PP
+.nf
+76                                              {
+77   if (isAtEnd())
+78     throw ReachedEndOfStreamException();
+79 
+80   switch (next()\&.t) {
+81   case TokenType::UPLOAD:
+82     photoUpload(vb);
+83     break;
+84   case TokenType::DELETE:
+85     photoDelete(vb);
+86     break;
+87   case TokenType::SHOW:
+88     photoShow(vb);
+89     break;
+90   case TokenType::EOF_T:
+91     std::cout << "Photo is a command prefix\&. It doesn't do anything"
+92                  " by itself\&."
+93               << std::endl;
+94     break;
+95   case TokenType::NUMBER:
+96     errorflag = true;
+97     std::cerr << "(Line " << prev()\&.line << ") "
+98               << "Unexpected Number -> " << prev()\&.lexeme << std::endl;
+99     break;
+100   case TokenType::DATE:
+101     errorflag = true;
+102     std::cerr << "(Line " << prev()\&.line << ") "
+103               << "Unexpected Date -> " << prev()\&.lexeme << std::endl;
+104     break;
+105   case TokenType::ERROR:
+106     errorflag = true;
+107     std::cerr << "(Line " << prev()\&.line << ") "
+108               << "Parsing error: " << prev()\&.lexeme << std::endl;
+109     break;
+110   default:
+111     errorflag = true;
+112     std::cerr << "(Line " << prev()\&.line << ") "
+113               << "Unexpected String -> " << prev()\&.lexeme << std::endl;
+114     break;
+115   }
+116 }
+.fi
+.PP
+References DATE, DELETE, EOF_T, ERROR, Interpreter< VisitBuilder >::errorflag, Interpreter< VisitBuilder >::isAtEnd(), Token::lexeme, Token::line, Interpreter< VisitBuilder >::next(), NUMBER, photoDelete(), photoShow(), photoUpload(), Interpreter< VisitBuilder >::prev(), SHOW, and UPLOAD\&.
+.PP
+Referenced by parse()\&.
+.SS "void Travel::VisitInterpreter::photoDelete (\fBVisitBuilder\fP & vb)\fC [private]\fP"
+
+.PP
+Interprets the photo delete command\&. 
+.PP
+Definition at line 118 of file VisitInterpreter\&.cpp\&.
+.PP
+.nf
+118                                                    {
+119   auto uri = consume(TokenType::STRING, "Expected path to photo");
+120   std::cout << "Deleting " << uri\&.lexeme << std::endl;
+121   vb\&.photoDelete(uri\&.lexeme);
+122 }
+.fi
+.PP
+References Interpreter< VisitBuilder >::consume(), Travel::VisitBuilder::photoDelete(), and STRING\&.
+.PP
+Referenced by photo()\&.
+.SS "void Travel::VisitInterpreter::photoShow (\fBVisitBuilder\fP & vb)\fC [private]\fP"
+
+.PP
+Interprets the photo show command\&. 
+.PP
+Definition at line 124 of file VisitInterpreter\&.cpp\&.
+.PP
+.nf
+124 { vb\&.photoShow(); }
+.fi
+.PP
+References Travel::VisitBuilder::photoShow()\&.
+.PP
+Referenced by photo()\&.
+.SS "void Travel::VisitInterpreter::photoUpload (\fBVisitBuilder\fP & vb)\fC [private]\fP"
+
+.PP
+Interprets the photo upload command\&. 
+.PP
+Definition at line 126 of file VisitInterpreter\&.cpp\&.
+.PP
+.nf
+126                                                    {
+127   auto uri = consume(TokenType::STRING, "Expected path to photo");
+128   std::cout << "Uploading " << uri\&.lexeme << std::endl;
+129   vb\&.photoAdd(uri\&.lexeme);
+130 }
+.fi
+.PP
+References Interpreter< VisitBuilder >::consume(), Travel::VisitBuilder::photoAdd(), and STRING\&.
+.PP
+Referenced by photo()\&.
+.SS "void Travel::VisitInterpreter::rate (\fBVisitBuilder\fP & vb)\fC [private]\fP"
+
+.PP
+Interprets the rate command\&. 
+.PP
+Definition at line 66 of file VisitInterpreter\&.cpp\&.
+.PP
+.nf
+66                                             {
+67   auto rating = consume(TokenType::NUMBER, "Expected Number(1 - 5)");
+68   vb\&.rating(atoi(rating\&.lexeme));
+69 }
+.fi
+.PP
+References Interpreter< VisitBuilder >::consume(), NUMBER, and Travel::VisitBuilder::rating()\&.
+.PP
+Referenced by general()\&.
+.SS "void Travel::VisitInterpreter::to (\fBVisitBuilder\fP & vb)\fC [private]\fP"
+
+.PP
+Interprets the to command\&. 
+.PP
+Definition at line 61 of file VisitInterpreter\&.cpp\&.
+.PP
+.nf
+61                                           {
+62   auto to = consume(TokenType::DATE, "Expected Date");
+63   vb\&.to(to\&.lexeme);
+64 }
+.fi
+.PP
+References Interpreter< VisitBuilder >::consume(), DATE, and Travel::VisitBuilder::to()\&.
+.PP
+Referenced by general()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

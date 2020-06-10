@@ -1,0 +1,370 @@
+.TH "Travel::Scanner" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Travel::Scanner \- A general-purpose scanner that can be adopted to scan most forms of structured text files\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Scanner\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "std::shared_ptr< \fBArrayList\fP< \fBToken\fP > > \fBscan\fP ()"
+.br
+.RI "Scans the entire input stream\&. "
+.ti -1c
+.RI "\fBScanner\fP (\fBScannerContext\fP \fBsc\fP, std::istream *\fBinput\fP, \fBCommandList\fP *\fBcl\fP)"
+.br
+.RI "Constructs a scanner for the provided input stream using the specified context and command list\&. "
+.ti -1c
+.RI "std::shared_ptr< \fBArrayList\fP< \fBToken\fP > > \fBscanNext\fP ()"
+.br
+.RI "Scans the next line in the input stream\&. "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "bool \fBerror\fP = false"
+.br
+.RI "Set to true only if the scanner encounters an error during scanning i\&.e a token of type \fBERROR\fP is generated\&. "
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "std::shared_ptr< \fBArrayList\fP< \fBToken\fP > > \fBscanLine\fP (const char *\fBline\fP)"
+.br
+.RI "Tokenizes the provided line\&. "
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBCommandList\fP * \fBcl\fP"
+.br
+.ti -1c
+.RI "std::istream * \fBinput\fP"
+.br
+.ti -1c
+.RI "int \fBline\fP = 1"
+.br
+.ti -1c
+.RI "\fBScannerContext\fP \fBsc\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+A general-purpose scanner that can be adopted to scan most forms of structured text files\&. 
+
+It can scan text from any input stream implemented through \fCstd::istream\fP regardless if it is a file, standard input or, potentially, a remote source\&.
+.PP
+This class provides methods for scanning the entire stream at once as well as scanning the stream line-by-line for cases such as accepting from the user rather than a static source (file, remote resource, etc)\&.
+.PP
+The scanner is not reusable\&. Rather they are meant to read a single input stream once and consequently be disposed of\&.
+.PP
+You can provide a list of reserved keywords with \fBCommandList\fP\&. Some keywords may only be provided in a certain context (File, Command-line or all) as such the scanner needs to know it's own context which is provided at instantiation through \fBScannerContext\fP 
+.PP
+Definition at line 42 of file Scanner\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Travel::Scanner::Scanner (\fBScannerContext\fP sc, std::istream * input, \fBCommandList\fP * cl)"
+
+.PP
+Constructs a scanner for the provided input stream using the specified context and command list\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIsc\fP the context of the scanner 
+.br
+\fIinput\fP the input stream to scan 
+.br
+\fIcl\fP the list of reserved keywords 
+.RE
+.PP
+
+.PP
+Definition at line 4 of file Scanner\&.cpp\&.
+.PP
+.nf
+5                                           {
+6   LOG(INFO, "Initialize scanner\&.");
+7   this->sc = sc;
+8   this->input = input;
+9   this->cl = cl;
+10 }
+.fi
+.PP
+References cl, input, LOG, and sc\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "std::shared_ptr< \fBArrayList\fP< \fBToken\fP > > Travel::Scanner::scan ()"
+
+.PP
+Scans the entire input stream\&. This is done by reading from the stream line-by-line until the end of the stream is reached\&. Due to technical limitations the lines are assumed to be of 512 characters or less\&.
+.PP
+The last token of the returned list is always of type {\fBEOF}  a shared pointer to a list containing the resulting tokens \fP
+.PP
+Definition at line 12 of file Scanner\&.cpp\&.
+.PP
+.nf
+12                                                     {
+13   LOG(INFO, "Scanning\&.\&.");
+14   error = false;
+15   std::shared_ptr<ArrayList<Token>> list = std::make_shared<ArrayList<Token>>();
+16   while (!input->eof()) {
+17     LOG(INFO, "Reading line from input\&.");
+18     char sline[513];
+19     input->getline(sline, 512);
+20     if (input->eof())
+21       break;
+22     list->appendAll(*scanLine(sline));
+23     line++;
+24   }
+25   LOG(VERBOSE, "Reached end of input");
+26   list->append(Token{TokenType::EOF_T, "", line});
+27   return list;
+28 }
+.fi
+.PP
+References EOF_T, and LOG\&.
+.PP
+Referenced by CSV< const char *, const char *, const char * >::load()\&.
+.SS "std::shared_ptr< \fBArrayList\fP< \fBToken\fP > > Travel::Scanner::scanLine (const char * line)\fC [private]\fP"
+
+.PP
+Tokenizes the provided line\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIline\fP the line to tokenize 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+a shared pointer to a list containing the resulting tokens 
+.RE
+.PP
+
+.PP
+Definition at line 46 of file Scanner\&.cpp\&.
+.PP
+.nf
+46                                                                         {
+47   LOG(VERBOSE, "Read: ");
+48   LOG(VERBOSE, line);
+49   LOG(VERBOSE, "Tokenizing line\&.\&.\&.");
+50   std::shared_ptr<ArrayList<Token>> list = std::make_shared<ArrayList<Token>>();
+51   int linelen = strlen(line);
+52 
+53   int index = 0;
+54   while (index < linelen) {
+55     LOG(INFO, "======================================================");
+56     if (line[index] == '"') {
+57       LOG(INFO, "Found beginning of string literal\&.");
+58       index++;
+59       int start = index;
+60       while (line[index] != '"') {
+61 
+62         index++;
+63         if (index >= linelen) {
+64           LOG(ERROR, "Unterminated string\&.");
+65           const char errorMsg[] = "Unterminated string\&.";
+66           list->append({TokenType::ERROR, errorMsg, this->line});
+67           error = true;
+68           return list;
+69         }
+70       }
+71 
+72       LOG(VERBOSE, "Reached end of string");
+73 
+74       if (index + 1 != linelen && line[index + 1] != ' ') {
+75         LOG(ERROR, "Expected whitespace or EOL after string\&.");
+76         const char errorMsg[] = "Expected whitespace or EOL after string\&.";
+77         list->append({TokenType::ERROR, errorMsg, this->line});
+78         error = true;
+79         return list;
+80       }
+81 
+82       char *lexeme = new char[index - start + 1];
+83       LOG(VERBOSE, "Copying string\&.\&.\&. ");
+84       strncpy(lexeme, line + start, index - start);
+85       lexeme[index - start] = '\0';
+86       LOG(VERBOSE, "Generating token\&.\&.\&.");
+87       list->append({TokenType::STRING, lexeme, this->line});
+88       delete[] lexeme;
+89       LOG(INFO, "String token generated successfully");
+90       index++;
+91     } else if (isdigit(line[index]) ||
+92                (line[index] == '-' && index + 1 < linelen &&
+93                 isdigit(line[index + 1]))) {
+94       LOG(INFO, "Found beginning of number");
+95       int start = index;
+96       bool maybeDate = false;
+97       if (line[index] == '-')
+98         index++;
+99       TokenType tt = TokenType::NUMBER;
+100       while (isdigit(line[index])) {
+101 
+102         index++;
+103         if (line[index] == '-' && tt == TokenType::NUMBER &&
+104             index + 1 < linelen && isdigit(line[index + 1])) {
+105           tt = TokenType::DATE;
+106           index++;
+107           maybeDate = true;
+108         } else if (line[index] == '-' && maybeDate && index + 1 < linelen &&
+109                    isdigit(line[index + 1])) {
+110           index++;
+111           maybeDate = false;
+112         } else if (line[index] == '-') {
+113           index++;
+114           tt = TokenType::STRING;
+115           break;
+116         }
+117       }
+118 
+119       LOG(VERBOSE, "Reached end of number");
+120 
+121       while (index < linelen && line[index] != ' ') {
+122         tt = TokenType::STRING;
+123         index++;
+124       }
+125 
+126       char *lexeme = new char[index - start + 1];
+127       LOG(VERBOSE, "Copying number\&.\&.\&.");
+128       strncpy(lexeme, line + start, index - start);
+129       lexeme[index - start] = '\0';
+130       LOG(VERBOSE, "Generating token\&.\&.\&.");
+131       list->append({tt, lexeme, this->line});
+132       delete[] lexeme;
+133       LOG(INFO, "Number token generated successfully");
+134       index++;
+135     } else if (line[index] == ' ') {
+136       LOG(VERBOSE, "Skipping whitespace");
+137       index++;
+138     } else {
+139       LOG(INFO, "Found either a reserved keyword or a single-word string");
+140       int start = index;
+141       index++;
+142       while (index < linelen && line[index] != ' ') {
+143         index++;
+144       }
+145       LOG(VERBOSE, "Found end of identifier");
+146 
+147       if (index != linelen && line[index] != ' ') {
+148         LOG(ERROR, "Expected whitespace or EOL after identifier\&.");
+149         const char errorMsg[] = "Expected whitespace or EOL after identifier\&.";
+150         list->append({TokenType::ERROR, errorMsg, this->line});
+151         error = true;
+152         return list;
+153       }
+154 
+155       char *lexeme = new char[index - start + 1];
+156       LOG(VERBOSE, "Copying identifier\&.\&.\&.");
+157       strncpy(lexeme, line + start, index - start);
+158       lexeme[index - start] = '\0';
+159       LOG(INFO, "Checking if identifier is a reserved keyword\&.\&.\&.");
+160       std::shared_ptr<Nullable<TokenType>> tt = cl->tokenFor(lexeme);
+161       if (tt->isDefined()) {
+162         LOG(INFO, "Found reserved keyword\&.");
+163         LOG(VERBOSE, "Acquiring Scanner Context for keyword\&.");
+164         ScannerContext tctx =
+165             cl->contextFor(tt->get())->getOrElse(ScannerContext::UNDEFINED);
+166         if (tctx == ScannerContext::ALL || tctx == sc ||
+167             sc == ScannerContext::ALL) {
+168           LOG(VERBOSE, "Keyword used in proper scanner context\&.");
+169           LOG(VERBOSE, "Generating token\&.\&.\&.");
+170           list->append({tt->get(), lexeme, this->line});
+171           LOG(INFO, "Keyword token generated successfully");
+172         } else {
+173           LOG(ERROR, "Command used in the wrong context\&.");
+174           const char errorMsg[] = "Command used in the wrong context\&.";
+175           list->append({TokenType::ERROR, errorMsg, this->line});
+176           error = true;
+177           delete[] lexeme;
+178           return list;
+179         }
+180       } else {
+181         LOG(INFO, "Not a reserved keyword\&.");
+182         LOG(VERBOSE, "Generating token\&.\&.\&.");
+183         list->append({TokenType::STRING, lexeme, this->line});
+184         LOG(INFO, "String token generated successfully");
+185       }
+186       delete[] lexeme;
+187       index++;
+188     }
+189   }
+190   LOG(INFO, "Line tokenized\&.\&.\&.");
+191   return list;
+192 }
+.fi
+.PP
+References ALL, DATE, ERROR, LOG, NUMBER, STRING, and UNDEFINED\&.
+.SS "std::shared_ptr< \fBArrayList\fP< \fBToken\fP > > Travel::Scanner::scanNext ()"
+
+.PP
+Scans the next line in the input stream\&. Due to technical limitations the lines are assumed to be of 512 characters or less\&.
+.PP
+The last token of the returned list is always of type {\fBEOF}  a shared pointer to a list containing the resulting tokens \fP
+.PP
+Definition at line 30 of file Scanner\&.cpp\&.
+.PP
+.nf
+30                                                         {
+31   LOG(INFO, "Scanning next line\&.\&.\&.");
+32   error = false;
+33   std::shared_ptr<ArrayList<Token>> list = std::make_shared<ArrayList<Token>>();
+34   char sline[513];
+35   input->getline(sline, 512);
+36   if (input->eof()) {
+37     list->append(Token{TokenType::EOF_T, "", line});
+38     return list;
+39   }
+40   list->appendAll(*scanLine(sline));
+41   line++;
+42   list->append(Token{TokenType::EOF_T, "", line});
+43   return list;
+44 }
+.fi
+.PP
+References EOF_T, and LOG\&.
+.PP
+Referenced by main(), and Travel::HTLInterpreter::visit()\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBCommandList\fP* Travel::Scanner::cl\fC [private]\fP"
+
+.PP
+Definition at line 45 of file Scanner\&.hpp\&.
+.PP
+Referenced by Scanner()\&.
+.SS "bool Travel::Scanner::error = false"
+
+.PP
+Set to true only if the scanner encounters an error during scanning i\&.e a token of type \fBERROR\fP is generated\&. This is done so more than one error can be detected in a single scan\&. 
+.PP
+Definition at line 63 of file Scanner\&.hpp\&.
+.SS "std::istream* Travel::Scanner::input\fC [private]\fP"
+
+.PP
+Definition at line 46 of file Scanner\&.hpp\&.
+.PP
+Referenced by Scanner()\&.
+.SS "int Travel::Scanner::line = 1\fC [private]\fP"
+
+.PP
+Definition at line 47 of file Scanner\&.hpp\&.
+.SS "\fBScannerContext\fP Travel::Scanner::sc\fC [private]\fP"
+
+.PP
+Definition at line 44 of file Scanner\&.hpp\&.
+.PP
+Referenced by Scanner()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

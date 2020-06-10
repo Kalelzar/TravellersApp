@@ -1,0 +1,163 @@
+.TH "TravellersApp/src/main.cpp" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+TravellersApp/src/main.cpp
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'collection/Tuple\&.hpp'\fP
+.br
+\fC#include 'debug\&.hpp'\fP
+.br
+\fC#include 'parser/CSV\&.hpp'\fP
+.br
+\fC#include 'parser/HTLInterpreter\&.hpp'\fP
+.br
+\fC#include 'parser/LoginInterpreter\&.hpp'\fP
+.br
+\fC#include 'parser/Scanner\&.hpp'\fP
+.br
+\fC#include 'parser/Token\&.hpp'\fP
+.br
+\fC#include <iostream>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBmain\fP ()"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "int main ()"
+
+.PP
+Definition at line 10 of file main\&.cpp\&.
+.PP
+.nf
+10            {
+11 
+12   // TODO: Input validation of paths
+13 
+14   Travel::CommandList lcl;
+15   lcl\&.registerCommand("login", TokenType::LOGIN, ScannerContext::ATOPEN,
+16                       "login <user> <password>\&."); // DONE
+17   lcl\&.registerCommand("register", TokenType::REGISTER, ScannerContext::ATOPEN,
+18                       "register <email> <user> <password>\&."); // DONE
+19 
+20   Travel::CommandList::setCommandList(&lcl);
+21 
+22   Travel::CommandList cl;
+23   cl\&.registerCommand("exit", TokenType::EXIT, ScannerContext::ALL,
+24                      "Exit the program\&."); // DONE
+25   cl\&.registerCommand("help", TokenType::HELP, ScannerContext::ALL,
+26                      "Print this help message\&."); // DONE
+27   cl\&.registerCommand("friend", TokenType::FRIEND, ScannerContext::GENERAL,
+28                      "friend <command> <args> => " // DONE
+29                      "prefix for all friend commands");
+30   cl\&.registerCommand("add", TokenType::ADD, ScannerContext::GENERAL,
+31                      "friend add <name> " // DONE
+32                      "=> add user <name> to friend's list");
+33   cl\&.registerCommand("remove", TokenType::REMOVE, ScannerContext::GENERAL,
+34                      "friend remove <name> " // DONE
+35                      "=> remove user <name> from friend's list");
+36   cl\&.registerCommand("list", TokenType::LIST, ScannerContext::GENERAL,
+37                      "friend list " // DONE
+38                      "=> lists friends\&.");
+39   cl\&.registerCommand("visited", TokenType::VISITED, ScannerContext::GENERAL,
+40                      "friend visited <destination> " // DONE
+41                      "=> show all friends who \nhave visited <destination>, "
+42                      "along with their comments and ratings\&.\n"
+43                      "friend visited <destination> <user> " // DONE
+44                      "=> show if friend <user> \nhas visited <destination>"
+45                      ", and if they have: Their comment and rating\&.\n"
+46                      "destination visited <destination> <user> " // DONE
+47                      "=> show if <user> \nhas visited <destination>"
+48                      ", and if they have: their comment and rating");
+49   cl\&.registerCommand("visit", TokenType::VISIT, ScannerContext::GENERAL,
+50                      "visit <destination> " // DONE
+51                      "=> visit <destination>");
+52 
+53   cl\&.registerCommand("from", TokenType::FROM, ScannerContext::VISIT,
+54                      "from <date> " // DONE
+55                      "=> mark the beginning of your visit as <date>");
+56   cl\&.registerCommand("to", TokenType::TO, ScannerContext::VISIT,
+57                      "to <date> " // DONE
+58                      "=> mark the end of your visit as <date>");
+59   cl\&.registerCommand("rate", TokenType::RATE, ScannerContext::VISIT,
+60                      "rate <rating : 1 - 5> " // DONE
+61                      "=> rate your visit with a <rating> between 1 and 5");
+62   cl\&.registerCommand("comment", TokenType::COMMENT, ScannerContext::VISIT,
+63                      "comment <comment> "
+64                      "=> add comment <comment> to your visit");
+65   cl\&.registerCommand("photo", TokenType::PHOTO, ScannerContext::VISIT,
+66                      "photo " // DONE
+67                      "=> prefix for photo commands>");
+68   cl\&.registerCommand("upload", TokenType::UPLOAD, ScannerContext::VISIT,
+69                      "photo upload <uri> " // DONE
+70                      "=> upload photo with path <uri>");
+71   cl\&.registerCommand("delete", TokenType::DELETE, ScannerContext::VISIT,
+72                      "photo delete <uri> " // DONE
+73                      "=> delete photo with path <uri>");
+74   cl\&.registerCommand("show", TokenType::SHOW, ScannerContext::VISIT,
+75                      "photo show" // DONE
+76                      "=> show uploaded photos>");
+77   cl\&.registerCommand("save", TokenType::SAVE, ScannerContext::VISIT,
+78                      "save " // DONE
+79                      "=> save the information for this visit and return to"
+80                      " the main menu");
+81   cl\&.registerCommand("cancel", TokenType::CANCEL, ScannerContext::VISIT,
+82                      "cancel " // DONE
+83                      "=> cancel the information for this visit \n"
+84                      "and return to the main menu");
+85 
+86   cl\&.registerCommand("destination", TokenType::DESTINATION,
+87                      ScannerContext::GENERAL,
+88                      "prefix for all friend commands"); // DONE
+89   cl\&.registerCommand("exists", TokenType::EXISTS, ScannerContext::GENERAL,
+90                      "destination exists <destination>\n" // DONE
+91                      "=> Check if <destination> exists in the database\&.");
+92   cl\&.registerCommand("rating", TokenType::RATING, ScannerContext::GENERAL,
+93                      "destination rating <destination>\n" // DONE
+94                      "=> Show an average of all ratings for <destination>");
+95   cl\&.registerCommand("comments", TokenType::COMMENTS, ScannerContext::GENERAL,
+96                      "destination comments <destination>\n" // DONE
+97                      "=> Show all comments for <destination>");
+98 
+99   Travel::TravelState state{};
+100   bool run = true;
+101 
+102   Travel::Scanner lsc(ScannerContext::ATOPEN, &std::cin, &lcl);
+103 
+104   while (run) {
+105     std::cout << "login$ ";
+106     auto tokens = lsc\&.scanNext();
+107     /*tokens->foreach([](Token const& t){ std::cout<<t<<std::endl;});*/
+108     Travel::LoginInterpreter interpreter{tokens};
+109     run = interpreter\&.parse(state);
+110   }
+111 
+112   Travel::CommandList::setCommandList(&cl);
+113   // cl\&.printCommandsWithDescription();
+114 
+115   Travel::Scanner sc(ScannerContext::ALL, &std::cin, &cl);
+116 
+117   run = true;
+118   while (run) {
+119     std::cout << "$ ";
+120     auto tokens = sc\&.scanNext();
+121     /*tokens->foreach([](Token const& t){ std::cout<<t<<std::endl;});*/
+122     Travel::HTLInterpreter interpreter{tokens};
+123     run = interpreter\&.parse(state);
+124   }
+125   return 0;
+126 }
+.fi
+.PP
+References ADD, ALL, ATOPEN, CANCEL, COMMENT, COMMENTS, DELETE, DESTINATION, EXISTS, EXIT, FRIEND, FROM, GENERAL, HELP, LIST, LOGIN, Travel::LoginInterpreter::parse(), Travel::HTLInterpreter::parse(), PHOTO, RATE, RATING, REGISTER, Travel::CommandList::registerCommand(), REMOVE, SAVE, Travel::Scanner::scanNext(), Travel::CommandList::setCommandList(), SHOW, TO, UPLOAD, VISIT, and VISITED\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

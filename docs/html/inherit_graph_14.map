@@ -1,0 +1,8 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classIList.html" title="An interface for a generic list." alt="" coords="5,81,84,108"/>
+<area shape="rect" id="node2" href="$classArrayList.html" title="An implementation of a list backed by a resizable array." alt="" coords="137,56,242,83"/>
+<area shape="rect" id="node6" href="$classLinkedList.html" title="An implementation of a singly&#45;linked list." alt="" coords="132,107,247,133"/>
+<area shape="rect" id="node3" href="$classArraySet.html" title="Literally an ArrayList but when adding items it checks if the element is already in the list." alt="" coords="315,5,417,32"/>
+<area shape="rect" id="node4" href="$classSortedArrayList.html" title="NOT IMPLEMENTED An array list that keeps itself sorted at all times." alt="" coords="295,56,437,83"/>
+<area shape="rect" id="node5" href="$classStack.html" title="An implementation of a stack leveraging ArrayList. Basically an ArrayList but most methods are privat..." alt="" coords="323,107,409,133"/>
+</map>

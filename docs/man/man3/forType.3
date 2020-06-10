@@ -1,0 +1,45 @@
+.TH "forType< Type >" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+forType< Type > \- A collection of template magic that operates on the provided type There is only a single piece of magic here right now\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ttype\&.hpp>\fP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBrepeat\fP"
+.br
+.RI "A template magic spell that will repeat the given type the provided number of types\&. This can later be applied to any type that accepts a vararg template\&. "
+.ti -1c
+.RI "struct \fBrepeat< 0, Tail\&.\&.\&. >\fP"
+.br
+.RI "Root of the recursion for \fBrepeat\fP\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename Type>
+.br
+struct forType< Type >"
+A collection of template magic that operates on the provided type There is only a single piece of magic here right now\&. 
+
+
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIType\fP the type to operate on 
+.RE
+.PP
+
+.PP
+Definition at line 7 of file ttype\&.hpp\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

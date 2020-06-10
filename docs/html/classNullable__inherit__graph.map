@@ -1,0 +1,5 @@
+<map id="Nullable&lt; A &gt;" name="Nullable&lt; A &gt;">
+<area shape="rect" id="node1" title="An optional value container inspired by Haskell&#39;s Maybe and Scala&#39;s Option." alt="" coords="59,5,159,32"/>
+<area shape="rect" id="node2" href="$classNotNull.html" title="This class represents a wrapper around a concrete value." alt="" coords="5,80,103,107"/>
+<area shape="rect" id="node3" href="$classNull.html" title="This class represents nothing (null)." alt="" coords="127,80,203,107"/>
+</map>

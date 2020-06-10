@@ -1,0 +1,385 @@
+.TH "CSV< Types >" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+CSV< Types > \- An ill-conceived attempt to create a csv file\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <CSV\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBaddEntry\fP (Types &\&.\&.\&. data)"
+.br
+.RI "Add an entry\&. This will make sure at compile-time that the amount of elements provided matches the amount of columns in the file\&. "
+.ti -1c
+.RI "\fBCSV\fP ()=delete"
+.br
+.RI "It is necessary to provide the names of the header manually\&. This may change in the future\&. "
+.ti -1c
+.RI "\fBCSV\fP (\fBCSVHeader\fP const &\fBheader\fP)"
+.br
+.RI "Construct a new csv file with the provided column header\&. "
+.ti -1c
+.RI "template<typename\&.\&.\&. Ts> \fBCSV\fP (Ts\&.\&.\&. ts)"
+.br
+.RI "Allow the passing of a column-amount of const char* instead of a tuple for the construction of the header\&. "
+.ti -1c
+.RI "auto \fBgetByColumnHeader\fP (const char *s)"
+.br
+.RI "Return the column with the given header I am not entirely sure this works\&. It did when I was testing while writing it but\&.\&.\&. "
+.ti -1c
+.RI "template<int ind> auto \fBgetColumn\fP () \-> std::unique_ptr< \fBArrayList\fP< typename Entry::template typeOf< ind >::type >>"
+.br
+.RI "Returns the specified column\&. "
+.ti -1c
+.RI "auto \fBgetKeys\fP () \-> std::unique_ptr< \fBArrayList\fP< typename Entry::template typeOf< 0 >::type >>"
+.br
+.RI "Returns the first column of the file\&. "
+.ti -1c
+.RI "\fBTuple\fP< Types\&.\&.\&. > & \fBgetRow\fP (unsigned ind)"
+.br
+.RI "Returns a reference to the row at the given index\&. "
+.ti -1c
+.RI "\fBCSVHeader\fP \fBheader\fP ()"
+.br
+.RI "Return the header of this file\&. "
+.ti -1c
+.RI "void \fBload\fP (const char *filepath)"
+.br
+.RI "Load the entries from the \fBCSV\fP file located at the given path The number of columns in the file must match the number of columns of this class\&. "
+.ti -1c
+.RI "void \fBsave\fP (const char *filepath)"
+.br
+.RI "Save the contents of the file into the file pointed to by the provided path\&. "
+.ti -1c
+.RI "unsigned \fBsize\fP ()"
+.br
+.RI "Returns the amount of entries in the file\&. "
+.ti -1c
+.RI "\fB~CSV\fP ()"
+.br
+.in -1c
+.SS "Private Types"
+
+.in +1c
+.ti -1c
+.RI "using \fBCSVHeader\fP = typename \fBTuple\fP< const char * >::ofSize< \fBcolumns\fP >::type"
+.br
+.RI "The type of the header - A \fBTuple\fP with as many const char* provided as type arguments as there are columns\&. "
+.ti -1c
+.RI "using \fBEntry\fP = \fBTuple\fP< Types\&.\&.\&. >"
+.br
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBCSVHeader\fP \fB_header\fP"
+.br
+.ti -1c
+.RI "\fBArrayList\fP< \fBEntry\fP > \fBentries\fP"
+.br
+.in -1c
+.SS "Static Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "static constexpr int \fBcolumns\fP = sizeof\&.\&.\&.(Types)"
+.br
+.RI "The number of columns\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename\&.\&.\&. Types>
+.br
+class CSV< Types >"
+An ill-conceived attempt to create a csv file\&. 
+
+It's closer to a SSV (Space Separated Values) to a \fBCSV\fP since no commas are actually used in the files\&. The element in the first column is considered a key and must be unique\&. It can store an arbitrary number of arbitrary types\&.\&.\&. theoretically It doesn't actually work with anything that isn't a char* or a class that supports implicit conversion from char* (Such as \fBSimpleString\fP)\&. It does an adequate job for the types it does work for\&. And it does make sure at compile-time that the exact amount of entries required are used\&. 
+.PP
+\fBBug\fP
+.RS 4
+It ignores the actual header names inside the file\&. It just cares about their count\&. 
+.RE
+.PP
+
+.PP
+Definition at line 25 of file CSV\&.hpp\&.
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<typename\&.\&.\&. Types> using \fBCSV\fP< Types >::\fBCSVHeader\fP =  typename \fBTuple\fP<const char *>::ofSize<\fBcolumns\fP>::type\fC [private]\fP"
+
+.PP
+The type of the header - A \fBTuple\fP with as many const char* provided as type arguments as there are columns\&. 
+.PP
+Definition at line 32 of file CSV\&.hpp\&.
+.SS "template<typename\&.\&.\&. Types> using \fBCSV\fP< Types >::\fBEntry\fP =  \fBTuple\fP<Types\&.\&.\&.>\fC [private]\fP"
+
+.PP
+Definition at line 34 of file CSV\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename\&.\&.\&. Types> \fBCSV\fP< Types >::\fBCSV\fP ()\fC [delete]\fP"
+
+.PP
+It is necessary to provide the names of the header manually\&. This may change in the future\&. 
+.SS "template<typename\&.\&.\&. Types> \fBCSV\fP< Types >::\fBCSV\fP (\fBCSVHeader\fP const & header)\fC [inline]\fP"
+
+.PP
+Construct a new csv file with the provided column header\&. 
+.PP
+Definition at line 43 of file CSV\&.hpp\&.
+.PP
+.nf
+43 : _header(header){};
+.fi
+.SS "template<typename\&.\&.\&. Types> template<typename\&.\&.\&. Ts> \fBCSV\fP< Types >::\fBCSV\fP (Ts\&.\&.\&. ts)\fC [inline]\fP"
+
+.PP
+Allow the passing of a column-amount of const char* instead of a tuple for the construction of the header\&. 
+.PP
+Definition at line 47 of file CSV\&.hpp\&.
+.PP
+.nf
+47 : _header(CSVHeader(ts\&.\&.\&.)) {}
+.fi
+.SS "template<typename\&.\&.\&. Types> \fBCSV\fP< Types >::~\fBCSV\fP ()\fC [inline]\fP"
+
+.PP
+Definition at line 165 of file CSV\&.hpp\&.
+.PP
+.nf
+165          {
+166     for (int i = 0; i < entries\&.length(); i++) {
+167       entries\&.get(i)\&.free();
+168     }
+169   }
+.fi
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename\&.\&.\&. Types> void \fBCSV\fP< Types >::addEntry (Types &\&.\&.\&. data)\fC [inline]\fP"
+
+.PP
+Add an entry\&. This will make sure at compile-time that the amount of elements provided matches the amount of columns in the file\&. 
+.PP
+Definition at line 142 of file CSV\&.hpp\&.
+.PP
+.nf
+142 { entries\&.append({data\&.\&.\&.}); }
+.fi
+.PP
+Referenced by User::~User()\&.
+.SS "template<typename\&.\&.\&. Types> auto \fBCSV\fP< Types >::getByColumnHeader (const char * s)\fC [inline]\fP"
+
+.PP
+Return the column with the given header I am not entirely sure this works\&. It did when I was testing while writing it but\&.\&.\&. 
+.PP
+Definition at line 174 of file CSV\&.hpp\&.
+.PP
+.nf
+174                                         {
+175     int ind = header()\&.template indexOf<const char *>(s);
+176     if (entries\&.length() == 0) {
+177       throw NoValueException("CSV contains no entries");
+178     }
+179     auto t = *entries\&.get(0)\&.template at<decltype(s)>(ind);
+180     return entries\&.template map<decltype(t)>(
+181         [ind](const Entry &e) { return *e\&.template at<decltype(s)>(ind); });
+182   }
+.fi
+.SS "template<typename\&.\&.\&. Types> template<int ind> auto \fBCSV\fP< Types >::getColumn () \-> std::unique_ptr<\fBArrayList\fP<typename Entry::template typeOf<ind>::type>> \fC [inline]\fP"
+
+.PP
+Returns the specified column\&. 
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIind\fP the column to return\&. 
+.RE
+.PP
+
+.PP
+Definition at line 159 of file CSV\&.hpp\&.
+.PP
+.nf
+160                                                                           {
+161     return entries\&.template map<typename Entry::template typeOf<ind>::type>(
+162         [](Entry const &t) { return *t\&.template get<ind>(); });
+163   }
+.fi
+.SS "template<typename\&.\&.\&. Types> auto \fBCSV\fP< Types >::getKeys () \-> std::unique_ptr<\fBArrayList\fP<typename Entry::template typeOf<0>::type>> \fC [inline]\fP"
+
+.PP
+Returns the first column of the file\&. 
+.PP
+Definition at line 151 of file CSV\&.hpp\&.
+.PP
+.nf
+152                                                                         {
+153     return getColumn<0>();
+154   }
+.fi
+.PP
+Referenced by CSV< const char *, const char *, const char * >::load(), Travel::TravelState::login(), Travel::TravelState::TravelState(), and User::User()\&.
+.SS "template<typename\&.\&.\&. Types> \fBTuple\fP<Types\&.\&.\&.>& \fBCSV\fP< Types >::getRow (unsigned ind)\fC [inline]\fP"
+
+.PP
+Returns a reference to the row at the given index\&. 
+.PP
+Definition at line 145 of file CSV\&.hpp\&.
+.PP
+.nf
+145 { return entries\&.get(ind); }
+.fi
+.PP
+Referenced by Travel::TravelState::login()\&.
+.SS "template<typename\&.\&.\&. Types> \fBCSVHeader\fP \fBCSV\fP< Types >::header ()\fC [inline]\fP"
+
+.PP
+Return the header of this file\&. 
+.PP
+Definition at line 138 of file CSV\&.hpp\&.
+.PP
+.nf
+138 { return _header; }
+.fi
+.PP
+Referenced by CSV< const char *, const char *, const char * >::getByColumnHeader(), and CSV< const char *, const char *, const char * >::save()\&.
+.SS "template<typename\&.\&.\&. Types> void \fBCSV\fP< Types >::load (const char * filepath)\fC [inline]\fP"
+
+.PP
+Load the entries from the \fBCSV\fP file located at the given path The number of columns in the file must match the number of columns of this class\&. 
+.PP
+\fBBug\fP
+.RS 4
+Ignores the header\&. 
+.PP
+This doesn't really work as advertised\&. It doesn't check if each row contains the exact amount of columns as this class\&. Rather it checks that the total number of separate entries (including the header) is evenly divisible by the amount of columns\&. EXAMPLE: Assuming that this class expects a file like this
+.RE
+.PP
+.PP
+header1 * header2 * header3 * entry1 * entry2 * entry3 *
+.PP
+A file formatted like so:
+.PP
+header1 * header2 * header3 * header4 * entry11 * entry12 * entry13 * entry14 * entry21 * entry22 * entry23 * entry24 *
+.PP
+Will be considered valid, and will be loaded like so
+.PP
+header1 * header2 * header3 * header4 * entry11 * entry12 * entry13 * entry14 * entry21 * entry22 * entry23 * entry24 * 
+.PP
+Definition at line 76 of file CSV\&.hpp\&.
+.PP
+.nf
+76                                   {
+77       std::ifstream file(filepath);
+78     if (file\&.is_open()) {
+79       Travel::CommandList cl;
+80       Travel::Scanner scanner(ScannerContext::ALL, &file, &cl);
+81       auto tokens =
+82           scanner\&.scan()
+83               ->filter([](Token const &t) { return t\&.t != TokenType::EOF_T; })
+84               ->template map<typename Entry::template typeOf<0>::type>(
+85                   [](Token const &t) {
+86                     char *s = t\&.lexeme;
+87                     char *d = new char[strlen(s) + 1];
+88                     strcpy(d, s);
+89                     return d;
+90                   });
+91       if (tokens->length() < columns) {
+92         std::cerr << filepath << " is empty" << std::endl;
+93         file\&.close();
+94         return;
+95       }
+96       for (int i = 0; i < columns; i++) {
+97         delete[] tokens->get(i);
+98       }
+99       std::unique_ptr<ArrayList<Tuple<Types\&.\&.\&.>>> readEntries =
+100           tokens->template slice<columns>();
+101       for (int i = 0; i < readEntries->length(); i++) {
+102         auto k = getKeys();
+103         if (k->find([&readEntries, i](const char *const(&entry)) {
+104               return strcmp(readEntries->get(i)\&.head(), entry) == 0;
+105             }) >= 0) {
+106           std::cerr << "Key " << readEntries->get(i)\&.head()
+107                     << " already exists\&. Skipping" << std::endl;
+108           readEntries->get(i)\&.free();
+109           continue;
+110         }
+111         entries\&.append(readEntries->get(i));
+112       }
+113     } else {
+114       std::cerr << "Cannot open " << filepath << " for read\&." << std::endl;
+115     }
+116     file\&.close();
+117   }
+.fi
+.PP
+Referenced by Travel::TravelState::TravelState(), and User::User()\&.
+.SS "template<typename\&.\&.\&. Types> void \fBCSV\fP< Types >::save (const char * filepath)\fC [inline]\fP"
+
+.PP
+Save the contents of the file into the file pointed to by the provided path\&. The file is formatted properly so that it can later be read by this class' \fBload\fP function 
+.PP
+Definition at line 124 of file CSV\&.hpp\&.
+.PP
+.nf
+124                                   {
+125       std::ofstream file(filepath);
+126     if (file\&.is_open()) {
+127       file << header() << std::endl;
+128       for (int i = 0; i < size(); i++) {
+129         file << entries\&.get(i) << std::endl;
+130       }
+131     } else {
+132       std::cerr << "Cannot open " << filepath << " for write\&." << std::endl;
+133     }
+134     file\&.close();
+135   }
+.fi
+.PP
+Referenced by Travel::TravelState::~TravelState(), and User::~User()\&.
+.SS "template<typename\&.\&.\&. Types> unsigned \fBCSV\fP< Types >::size ()\fC [inline]\fP"
+
+.PP
+Returns the amount of entries in the file\&. 
+.PP
+Definition at line 148 of file CSV\&.hpp\&.
+.PP
+.nf
+148 { return entries\&.length(); }
+.fi
+.PP
+Referenced by CSV< const char *, const char *, const char * >::save(), and Travel::TravelState::TravelState()\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "template<typename\&.\&.\&. Types> \fBCSVHeader\fP \fBCSV\fP< Types >::_header\fC [private]\fP"
+
+.PP
+Definition at line 33 of file CSV\&.hpp\&.
+.PP
+Referenced by CSV< const char *, const char *, const char * >::header()\&.
+.SS "template<typename\&.\&.\&. Types> constexpr int \fBCSV\fP< Types >::columns = sizeof\&.\&.\&.(Types)\fC [static]\fP, \fC [constexpr]\fP, \fC [private]\fP"
+
+.PP
+The number of columns\&. 
+.PP
+Definition at line 28 of file CSV\&.hpp\&.
+.PP
+Referenced by CSV< const char *, const char *, const char * >::load()\&.
+.SS "template<typename\&.\&.\&. Types> \fBArrayList\fP<\fBEntry\fP> \fBCSV\fP< Types >::entries\fC [private]\fP"
+
+.PP
+Definition at line 35 of file CSV\&.hpp\&.
+.PP
+Referenced by CSV< const char *, const char *, const char * >::addEntry(), CSV< const char *, const char *, const char * >::getByColumnHeader(), CSV< const char *, const char *, const char * >::getColumn(), CSV< const char *, const char *, const char * >::getRow(), CSV< const char *, const char *, const char * >::load(), CSV< const char *, const char *, const char * >::save(), CSV< const char *, const char *, const char * >::size(), and CSV< const char *, const char *, const char * >::~CSV()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

@@ -1,0 +1,523 @@
+.TH "User" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+User \- This class is responsible for storing and loading information regarding the user\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <User\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBaddFriend\fP (const char *name)"
+.br
+.RI "Add the provided user as a friend\&. "
+.ti -1c
+.RI "void \fBaddVisit\fP (\fBTravel::VisitBuilder\fP &vb)"
+.br
+.RI "Register the visit described by the provided \fBVisitBuilder\fP with the user\&. "
+.ti -1c
+.RI "\fBforType\fP< char * >::repeat< 5 >::apply< \fBTuple\fP > & \fBdestinationStats\fP (const char *dest)"
+.br
+.RI "Return a reference to the information about a visit to a provided destination stored in a tuple\&. "
+.ti -1c
+.RI "\fBArrayList\fP< char * > & \fBgetFriends\fP ()"
+.br
+.RI "Return a reference to the list of friend names\&. "
+.ti -1c
+.RI "const char * \fBgetName\fP () const"
+.br
+.RI "Return the name of the user\&. "
+.ti -1c
+.RI "bool \fBhasFriend\fP (const char *name)"
+.br
+.RI "Check if the provided user is a friend of the current user\&. "
+.ti -1c
+.RI "bool \fBhasVisited\fP (const char *dest)"
+.br
+.RI "Checks if user has visited the provided destination\&. "
+.ti -1c
+.RI "void \fBlistFriends\fP ()"
+.br
+.RI "Print the user's friends to stdout\&. "
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBUser\fP const &other)"
+.br
+.RI "Users are only differentiated via their username\&. "
+.ti -1c
+.RI "void \fBremoveFriend\fP (const char *name)"
+.br
+.RI "Remove the provided user from the user's list of friends\&. "
+.ti -1c
+.RI "\fBUser\fP ()=delete"
+.br
+.ti -1c
+.RI "\fBUser\fP (const char *name)"
+.br
+.ti -1c
+.RI "\fB~User\fP ()"
+.br
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBsetUserName\fP (const char *_username)"
+.br
+.RI "Sets the username\&. "
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBforType\fP< char * >::repeat< 5 >::apply< \fBCSV\fP > \fBdestinations\fP"
+.br
+.ti -1c
+.RI "char * \fBfriendDBPath\fP = nullptr"
+.br
+.ti -1c
+.RI "\fBArrayList\fP< char * > \fBfriends\fP"
+.br
+.ti -1c
+.RI "\fBHashMap\fP< \fBSimpleString\fP, \fBArrayList\fP< \fBSimpleString\fP > > \fBpics\fP"
+.br
+.ti -1c
+.RI "char * \fBusername\fP = nullptr"
+.br
+.ti -1c
+.RI "char * \fBusrDBPath\fP = nullptr"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+This class is responsible for storing and loading information regarding the user\&. 
+
+All reading/writing of information is reliant on \fBCSV\fP\&. All information is stored as a char*, so additional conversion (such as to int or \fBDate\fP) may be necessary\&. 
+.PP
+Definition at line 31 of file User\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "User::User ()\fC [delete]\fP"
+
+.SS "User::User (const char * name)\fC [inline]\fP"
+
+.PP
+Definition at line 100 of file User\&.hpp\&.
+.PP
+.nf
+100                          {
+101     setUserName(name);
+102     CSV<const char *> friendsCSV("name");
+103     friendsCSV\&.load(friendDBPath);
+104     destinations\&.load(usrDBPath);
+105     auto names = friendsCSV\&.getKeys();
+106     if (names\&.get()) {
+107       for (int i = 0; i < names->length(); i++) {
+108         addFriend(names->get(i));
+109       }
+110     }
+111 
+112     for (const auto &entry : std::filesystem::directory_iterator(username)) {
+113       auto epath = entry\&.path();
+114       if (epath\&.extension()\&.string()\&.compare("\&.db") != 0)
+115         continue;
+116       auto dest = SimpleString(epath\&.filename()\&.stem()\&.c_str());
+117       auto path = epath\&.c_str();
+118       CSV<char *> s("pics");
+119       s\&.load(path);
+120       ArrayList<SimpleString> l = *s\&.getKeys()->template map<SimpleString>(
+121           [](char *const(&s)) { return SimpleString(s); });
+122       pics\&.put(dest, l);
+123     }
+124   }
+.fi
+.PP
+References addFriend(), destinations, friendDBPath, CSV< Types >::getKeys(), CSV< Types >::load(), pics, HashMap< Key, Value >::put(), setUserName(), username, and usrDBPath\&.
+.SS "User::~User ()\fC [inline]\fP"
+
+.PP
+Definition at line 219 of file User\&.hpp\&.
+.PP
+.nf
+219           {
+220     CSV<char *> friendsCSV("name");
+221     for (int i = 0; i < friends\&.length(); i++) {
+222       friendsCSV\&.addEntry(friends\&.get(i));
+223     }
+224     if (std::filesystem::exists(username) ||
+225         std::filesystem::create_directory(username)) {
+226       friendsCSV\&.save(friendDBPath);
+227       destinations\&.save(usrDBPath);
+228       auto kd = pics\&.keys();
+229       auto vd = pics\&.values();
+230       auto usrln = strlen(username);
+231       for (int i = 0; i < kd->length(); i++) {
+232         auto key = kd->get(i);
+233         auto value = vd->get(i);
+234         auto kpath = new char[usrln + 1 + key\&.length() + 3 + 1];
+235         strcpy(kpath, username);
+236         strcpy(kpath + usrln, "/");
+237         strcpy(kpath + usrln + 1, key\&.get());
+238         strcpy(kpath + usrln + 1 + key\&.length(), "\&.db");
+239         std::ofstream file(kpath);
+240         if (file\&.is_open()) {
+241           file << "\"pics\"" << std::endl;
+242           value\&.foreach ([&file](SimpleString const(&pic)) {
+243             file << "\"" << pic << "\"" << std::endl;
+244           });
+245         } else {
+246           std::cerr << "Could not open " << kpath << " for write\&." << std::endl;
+247         }
+248         file\&.close();
+249         delete[] kpath;
+250       }
+251     } else {
+252       std::cerr << "Failed to create directory:" << username
+253                 << "\&. Cannot save userdata";
+254     }
+255 
+256     if (username)
+257       delete[] username;
+258     if (friendDBPath)
+259       delete[] friendDBPath;
+260     if (usrDBPath)
+261       delete[] usrDBPath;
+262   }
+.fi
+.PP
+References CSV< Types >::addEntry(), destinations, friendDBPath, friends, ArrayList< A >::get(), HashMap< Key, Value >::keys(), ArrayList< A >::length(), pics, CSV< Types >::save(), username, usrDBPath, and HashMap< Key, Value >::values()\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void User::addFriend (const char * name)\fC [inline]\fP"
+
+.PP
+Add the provided user as a friend\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIname\fP the name of the user to befriend 
+.RE
+.PP
+
+.PP
+Definition at line 135 of file User\&.hpp\&.
+.PP
+.nf
+135                                    {
+136     auto userNameInd = friends\&.find(
+137         [name](char *const(&key)) { return strcmp(key, name) == 0; });
+138     if (userNameInd >= 0) {
+139       std::cerr << name << " is already your friend\&." << std::endl;
+140       return;
+141     }
+142     auto _name = new char[strlen(name) + 1];
+143     strcpy(_name, name);
+144     friends\&.append(_name);
+145   }
+.fi
+.PP
+References ArrayList< A >::append(), ArrayList< A >::find(), and friends\&.
+.PP
+Referenced by User()\&.
+.SS "void User::addVisit (\fBTravel::VisitBuilder\fP & vb)\fC [inline]\fP"
+
+.PP
+Register the visit described by the provided \fBVisitBuilder\fP with the user\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvb\fP the VisitBuilder\&. 
+.RE
+.PP
+
+.PP
+Definition at line 187 of file User\&.hpp\&.
+.PP
+.nf
+187                                         {
+188     char *dest = vb\&.getDestination();
+189     if (!dest)
+190       return;
+191     Travel::Date from = vb\&.getFrom();
+192     Travel::Date to = vb\&.getTo();
+193     int rating = vb\&.getRating();
+194     char *comment = vb\&.getComment() ? vb\&.getComment() : new char[1];
+195     if (!vb\&.getComment())
+196       comment[0] = '\0';
+197     char *sfrom = new char[11];
+198     char *sto = new char[11];
+199 
+200     from\&.getString(sfrom);
+201     to\&.getString(sto);
+202 
+203     char *srating = new char[3];
+204     if (rating == -1) {
+205       srating[0] = '-';
+206       srating[1] = '1';
+207       srating[2] = '\0';
+208 
+209     } else {
+210       srating[0] = (char)(48 + rating);
+211       srating[1] = '\0';
+212     }
+213 
+214     destinations\&.addEntry(dest, sfrom, sto, srating, comment);
+215 
+216     pics\&.put(dest, vb\&.getPics());
+217   }
+.fi
+.PP
+References destinations, Travel::VisitBuilder::getComment(), Travel::VisitBuilder::getDestination(), Travel::VisitBuilder::getFrom(), Travel::VisitBuilder::getPics(), Travel::VisitBuilder::getRating(), Travel::Date::getString(), Travel::VisitBuilder::getTo(), pics, and HashMap< Key, Value >::put()\&.
+.SS "\fBforType\fP<char *>::repeat<5>::apply<\fBTuple\fP>& User::destinationStats (const char * dest)\fC [inline]\fP"
+
+.PP
+Return a reference to the information about a visit to a provided destination stored in a tuple\&. INDEX * 0 * 1 * 2 * 3 * 4 *
+.PP
+STORE * DESTINATION * FROM * TO * RATING * COMMENT *
+.PP
+\fBParameters\fP
+.RS 4
+\fIdest\fP the destination whose information to return 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the information for the destination 
+.RE
+.PP
+
+.PP
+Definition at line 81 of file User\&.hpp\&.
+.PP
+.nf
+81                                                                            {
+82     auto ind = destinations\&.getKeys()->find(
+83         [&dest](char *const(&key)) { return strcmp(dest, key) == 0; });
+84     return destinations\&.getRow(ind);
+85   }
+.fi
+.PP
+References destinations\&.
+.SS "\fBArrayList\fP<char *>& User::getFriends ()\fC [inline]\fP"
+
+.PP
+Return a reference to the list of friend names\&. 
+.PP
+\fBReturns\fP
+.RS 4
+the list of friends 
+.RE
+.PP
+
+.PP
+Definition at line 68 of file User\&.hpp\&.
+.PP
+.nf
+68 { return friends; }
+.fi
+.PP
+References friends\&.
+.SS "const char* User::getName () const\fC [inline]\fP"
+
+.PP
+Return the name of the user\&. 
+.PP
+Definition at line 129 of file User\&.hpp\&.
+.PP
+.nf
+129 { return username; }
+.fi
+.PP
+References username\&.
+.PP
+Referenced by Travel::TravelState::login(), and operator==()\&.
+.SS "bool User::hasFriend (const char * name)\fC [inline]\fP"
+
+.PP
+Check if the provided user is a friend of the current user\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIthe\fP name of the user to check 
+.RE
+.PP
+
+.PP
+Definition at line 169 of file User\&.hpp\&.
+.PP
+.nf
+169                                    {
+170     return friends\&.find([&name](char *fr) { return strcmp(name, fr) == 0; }) >=
+171            0;
+172   }
+.fi
+.PP
+References ArrayList< A >::find(), and friends\&.
+.SS "bool User::hasVisited (const char * dest)\fC [inline]\fP"
+
+.PP
+Checks if user has visited the provided destination\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdest\fP the destination to check\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+has the user visited the destination 
+.RE
+.PP
+
+.PP
+Definition at line 92 of file User\&.hpp\&.
+.PP
+.nf
+92                                     {
+93     return destinations\&.getKeys()->find([&dest](char *const(&key)) {
+94       return strcmp(dest, key) == 0;
+95     }) >= 0;
+96   }
+.fi
+.PP
+References destinations\&.
+.SS "void User::listFriends ()\fC [inline]\fP"
+
+.PP
+Print the user's friends to stdout\&. 
+.PP
+Definition at line 161 of file User\&.hpp\&.
+.PP
+.nf
+161                      {
+162     friends\&.foreach ([](char *fr) { std::cout << fr << std::endl; });
+163   }
+.fi
+.PP
+References ArrayList< A >::foreach(), and friends\&.
+.SS "bool User::operator== (\fBUser\fP const & other)\fC [inline]\fP"
+
+.PP
+Users are only differentiated via their username\&. Hence the name being unique\&. 
+.PP
+Definition at line 178 of file User\&.hpp\&.
+.PP
+.nf
+178                                      {
+179     return strcmp(getName(), other\&.getName()) == 0;
+180   }
+.fi
+.PP
+References getName()\&.
+.SS "void User::removeFriend (const char * name)\fC [inline]\fP"
+
+.PP
+Remove the provided user from the user's list of friends\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIname\fP the name of the user to befriend 
+.RE
+.PP
+
+.PP
+Definition at line 151 of file User\&.hpp\&.
+.PP
+.nf
+151                                       {
+152     auto rem =
+153         friends\&.removeIf([name](char *fr) { return strcmp(name, fr) == 0; });
+154 
+155     if (rem->isDefined()) {
+156       delete[] rem->get();
+157     }
+158   }
+.fi
+.PP
+References friends, and ArrayList< A >::removeIf()\&.
+.SS "void User::setUserName (const char * _username)\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Sets the username\&. Also generates the paths to where information for the user is stored\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fI_username\fP the new username 
+.RE
+.PP
+
+.PP
+Definition at line 47 of file User\&.hpp\&.
+.PP
+.nf
+47                                           {
+48     if (username)
+49       delete[] username;
+50     if (friendDBPath)
+51       delete[] friendDBPath;
+52     username = new char[strlen(_username) + 1];
+53     // /friend\&.db - 10 chars
+54     friendDBPath = new char[strlen(_username) + 10 + 1];
+55     usrDBPath = new char[strlen(_username) + 3 + 1];
+56     strcpy(username, _username);
+57     strcpy(friendDBPath, _username);
+58     strcpy(friendDBPath + strlen(_username), "/db\&.friend");
+59     strcpy(usrDBPath, _username);
+60     strcpy(usrDBPath + strlen(_username), "\&.db");
+61   }
+.fi
+.PP
+References friendDBPath, username, and usrDBPath\&.
+.PP
+Referenced by User()\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBforType\fP<char *>::repeat<5>::apply<\fBCSV\fP> User::destinations\fC [private]\fP"
+\fBInitial value:\fP
+.PP
+.nf
+{"dest", "from", "to",
+                                                      "rating", "comment"}
+.fi
+.PP
+Definition at line 38 of file User\&.hpp\&.
+.PP
+Referenced by addVisit(), destinationStats(), hasVisited(), User(), and ~User()\&.
+.SS "char* User::friendDBPath = nullptr\fC [private]\fP"
+
+.PP
+Definition at line 34 of file User\&.hpp\&.
+.PP
+Referenced by setUserName(), User(), and ~User()\&.
+.SS "\fBArrayList\fP<char *> User::friends\fC [private]\fP"
+
+.PP
+Definition at line 36 of file User\&.hpp\&.
+.PP
+Referenced by addFriend(), getFriends(), hasFriend(), listFriends(), removeFriend(), and ~User()\&.
+.SS "\fBHashMap\fP<\fBSimpleString\fP, \fBArrayList\fP<\fBSimpleString\fP> > User::pics\fC [private]\fP"
+
+.PP
+Definition at line 40 of file User\&.hpp\&.
+.PP
+Referenced by addVisit(), User(), and ~User()\&.
+.SS "char* User::username = nullptr\fC [private]\fP"
+
+.PP
+Definition at line 33 of file User\&.hpp\&.
+.PP
+Referenced by getName(), setUserName(), User(), and ~User()\&.
+.SS "char* User::usrDBPath = nullptr\fC [private]\fP"
+
+.PP
+Definition at line 35 of file User\&.hpp\&.
+.PP
+Referenced by setUserName(), User(), and ~User()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

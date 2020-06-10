@@ -1,0 +1,472 @@
+.TH "Travel::TravelState" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Travel::TravelState
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <TravelState\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBdestinationComments\fP (const char *dest)"
+.br
+.RI "Print the visit stats for the given destination of all users who have visited it\&. "
+.ti -1c
+.RI "bool \fBdestinationExists\fP (const char *dest)"
+.br
+.RI "Returns true if the given destination is registered in at least one user's visit history\&. "
+.ti -1c
+.RI "void \fBdestinationRating\fP (const char *dest)"
+.br
+.RI "Prints the average rating of the given destination to stdout\&. "
+.ti -1c
+.RI "void \fBfriendAdd\fP (const char *name)"
+.br
+.RI "Add given user to the logged-in user's friends list\&. "
+.ti -1c
+.RI "void \fBfriendList\fP ()"
+.br
+.RI "List the users in the logged-in user's friends list\&. "
+.ti -1c
+.RI "void \fBfriendRemove\fP (const char *name)"
+.br
+.RI "Remove given user from the logged-in user's friends list\&. "
+.ti -1c
+.RI "void \fBfriendVisited\fP (const char *dest)"
+.br
+.RI "Print the visit stats of all users in the logged in user's friend list for the given destination\&. "
+.ti -1c
+.RI "void \fBfriendVisited\fP (const char *dest, const char *name)"
+.br
+.RI "Prints the visit stats of the given user for the given desination if that user is in your friends list\&. "
+.ti -1c
+.RI "bool \fBlogin\fP (const char *username, const char *password)"
+.br
+.RI "Attempt to log into the given user with the given password\&. "
+.ti -1c
+.RI "void \fBsave\fP (\fBVisitBuilder\fP &vb)"
+.br
+.RI "Save the visit stored in the provided \fBVisitBuilder\fP to the logged-in user's visit history\&. "
+.ti -1c
+.RI "\fBTravelState\fP ()"
+.br
+.RI "Initialize the travel state\&. This loads and initializes all users from the user database\&. "
+.ti -1c
+.RI "bool \fBuregister\fP (const char *email, const char *username, const char *password)"
+.br
+.RI "Register an account with the provided email, username and password The username must not already be taken\&. "
+.ti -1c
+.RI "void \fBuserVisited\fP (const char *dest, const char *name)"
+.br
+.RI "Prints the visit stats of the given user for the given desination\&. "
+.ti -1c
+.RI "\fB~TravelState\fP ()"
+.br
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBCSV\fP< const char *, const char *, const char * > \fBcsv\fP {'user', 'pass', 'email'}"
+.br
+.ti -1c
+.RI "\fBUser\fP * \fBloggedInUser\fP = nullptr"
+.br
+.ti -1c
+.RI "\fBHashMap\fP< \fBSimpleString\fP, \fBUser\fP * > \fBusers\fP"
+.br
+.in -1c
+.SS "Static Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "static constexpr char * \fBusersDatabase\fP = 'users\&.db'"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 9 of file TravelState\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Travel::TravelState::TravelState ()\fC [inline]\fP"
+
+.PP
+Initialize the travel state\&. This loads and initializes all users from the user database\&. 
+.PP
+Definition at line 23 of file TravelState\&.hpp\&.
+.PP
+.nf
+23                 {
+24     csv\&.load(TravelState::usersDatabase);
+25     auto keys = csv\&.getKeys();
+26     for (int i = 0; i < csv\&.size(); i++) {
+27       users\&.put(keys->get(i), new User(keys->get(i)));
+28     }
+29   }
+.fi
+.PP
+References csv, CSV< Types >::getKeys(), CSV< Types >::load(), HashMap< Key, Value >::put(), CSV< Types >::size(), users, and usersDatabase\&.
+.SS "Travel::TravelState::~TravelState ()\fC [inline]\fP"
+
+.PP
+Definition at line 31 of file TravelState\&.hpp\&.
+.PP
+.nf
+31                  {
+32     users\&.values()->foreach ([](User *const(&usr)) { delete usr; });
+33 
+34     csv\&.save(TravelState::usersDatabase);
+35   }
+.fi
+.PP
+References csv, CSV< Types >::save(), users, usersDatabase, and HashMap< Key, Value >::values()\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void Travel::TravelState::destinationComments (const char * dest)"
+
+.PP
+Print the visit stats for the given destination of all users who have visited it\&. 
+.PP
+Definition at line 155 of file TravelState\&.cpp\&.
+.PP
+.nf
+155                                                             {
+156   users\&.values()
+157       ->filter([&dest](User *const(&u)) { return u->hasVisited(dest); })
+158       ->foreach (
+159           [&dest, this](User *const(&u)) { userVisited(dest, u->getName()); });
+160 }
+.fi
+.PP
+Referenced by Travel::HTLInterpreter::destinationComments()\&.
+.SS "bool Travel::TravelState::destinationExists (const char * dest)"
+
+.PP
+Returns true if the given destination is registered in at least one user's visit history\&. 
+.PP
+Definition at line 181 of file TravelState\&.cpp\&.
+.PP
+.nf
+181                                                           {
+182   return users\&.values()->find(
+183              [&dest](User *const(&u)) { return u->hasVisited(dest); }) >= 0;
+184 }
+.fi
+.PP
+Referenced by Travel::HTLInterpreter::destinationExists()\&.
+.SS "void Travel::TravelState::destinationRating (const char * dest)"
+
+.PP
+Prints the average rating of the given destination to stdout\&. 
+.PP
+Definition at line 162 of file TravelState\&.cpp\&.
+.PP
+.nf
+162                                                           {
+163   auto ratings =
+164       users\&.values()
+165           ->filter([&dest](User *const(&u)) { return u->hasVisited(dest); })
+166           ->map<int>([&dest](User *const(&u)) {
+167             auto stats = u->destinationStats(dest);
+168             return atoi(*stats\&.get<3>());
+169           })
+170           ->filter([](int const &i) { return i > 0; });
+171   int ratingCount = ratings->length();
+172   if (ratingCount == 0) {
+173     std::cout << "Nobody has rated this destination yet\&." << std::endl;
+174     return;
+175   }
+176   int sum = ratings->fold(0, [](int const &a, int const &b) { return a + b; });
+177   std::cout << "Average rating of " << dest << " is "
+178             << (((double)sum) / ratingCount) << std::endl;
+179 }
+.fi
+.PP
+Referenced by Travel::HTLInterpreter::destinationRating()\&.
+.SS "void Travel::TravelState::friendAdd (const char * name)"
+
+.PP
+Add given user to the logged-in user's friends list\&. 
+.PP
+Definition at line 70 of file TravelState\&.cpp\&.
+.PP
+.nf
+70                                                   {
+71   auto userNameInd = csv\&.getKeys()->find(
+72       [name](const char *const(&key)) { return strcmp(key, name) == 0; });
+73   if (userNameInd < 0) {
+74     std::cerr << "User with the name " << name << " doesn't exist" << std::endl;
+75     return;
+76   }
+77   loggedInUser->addFriend(name);
+78 }
+.fi
+.PP
+Referenced by Travel::HTLInterpreter::friendAdd()\&.
+.SS "void Travel::TravelState::friendList ()"
+
+.PP
+List the users in the logged-in user's friends list\&. 
+.PP
+Definition at line 91 of file TravelState\&.cpp\&.
+.PP
+.nf
+91 { loggedInUser->listFriends(); }
+.fi
+.PP
+Referenced by Travel::HTLInterpreter::friendList()\&.
+.SS "void Travel::TravelState::friendRemove (const char * name)"
+
+.PP
+Remove given user from the logged-in user's friends list\&. 
+.PP
+Definition at line 80 of file TravelState\&.cpp\&.
+.PP
+.nf
+80                                                      {
+81   auto userNameInd = csv\&.getKeys()->find(
+82       [name](const char *const(&key)) { return strcmp(key, name) == 0; });
+83   if (userNameInd < 0) {
+84     std::cerr << "User with the name " << name << " doesn't exist" << std::endl;
+85     return;
+86   }
+87 
+88   loggedInUser->removeFriend(name);
+89 }
+.fi
+.PP
+Referenced by Travel::HTLInterpreter::friendRemove()\&.
+.SS "void Travel::TravelState::friendVisited (const char * dest)"
+
+.PP
+Print the visit stats of all users in the logged in user's friend list for the given destination\&. 
+.PP
+Definition at line 150 of file TravelState\&.cpp\&.
+.PP
+.nf
+150                                                       {
+151   auto fr = loggedInUser->getFriends();
+152   fr\&.foreach ([&dest, this](char *const(&f)) { userVisited(dest, f); });
+153 }
+.fi
+.SS "void Travel::TravelState::friendVisited (const char * dest, const char * name)"
+
+.PP
+Prints the visit stats of the given user for the given desination if that user is in your friends list\&. 
+.PP
+\fBSee also\fP
+.RS 4
+\fBuserVisited\fP 
+.RE
+.PP
+
+.PP
+Definition at line 140 of file TravelState\&.cpp\&.
+.PP
+.nf
+140                                                                         {
+141   bool hasfr = loggedInUser->hasFriend(name);
+142   if (!hasfr) {
+143     std::cerr << name << " is not your friend\&." << std::endl;
+144     return;
+145   }
+146 
+147   userVisited(dest, name);
+148 }
+.fi
+.PP
+Referenced by Travel::HTLInterpreter::friendVisited()\&.
+.SS "bool Travel::TravelState::login (const char * username, const char * password)"
+
+.PP
+Attempt to log into the given user with the given password\&. 
+.PP
+\fBReturns\fP
+.RS 4
+true upon success and false otherwise 
+.RE
+.PP
+
+.PP
+Definition at line 5 of file TravelState\&.cpp\&.
+.PP
+.nf
+5                                                                         {
+6   if (loggedInUser) {
+7     std::cerr << "Already logged in into " << loggedInUser->getName()
+8               << std::endl;
+9     return true;
+10   }
+11 
+12   auto userNameInd = csv\&.getKeys()->find([username](const char *const(&key)) {
+13     return strcmp(key, username) == 0;
+14   });
+15   if (userNameInd < 0) {
+16     std::cerr << "Username or password doesn't match our database\&."
+17               << std::endl;
+18     return false;
+19   }
+20 
+21   auto userEntry = csv\&.getRow(userNameInd);
+22 
+23   if (strcmp(*userEntry\&.get<1>(), password) != 0) {
+24     std::cerr << "Username or password doesn't match our database\&."
+25               << std::endl;
+26     return false;
+27   }
+28 
+29   loggedInUser = users\&.get(username)->get();
+30 
+31   return true;
+32 }
+.fi
+.PP
+References csv, HashMap< Key, Value >::get(), CSV< Types >::getKeys(), User::getName(), CSV< Types >::getRow(), loggedInUser, and users\&.
+.PP
+Referenced by Travel::LoginInterpreter::login()\&.
+.SS "void Travel::TravelState::save (\fBVisitBuilder\fP & vb)"
+
+.PP
+Save the visit stored in the provided \fBVisitBuilder\fP to the logged-in user's visit history\&. 
+.PP
+Definition at line 34 of file TravelState\&.cpp\&.
+.PP
+.nf
+34 { loggedInUser->addVisit(vb); }
+.fi
+.PP
+Referenced by Travel::HTLInterpreter::visit()\&.
+.SS "bool Travel::TravelState::uregister (const char * email, const char * username, const char * password)"
+
+.PP
+Register an account with the provided email, username and password The username must not already be taken\&. 
+.PP
+Definition at line 36 of file TravelState\&.cpp\&.
+.PP
+.nf
+37                                                           {
+38   if (loggedInUser) {
+39     std::cerr << "Already logged in into " << loggedInUser->getName()
+40               << std::endl;
+41     return true;
+42   }
+43   auto userNameInd = csv\&.getKeys()->find([username](const char *const(&key)) {
+44     return strcmp(key, username) == 0;
+45   });
+46 
+47   if (userNameInd >= 0) {
+48     std::cerr << "Username is taken\&." << std::endl;
+49     return false;
+50   }
+51 
+52   char *_usrcpy = new char[strlen(username) + 1];
+53   strcpy(_usrcpy, username);
+54   char *_passcpy = new char[strlen(password) + 1];
+55   strcpy(_passcpy, password);
+56   char *_mailcpy = new char[strlen(email) + 1];
+57   strcpy(_mailcpy, email);
+58 
+59   const char *usrcpy = _usrcpy;
+60   const char *passcpy = _passcpy;
+61   const char *mailcpy = _mailcpy;
+62   std::filesystem::create_directory(username);
+63   csv\&.addEntry(usrcpy, passcpy, mailcpy);
+64   users\&.put(username, new User(username));
+65 
+66   loggedInUser = users\&.get(username)->get();
+67   return true;
+68 }
+.fi
+.PP
+Referenced by Travel::LoginInterpreter::reg()\&.
+.SS "void Travel::TravelState::userVisited (const char * dest, const char * name)"
+
+.PP
+Prints the visit stats of the given user for the given desination\&. 
+.PP
+Definition at line 93 of file TravelState\&.cpp\&.
+.PP
+.nf
+93                                                                       {
+94 
+95   auto user = users\&.get(name);
+96   if (user->isEmpty()) {
+97     std::cerr << "User with the name " << name << " doesn't exist\&."
+98               << std::endl;
+99     return;
+100   }
+101 
+102   auto userg = user->get();
+103 
+104   if (!userg->hasVisited(dest)) {
+105     std::cout << name << " hasn't visited " << dest << std::endl;
+106     return;
+107   }
+108 
+109   auto deststats = userg->destinationStats(dest);
+110   auto from = *deststats\&.get<1>();
+111   auto to = *deststats\&.get<2>();
+112   auto rating = atoi(*deststats\&.get<3>());
+113   auto comment = *deststats\&.get<4>();
+114 
+115   std::cout << name;
+116   if (rating > 0) {
+117     std::cout << " (";
+118     for (int i = 1; i <= rating; i++) {
+119       std::cout << "*";
+120     }
+121     std::cout << ")";
+122   }
+123 
+124   std::cout << " [";
+125   if (strcmp(from, to) == 0) {
+126     std::cout << from;
+127   } else {
+128     std::cout << from << " - " << to;
+129   }
+130   std::cout << "]";
+131 
+132   if (strlen(comment) > 0) {
+133     std::cout << " says: " << std::endl;
+134     std::cout << comment;
+135   }
+136 
+137   std::cout << std::endl;
+138 }
+.fi
+.PP
+Referenced by Travel::HTLInterpreter::destinationVisited()\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBCSV\fP<const char *, const char *, const char *> Travel::TravelState::csv {'user', 'pass', 'email'}\fC [private]\fP"
+
+.PP
+Definition at line 16 of file TravelState\&.hpp\&.
+.PP
+Referenced by login(), TravelState(), and ~TravelState()\&.
+.SS "\fBUser\fP* Travel::TravelState::loggedInUser = nullptr\fC [private]\fP"
+
+.PP
+Definition at line 18 of file TravelState\&.hpp\&.
+.PP
+Referenced by login()\&.
+.SS "\fBHashMap\fP<\fBSimpleString\fP, \fBUser\fP *> Travel::TravelState::users\fC [private]\fP"
+
+.PP
+Definition at line 17 of file TravelState\&.hpp\&.
+.PP
+Referenced by login(), TravelState(), and ~TravelState()\&.
+.SS "constexpr char* Travel::TravelState::usersDatabase = 'users\&.db'\fC [static]\fP, \fC [constexpr]\fP, \fC [private]\fP"
+
+.PP
+Definition at line 13 of file TravelState\&.hpp\&.
+.PP
+Referenced by TravelState(), and ~TravelState()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

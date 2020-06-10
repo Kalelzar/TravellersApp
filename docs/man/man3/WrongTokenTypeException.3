@@ -1,0 +1,124 @@
+.TH "WrongTokenTypeException" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+WrongTokenTypeException \- Thrown when \fBInterpreter\fP encounters a different token than the one it was expecting\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <WrongTokenTypeException\&.hpp>\fP
+.PP
+Inherits std::exception\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBWrongTokenTypeException\fP & \fBoperator=\fP (\fBWrongTokenTypeException\fP const &other)"
+.br
+.ti -1c
+.RI "virtual const char * \fBwhat\fP () const  throw ()"
+.br
+.ti -1c
+.RI "\fBWrongTokenTypeException\fP (const char *_msg)"
+.br
+.ti -1c
+.RI "\fBWrongTokenTypeException\fP (\fBWrongTokenTypeException\fP const &other)"
+.br
+.ti -1c
+.RI "\fB~WrongTokenTypeException\fP ()"
+.br
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "char * \fBmsg\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Thrown when \fBInterpreter\fP encounters a different token than the one it was expecting\&. 
+.PP
+Definition at line 10 of file WrongTokenTypeException\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "WrongTokenTypeException::WrongTokenTypeException (const char * _msg)\fC [inline]\fP"
+
+.PP
+Definition at line 17 of file WrongTokenTypeException\&.hpp\&.
+.PP
+.nf
+17                                             {
+18     msg = new char[strlen(_msg) + 1];
+19     strcpy(msg, _msg);
+20   }
+.fi
+.PP
+References msg\&.
+.SS "WrongTokenTypeException::~WrongTokenTypeException ()\fC [inline]\fP"
+
+.PP
+Definition at line 22 of file WrongTokenTypeException\&.hpp\&.
+.PP
+.nf
+22 { delete[] msg; }
+.fi
+.PP
+References msg\&.
+.SS "WrongTokenTypeException::WrongTokenTypeException (\fBWrongTokenTypeException\fP const & other)\fC [inline]\fP"
+
+.PP
+Definition at line 24 of file WrongTokenTypeException\&.hpp\&.
+.PP
+.nf
+24                                                                 {
+25     msg = new char[strlen(other\&.msg) + 1];
+26     strcpy(msg, other\&.msg);
+27   }
+.fi
+.PP
+References msg\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBWrongTokenTypeException\fP& WrongTokenTypeException::operator= (\fBWrongTokenTypeException\fP const & other)\fC [inline]\fP"
+
+.PP
+Definition at line 29 of file WrongTokenTypeException\&.hpp\&.
+.PP
+.nf
+29                                                                            {
+30     if (this == &other)
+31       return *this;
+32     msg = new char[strlen(other\&.msg) + 1];
+33     strcpy(msg, other\&.msg);
+34     return *this;
+35   }
+.fi
+.PP
+References msg\&.
+.SS "virtual const char* WrongTokenTypeException::what () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Definition at line 15 of file WrongTokenTypeException\&.hpp\&.
+.PP
+.nf
+15 { return msg; }
+.fi
+.PP
+References msg\&.
+.PP
+Referenced by Travel::LoginInterpreter::parse(), Travel::VisitInterpreter::parse(), and Travel::HTLInterpreter::parse()\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "char* WrongTokenTypeException::msg\fC [private]\fP"
+
+.PP
+Definition at line 12 of file WrongTokenTypeException\&.hpp\&.
+.PP
+Referenced by operator=(), what(), WrongTokenTypeException(), and ~WrongTokenTypeException()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

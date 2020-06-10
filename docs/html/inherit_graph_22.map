@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" title="STL class." alt="" coords="5,81,107,108"/>
+<area shape="rect" id="node2" href="$classInvalidArgumentException.html" title="An exception thrown when an invalid argument is passed to a function." alt="" coords="172,5,344,32"/>
+<area shape="rect" id="node3" href="$classNoValueException.html" title="An exception thrown when there was an attempt to access a value when no value exists." alt="" coords="194,56,322,83"/>
+<area shape="rect" id="node4" href="$classReachedEndOfStreamException.html" title="An exception throw when Interpreter reaches the end of stream unexpectedly." alt="" coords="155,107,361,133"/>
+<area shape="rect" id="node5" href="$classWrongTokenTypeException.html" title="Thrown when Interpreter encounters a different token than the one it was expecting." alt="" coords="169,157,347,184"/>
+</map>

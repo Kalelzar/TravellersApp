@@ -1,0 +1,107 @@
+.TH "ArraySet< A >" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ArraySet< A > \- Literally an \fBArrayList\fP but when adding items it checks if the element is already in the list\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ArraySet\&.hpp>\fP
+.PP
+Inherits \fBArrayList< A >\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBArraySet\fP ()"
+.br
+.ti -1c
+.RI "\fBArraySet\fP (\fBArraySet\fP< A > const &set)"
+.br
+.ti -1c
+.RI "\fBArraySet\fP (int \fBcapacity\fP)"
+.br
+.ti -1c
+.RI "void \fBinsert\fP (A const &elem, unsigned at) override"
+.br
+.RI "Inserts the given element in the list at the specified position\&. "
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class A>
+.br
+class ArraySet< A >"
+Literally an \fBArrayList\fP but when adding items it checks if the element is already in the list\&. 
+.PP
+Definition at line 14 of file ArraySet\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class A > \fBArraySet\fP< A >::\fBArraySet\fP (\fBArraySet\fP< A > const & set)\fC [inline]\fP"
+
+.PP
+Definition at line 16 of file ArraySet\&.hpp\&.
+.PP
+.nf
+16 : ArrayList<A>(set) {}
+.fi
+.SS "template<class A > \fBArraySet\fP< A >::\fBArraySet\fP (int capacity)\fC [inline]\fP"
+
+.PP
+Definition at line 18 of file ArraySet\&.hpp\&.
+.PP
+.nf
+18 : ArrayList<A>(capacity) {}
+.fi
+.SS "template<class A > \fBArraySet\fP< A >::\fBArraySet\fP ()\fC [inline]\fP"
+
+.PP
+Definition at line 20 of file ArraySet\&.hpp\&.
+.PP
+.nf
+20 : ArrayList<A>() {}
+.fi
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class A > void \fBArraySet\fP< A >::insert (A const & elem, unsigned at)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Inserts the given element in the list at the specified position\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element 
+.br
+\fIat\fP the position 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBArrayList< A >\fP\&.
+.PP
+Definition at line 22 of file ArraySet\&.hpp\&.
+.PP
+.nf
+22                                                    {
+23 
+24     if (at < 0)
+25       return;
+26 
+27     for (unsigned i = 0; i < this->length(); i++) {
+28       if (this->get(i) == elem) {
+29         return;
+30       }
+31     }
+32 
+33     ArrayList<A>::insert(elem, at);
+34   }
+.fi
+.PP
+References ArrayList< A >::get(), ArrayList< A >::insert(), and ArrayList< A >::length()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

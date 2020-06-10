@@ -1,0 +1,212 @@
+.TH "TravellersApp/src/parser/Token.hpp" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+TravellersApp/src/parser/Token.hpp
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <iostream>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBToken\fP"
+.br
+.RI "Generic token for use in scanners/parsers\&. "
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBTokenType\fP { \fBTokenType::HELP\fP, \fBTokenType::EXIT\fP, \fBTokenType::REGISTER\fP, \fBTokenType::LOGIN\fP, \fBTokenType::FRIEND\fP, \fBTokenType::ADD\fP, \fBTokenType::REMOVE\fP, \fBTokenType::LIST\fP, \fBTokenType::VISITED\fP, \fBTokenType::VISIT\fP, \fBTokenType::FROM\fP, \fBTokenType::TO\fP, \fBTokenType::RATE\fP, \fBTokenType::COMMENT\fP, \fBTokenType::PHOTO\fP, \fBTokenType::UPLOAD\fP, \fBTokenType::DELETE\fP, \fBTokenType::SHOW\fP, \fBTokenType::CANCEL\fP, \fBTokenType::SAVE\fP, \fBTokenType::DESTINATION\fP, \fBTokenType::EXISTS\fP, \fBTokenType::RATING\fP, \fBTokenType::COMMENTS\fP, \fBTokenType::STRING\fP, \fBTokenType::NUMBER\fP, \fBTokenType::DATE\fP, \fBTokenType::ERROR\fP, \fBTokenType::EOF_T\fP }"
+.br
+.RI "Describes the different tokens that \fBScanner\fP recognises\&. "
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static std::ostream & \fBoperator<<\fP (std::ostream &out, \fBToken\fP const &token)"
+.br
+.ti -1c
+.RI "static std::ostream & \fBoperator<<\fP (std::ostream &out, \fBTokenType\fP const &type)"
+.br
+.in -1c
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBTokenType\fP\fC [strong]\fP"
+
+.PP
+Describes the different tokens that \fBScanner\fP recognises\&. Some may need to be provided via \fBCommandList\fP 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIHELP \fP\fP
+Matches the \fChelp\fP command\&. Console Only 
+.TP
+\fB\fIEXIT \fP\fP
+Matches the \fCexit\fP command\&. Console Only 
+.TP
+\fB\fIREGISTER \fP\fP
+.TP
+\fB\fILOGIN \fP\fP
+.TP
+\fB\fIFRIEND \fP\fP
+.TP
+\fB\fIADD \fP\fP
+.TP
+\fB\fIREMOVE \fP\fP
+.TP
+\fB\fILIST \fP\fP
+.TP
+\fB\fIVISITED \fP\fP
+.TP
+\fB\fIVISIT \fP\fP
+.TP
+\fB\fIFROM \fP\fP
+.TP
+\fB\fITO \fP\fP
+.TP
+\fB\fIRATE \fP\fP
+.TP
+\fB\fICOMMENT \fP\fP
+.TP
+\fB\fIPHOTO \fP\fP
+.TP
+\fB\fIUPLOAD \fP\fP
+.TP
+\fB\fIDELETE \fP\fP
+.TP
+\fB\fISHOW \fP\fP
+.TP
+\fB\fICANCEL \fP\fP
+.TP
+\fB\fISAVE \fP\fP
+.TP
+\fB\fIDESTINATION \fP\fP
+.TP
+\fB\fIEXISTS \fP\fP
+.TP
+\fB\fIRATING \fP\fP
+.TP
+\fB\fICOMMENTS \fP\fP
+.TP
+\fB\fISTRING \fP\fP
+Any single non-reserved word and everything between ' ' is considered a string\&. 
+.TP
+\fB\fINUMBER \fP\fP
+A signed integer\&. 
+.TP
+\fB\fIDATE \fP\fP
+Date in the ISO 8601 format (year-month-day)\&. 
+.TP
+\fB\fIERROR \fP\fP
+Stores information for errors encountered by the \fBScanner\fP\&. 
+.TP
+\fB\fIEOF_T \fP\fP
+The end of the input stream\&. 
+.PP
+Definition at line 11 of file Token\&.hpp\&.
+.PP
+.nf
+11                      {
+12 
+13   HELP, 
+14   EXIT, 
+16   REGISTER,
+17   LOGIN,
+18   FRIEND,
+19   ADD,
+20   REMOVE,
+21   LIST,
+22   VISITED,
+23 
+24   VISIT,
+25   FROM,
+26   TO,
+27   RATE,
+28   COMMENT,
+29   PHOTO,
+30   UPLOAD,
+31   DELETE,
+32   SHOW,
+33   CANCEL,
+34   SAVE,
+35 
+36   DESTINATION,
+37   EXISTS,
+38   RATING,
+39   COMMENTS,
+40 
+41   // Types? I guess
+42   STRING, 
+44   NUMBER, 
+45   DATE,   
+47   // Parser/Scanner info
+48   ERROR, 
+50   EOF_T  
+51 };
+.fi
+.SH "Function Documentation"
+.PP 
+.SS "static std::ostream& operator<< (std::ostream & out, \fBToken\fP const & token)\fC [static]\fP"
+
+.PP
+Definition at line 144 of file Token\&.hpp\&.
+.PP
+.nf
+144                                                                    {
+145   out << token\&.t << " " << token\&.line << ": " << token\&.lexeme;
+146   return out;
+147 }
+.fi
+.PP
+References Token::lexeme, Token::line, and Token::t\&.
+.SS "static std::ostream& operator<< (std::ostream & out, \fBTokenType\fP const & type)\fC [static]\fP"
+
+.PP
+Definition at line 111 of file Token\&.hpp\&.
+.PP
+.nf
+111                                                                       {
+112   switch (type) {
+113   case TokenType::FRIEND:
+114     out << "(FRIEND)";
+115     break;
+116   case TokenType::SAVE:
+117     out << "(SAVE)";
+118     break;
+119   case TokenType::HELP:
+120     out << "(HELP)";
+121     break;
+122   case TokenType::EXIT:
+123     out << "(EXIT)";
+124     break;
+125   case TokenType::STRING:
+126     out << "(STRING)";
+127     break;
+128   case TokenType::NUMBER:
+129     out << "(NUMBER)";
+130     break;
+131   case TokenType::DATE:
+132     out << "(DATE)";
+133     break;
+134   case TokenType::ERROR:
+135     out << "(ERROR)";
+136     break;
+137   case TokenType::EOF_T:
+138     out << "(EOF)";
+139     break;
+140   }
+141   return out;
+142 }
+.fi
+.PP
+References DATE, EOF_T, ERROR, EXIT, FRIEND, HELP, NUMBER, SAVE, and STRING\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

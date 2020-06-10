@@ -1,0 +1,920 @@
+.TH "HashMap< Key, Value >" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+HashMap< Key, Value > \- A generic implementation of a \fBHashMap\fP\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <HashMap\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fBcapacity\fP () const"
+.br
+.RI "The capacity of the \fBHashMap\fP\&. "
+.ti -1c
+.RI "void \fBclear\fP ()"
+.br
+.RI "Clears the contents of the hash map\&. "
+.ti -1c
+.RI "bool \fBcontains\fP (Key const &k)"
+.br
+.RI "Returns true if the key is contained in the \fBHashMap\fP\&. "
+.ti -1c
+.RI "std::unique_ptr< \fBNullable\fP< Value > > \fBget\fP (Key const &k)"
+.br
+.RI "Returns the Value associated with the given Key if any\&. "
+.ti -1c
+.RI "\fBHashMap\fP ()"
+.br
+.RI "Initialize the \fBHashMap\fP to \fBDEFAULT_SIZE\fP\&. "
+.ti -1c
+.RI "\fBHashMap\fP (\fBHashMap\fP< Key, Value > const &other)"
+.br
+.ti -1c
+.RI "std::unique_ptr< \fBArrayList\fP< Key > > \fBkeys\fP () const"
+.br
+.RI "Returns all contained keys in a list\&. "
+.ti -1c
+.RI "unsigned \fBlength\fP () const"
+.br
+.RI "The amount of elements in this \fBHashMap\fP\&. "
+.ti -1c
+.RI "\fBHashMap\fP< Key, Value > & \fBoperator=\fP (\fBHashMap\fP< Key, Value > const &other)"
+.br
+.ti -1c
+.RI "void \fBput\fP (Key &&k, Value &&v)"
+.br
+.RI "Move the given key-value pair in the \fBHashMap\fP\&. "
+.ti -1c
+.RI "void \fBput\fP (Key &&k, Value const &v)"
+.br
+.RI "Put the given key-value pair in the \fBHashMap\fP\&. "
+.ti -1c
+.RI "void \fBput\fP (Key const &k, Value &&v)"
+.br
+.RI "Put the given key-value pair in the \fBHashMap\fP\&. "
+.ti -1c
+.RI "void \fBput\fP (Key const &k, Value const &v)"
+.br
+.RI "Put the given key-value pair in the \fBHashMap\fP\&. "
+.ti -1c
+.RI "void \fBputAll\fP (\fBHashMap\fP< Key, Value > const &other)"
+.br
+.RI "Puts all elements contained in a Hash Map in this one\&. "
+.ti -1c
+.RI "void \fBremove\fP (Key const &k)"
+.br
+.RI "Removes the given key from the hash map by setting it's corresponding entry's as uninitialized\&. "
+.ti -1c
+.RI "std::unique_ptr< \fBArrayList\fP< \fBTuple\fP< Key, Value > > > \fBtoList\fP ()"
+.br
+.RI "Return a list of the key-value pairs stored in this \fBHashMap\fP\&. "
+.ti -1c
+.RI "const \fBSpecEntry\fP * \fBunderlying\fP () const"
+.br
+.RI "Returns a constant pointer to the underlying entry list for the purposes of iteration\&. "
+.ti -1c
+.RI "std::unique_ptr< \fBArrayList\fP< Value > > \fBvalues\fP () const"
+.br
+.RI "Returns all contained values in a list\&. "
+.ti -1c
+.RI "\fB~HashMap\fP ()"
+.br
+.in -1c
+.SS "Private Types"
+
+.in +1c
+.ti -1c
+.RI "typedef \fBEntry\fP< Key, Value > * \fBSpecEntry\fP"
+.br
+.RI "Shorthand for the Specialized \fBEntry\fP\&. "
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBcopy\fP (\fBHashMap\fP< Key, Value > const &other)"
+.br
+.RI "Convenience method for copying another \fBHashMap\fP\&. "
+.ti -1c
+.RI "void \fBexpand\fP ()"
+.br
+.RI "Expand the hash map by doubling the current capacity\&. "
+.ti -1c
+.RI "unsigned \fBfindEntry\fP (Key const &k) const"
+.br
+.RI "Finds hash associated with the given key\&. "
+.ti -1c
+.RI "void \fBfree\fP ()"
+.br
+.RI "Free all dynamically allocated memory associated with the Hash Map\&. "
+.ti -1c
+.RI "template<typename T , typename std::enable_if_t<!std::is_pointer< T >::value > *  = nullptr> uint32_t \fBhash\fP (const T *key) const"
+.br
+.RI "An implementation of the 32-bit FNV-1a hash\&. "
+.ti -1c
+.RI "template<typename T , typename std::enable_if_t< std::is_pointer< T >::value > *  = nullptr> uint32_t \fBhash\fP (const T *key) const"
+.br
+.RI "An implementation of the 32-bit FNV-1a hash\&. "
+.ti -1c
+.RI "void \fBinit\fP (unsigned size)"
+.br
+.RI "Initializes the hash map with a provided size\&. "
+.ti -1c
+.RI "double \fBloadFactor\fP () const"
+.br
+.RI "Returns the load factor of the \fBHashMap\fP\&. "
+.ti -1c
+.RI "void \fBputAll\fP (const \fBSpecEntry\fP *other, unsigned size)"
+.br
+.RI "Puts all key-value pairs in the given list in this Hash Map\&. "
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBSpecEntry\fP * \fBarray\fP"
+.br
+.ti -1c
+.RI "unsigned \fBelemCount\fP"
+.br
+.ti -1c
+.RI "unsigned \fBreserved\fP"
+.br
+.in -1c
+.SS "Static Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "static const unsigned \fBDEFAULT_SIZE\fP = 16"
+.br
+.RI "The default size of the \fBHashMap\fP\&. "
+.ti -1c
+.RI "static constexpr double \fBEXPAND_FACTOR\fP = 0\&.8"
+.br
+.RI "The load factor threshold for expanding the underlying array\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class Key, class Value>
+.br
+class HashMap< Key, Value >"
+A generic implementation of a \fBHashMap\fP\&. 
+
+This particular implementation uses the 32-bit FNV-1a hash\&.
+.PP
+Due to the way it is implemented there are several requirements for the Key type\&.
+.PP
+Firstly the Key type needs to overload the == and != operators\&.
+.PP
+Secondly the Key type cannot be a pointer of any kind\&.
+.PP
+Thirdly, if the Key is a class then it must not contain any pointers as fields\&. The third requirement can be circumvented by overloading the operator& of the class so that it returns the stored pointer instead\&. Doing this is NOT recommended and will probably break interoperability with STL methods\&.
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIKey\fP the key 
+.br
+\fIValue\fP the value 
+.RE
+.PP
+
+.PP
+Definition at line 54 of file HashMap\&.hpp\&.
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<class Key , class Value > typedef \fBEntry\fP<Key, Value>* \fBHashMap\fP< Key, Value >::\fBSpecEntry\fP\fC [private]\fP"
+
+.PP
+Shorthand for the Specialized \fBEntry\fP\&. 
+.PP
+Definition at line 57 of file HashMap\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class Key , class Value > \fBHashMap\fP< Key, Value >::\fBHashMap\fP ()\fC [inline]\fP"
+
+.PP
+Initialize the \fBHashMap\fP to \fBDEFAULT_SIZE\fP\&. 
+.PP
+Definition at line 239 of file HashMap\&.hpp\&.
+.PP
+.nf
+239 { init(DEFAULT_SIZE); }
+.fi
+.SS "template<class Key , class Value > \fBHashMap\fP< Key, Value >::~\fBHashMap\fP ()\fC [inline]\fP"
+
+.PP
+Definition at line 241 of file HashMap\&.hpp\&.
+.PP
+.nf
+241              {
+242     // LOG(INFO, "Destructor called\&.");
+243     free();
+244   }
+.fi
+.SS "template<class Key , class Value > \fBHashMap\fP< Key, Value >::\fBHashMap\fP (\fBHashMap\fP< Key, Value > const & other)\fC [inline]\fP"
+
+.PP
+Definition at line 246 of file HashMap\&.hpp\&.
+.PP
+.nf
+246                                             {
+247     if (this != &other)
+248       copy(other);
+249   }
+.fi
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class Key , class Value > unsigned \fBHashMap\fP< Key, Value >::capacity () const\fC [inline]\fP"
+
+.PP
+The capacity of the \fBHashMap\fP\&. 
+.PP
+\fBReturns\fP
+.RS 4
+the capacity 
+.RE
+.PP
+
+.PP
+Definition at line 296 of file HashMap\&.hpp\&.
+.PP
+.nf
+296 { return reserved; }
+.fi
+.PP
+Referenced by HashMap< SimpleString, const char * >::copy(), HashMap< SimpleString, const char * >::expand(), HashMap< SimpleString, const char * >::findEntry(), HashMap< SimpleString, const char * >::free(), HashMap< SimpleString, const char * >::keys(), HashMap< SimpleString, const char * >::loadFactor(), HashMap< SimpleString, const char * >::putAll(), HashMap< SimpleString, const char * >::toList(), and HashMap< SimpleString, const char * >::values()\&.
+.SS "template<class Key , class Value > void \fBHashMap\fP< Key, Value >::clear ()\fC [inline]\fP"
+
+.PP
+Clears the contents of the hash map\&. 
+.PP
+Definition at line 446 of file HashMap\&.hpp\&.
+.PP
+.nf
+446                {
+447     free();
+448     init(DEFAULT_SIZE);
+449   }
+.fi
+.SS "template<class Key , class Value > bool \fBHashMap\fP< Key, Value >::contains (Key const & k)\fC [inline]\fP"
+
+.PP
+Returns true if the key is contained in the \fBHashMap\fP\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIk\fP the key 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+is the key in the \fBHashMap\fP 
+.RE
+.PP
+
+.PP
+Definition at line 287 of file HashMap\&.hpp\&.
+.PP
+.nf
+287                               {
+288     unsigned hsh = findEntry(k);
+289     return array[hsh] ? true : false;
+290   }
+.fi
+.SS "template<class Key , class Value > void \fBHashMap\fP< Key, Value >::copy (\fBHashMap\fP< Key, Value > const & other)\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Convenience method for copying another \fBHashMap\fP\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIother\fP the \fBHashMap\fP to copy 
+.RE
+.PP
+
+.PP
+Definition at line 122 of file HashMap\&.hpp\&.
+.PP
+.nf
+122                                               {
+123     // LOG(INFO, "Copy HashMap");
+124     array = new SpecEntry[other\&.capacity()];
+125     reserved = other\&.capacity();
+126     elemCount = 0;
+127 
+128     putAll(other);
+129   }
+.fi
+.PP
+Referenced by HashMap< SimpleString, const char * >::HashMap(), and HashMap< SimpleString, const char * >::operator=()\&.
+.SS "template<class Key , class Value > void \fBHashMap\fP< Key, Value >::expand ()\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Expand the hash map by doubling the current capacity\&. This operation requires that all elements are rehashed since the hash relies on the capacity, as such it can be a bit slow for a large number of elements 
+.PP
+Definition at line 175 of file HashMap\&.hpp\&.
+.PP
+.nf
+175                 {
+176     // LOG(INFO, "Expand HashMap");
+177     SpecEntry *const newarray = new SpecEntry[capacity() * 2];
+178 
+179     unsigned oldCapacity = capacity();
+180 
+181     for (int i = 0; i < capacity() * 2; i++) {
+182       newarray[i] = nullptr;
+183     }
+184 
+185     const SpecEntry *const oldarray = array;
+186 
+187     array = newarray;
+188     reserved = capacity() * 2;
+189     elemCount = 0;
+190 
+191     putAll(oldarray, oldCapacity);
+192 
+193     for (unsigned i = 0; i < oldCapacity; i++) {
+194       if (oldarray[i])
+195         delete oldarray[i];
+196     }
+197     delete[] oldarray;
+198   }
+.fi
+.PP
+Referenced by HashMap< SimpleString, const char * >::put()\&.
+.SS "template<class Key , class Value > unsigned \fBHashMap\fP< Key, Value >::findEntry (Key const & k) const\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Finds hash associated with the given key\&. This is also the function that deals with hash collisions\&. The way hash collision resolution is accomplished is simply by hashing the key and incrementing it by one until a free hash is reached or the hash where that key is stored is found\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIk\fP the key, whose hash to find 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the position of the key in the underlying array 
+.RE
+.PP
+
+.PP
+Definition at line 141 of file HashMap\&.hpp\&.
+.PP
+.nf
+141                                          {
+142     uint32_t hsh = hash(&k) % capacity();
+143 
+144     while (array[hsh] && array[hsh]->key != k) {
+145       hsh++;
+146       if (hsh >= capacity()) {
+147         hsh = 0;
+148       }
+149     }
+150     return hsh;
+151   }
+.fi
+.PP
+Referenced by HashMap< SimpleString, const char * >::contains(), HashMap< SimpleString, const char * >::get(), HashMap< SimpleString, const char * >::put(), and HashMap< SimpleString, const char * >::remove()\&.
+.SS "template<class Key , class Value > void \fBHashMap\fP< Key, Value >::free ()\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Free all dynamically allocated memory associated with the Hash Map\&. 
+.PP
+Definition at line 216 of file HashMap\&.hpp\&.
+.PP
+.nf
+216               {
+217     // LOG(INFO, "Free HashMap");
+218     for (unsigned i = 0; i < capacity(); i++) {
+219       if (array[i])
+220         delete array[i];
+221     }
+222     delete[] array;
+223     reserved = 0;
+224     elemCount = 0;
+225   }
+.fi
+.PP
+Referenced by HashMap< SimpleString, const char * >::clear(), HashMap< SimpleString, const char * >::operator=(), and HashMap< SimpleString, const char * >::~HashMap()\&.
+.SS "template<class Key , class Value > std::unique_ptr<\fBNullable\fP<Value> > \fBHashMap\fP< Key, Value >::get (Key const & k)\fC [inline]\fP"
+
+.PP
+Returns the Value associated with the given Key if any\&. This is done by returning a pointer to a \fBNullable\fP instance\&. It is an instance of \fBNull\fP if the key doesn't exist or an instance of \fBNotNull\fP wrapped around the Value\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIk\fP the key, whose value to get 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the value, if any 
+.RE
+.PP
+
+.PP
+Definition at line 273 of file HashMap\&.hpp\&.
+.PP
+.nf
+273                                                    {
+274     unsigned hsh = findEntry(k);
+275 
+276     if (!array[hsh]) {
+277       return std::make_unique<Null<Value>>();
+278     } else
+279       return std::make_unique<NotNull<Value>>(array[hsh]->value);
+280   }
+.fi
+.PP
+Referenced by Travel::TravelState::login()\&.
+.SS "template<class Key , class Value > template<typename T , typename std::enable_if_t<!std::is_pointer< T >::value > *  = nullptr> uint32_t \fBHashMap\fP< Key, Value >::hash (const T * key) const\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+An implementation of the 32-bit FNV-1a hash\&. This implementation is only available if T is not a pointer type 
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIT\fP the type of the object to be hashed 
+.RE
+.PP
+\fBParameters\fP
+.RS 4
+\fIkey\fP the object to be hashed 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the hash 
+.RE
+.PP
+
+.PP
+Definition at line 75 of file HashMap\&.hpp\&.
+.PP
+.nf
+75                                     {
+76 
+77     unsigned char *bytes = (unsigned char *)key;
+78     uint32_t hash = 2166136261u;
+79     uint32_t elems = sizeof(*key);
+80     for (int i = 0; i < elems; i++) {
+81       hash ^= bytes[i];
+82       hash *= 16777619;
+83     }
+84 
+85     return hash;
+86   };
+.fi
+.PP
+Referenced by HashMap< SimpleString, const char * >::findEntry(), and HashMap< SimpleString, const char * >::hash()\&.
+.SS "template<class Key , class Value > template<typename T , typename std::enable_if_t< std::is_pointer< T >::value > *  = nullptr> uint32_t \fBHashMap\fP< Key, Value >::hash (const T * key) const\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+An implementation of the 32-bit FNV-1a hash\&. This implementation is only available if T is a pointer type 
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIT\fP the type of the object to be hashed 
+.RE
+.PP
+\fBParameters\fP
+.RS 4
+\fIkey\fP the object to be hashed 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the hash 
+.RE
+.PP
+
+.PP
+Definition at line 97 of file HashMap\&.hpp\&.
+.PP
+.nf
+97                                     {
+98 
+99     unsigned char *bytes = (unsigned char *)*key;
+100     uint32_t hash = 2166136261u;
+101     uint32_t elems = strlen(*key); // This assumes T is char*\&.
+102     for (int i = 0; i < elems; i++) {
+103       hash ^= bytes[i];
+104       hash *= 16777619;
+105     }
+106 
+107     return hash;
+108   };
+.fi
+.SS "template<class Key , class Value > void \fBHashMap\fP< Key, Value >::init (unsigned size)\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Initializes the hash map with a provided size\&. Assumes that the previous array, if such, has already been freed, otherwise it leaks memory\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIsize\fP the size to initialize the hash map with 
+.RE
+.PP
+
+.PP
+Definition at line 159 of file HashMap\&.hpp\&.
+.PP
+.nf
+159                            {
+160     // LOG(INFO, "Initialize HashMap");
+161     array = new SpecEntry[size];
+162     reserved = size;
+163     elemCount = 0;
+164     for (int i = 0; i < size; i++) {
+165       array[i] = nullptr;
+166     }
+167   }
+.fi
+.PP
+Referenced by HashMap< SimpleString, const char * >::clear(), and HashMap< SimpleString, const char * >::HashMap()\&.
+.SS "template<class Key , class Value > std::unique_ptr<\fBArrayList\fP<Key> > \fBHashMap\fP< Key, Value >::keys () const\fC [inline]\fP"
+
+.PP
+Returns all contained keys in a list\&. The order in which the keys appear in the list is arbitrary\&. 
+.PP
+\fBReturns\fP
+.RS 4
+a pointer to the list of keys 
+.RE
+.PP
+
+.PP
+Definition at line 431 of file HashMap\&.hpp\&.
+.PP
+.nf
+431                                              {
+432     std::unique_ptr<ArrayList<Key>> list =
+433         std::make_unique<ArrayList<Key>>(length());
+434     for (int i = 0; i < capacity(); i++) {
+435       if (array[i]) {
+436         list->append(array[i]->key);
+437       }
+438     }
+439 
+440     return list;
+441   }
+.fi
+.PP
+Referenced by User::~User()\&.
+.SS "template<class Key , class Value > unsigned \fBHashMap\fP< Key, Value >::length () const\fC [inline]\fP"
+
+.PP
+The amount of elements in this \fBHashMap\fP\&. 
+.PP
+\fBReturns\fP
+.RS 4
+the length 
+.RE
+.PP
+
+.PP
+Definition at line 263 of file HashMap\&.hpp\&.
+.PP
+.nf
+263 { return elemCount; }
+.fi
+.PP
+Referenced by HashMap< SimpleString, const char * >::keys(), HashMap< SimpleString, const char * >::loadFactor(), HashMap< SimpleString, const char * >::toList(), and HashMap< SimpleString, const char * >::values()\&.
+.SS "template<class Key , class Value > double \fBHashMap\fP< Key, Value >::loadFactor () const\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Returns the load factor of the \fBHashMap\fP\&. The load factor is the ratio of the total allocated capacity that is filled\&. 
+.PP
+\fBReturns\fP
+.RS 4
+the load factor 
+.RE
+.PP
+
+.PP
+Definition at line 116 of file HashMap\&.hpp\&.
+.PP
+.nf
+116 { return length() / (double)capacity(); }
+.fi
+.PP
+Referenced by HashMap< SimpleString, const char * >::put()\&.
+.SS "template<class Key , class Value > \fBHashMap\fP<Key, Value>& \fBHashMap\fP< Key, Value >::operator= (\fBHashMap\fP< Key, Value > const & other)\fC [inline]\fP"
+
+.PP
+Definition at line 251 of file HashMap\&.hpp\&.
+.PP
+.nf
+251                                                                    {
+252     if (this != &other) {
+253       free();
+254       copy(other);
+255     }
+256     return *this;
+257   }
+.fi
+.SS "template<class Key , class Value > void \fBHashMap\fP< Key, Value >::put (Key && k, Value && v)\fC [inline]\fP"
+
+.PP
+Move the given key-value pair in the \fBHashMap\fP\&. If the key is already in the \fBHashMap\fP, its value will be updated\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIk\fP the key 
+.br
+\fIv\fP the value 
+.RE
+.PP
+
+.PP
+Definition at line 323 of file HashMap\&.hpp\&.
+.PP
+.nf
+323                                {
+324     if (loadFactor() >= EXPAND_FACTOR) {
+325       expand();
+326     }
+327     unsigned hsh = findEntry(k);
+328     if (!array[hsh]) {
+329       array[hsh] = new Entry<Key, Value>{std::move(k), std::move(v)};
+330       elemCount++;
+331       return;
+332     }
+333     array[hsh]->value = std::move(v);
+334   }
+.fi
+.SS "template<class Key , class Value > void \fBHashMap\fP< Key, Value >::put (Key && k, Value const & v)\fC [inline]\fP"
+
+.PP
+Put the given key-value pair in the \fBHashMap\fP\&. If the key is already in the \fBHashMap\fP, its value will be updated\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIk\fP the key 
+.br
+\fIv\fP the value 
+.RE
+.PP
+
+.PP
+Definition at line 342 of file HashMap\&.hpp\&.
+.PP
+.nf
+342                                     {
+343     if (loadFactor() >= EXPAND_FACTOR) {
+344       expand();
+345     }
+346     unsigned hsh = findEntry(k);
+347     if (!array[hsh]) {
+348       array[hsh] = new Entry<Key, Value>{std::move(k), v};
+349       elemCount++;
+350       return;
+351     }
+352     array[hsh]->value = v;
+353   }
+.fi
+.SS "template<class Key , class Value > void \fBHashMap\fP< Key, Value >::put (Key const & k, Value && v)\fC [inline]\fP"
+
+.PP
+Put the given key-value pair in the \fBHashMap\fP\&. If the key is already in the \fBHashMap\fP, its value will be updated\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIk\fP the key 
+.br
+\fIv\fP the value 
+.RE
+.PP
+
+.PP
+Definition at line 361 of file HashMap\&.hpp\&.
+.PP
+.nf
+361                                     {
+362     if (loadFactor() >= EXPAND_FACTOR) {
+363       expand();
+364     }
+365     unsigned hsh = findEntry(k);
+366     if (!array[hsh]) {
+367       array[hsh] = new Entry<Key, Value>{k, std::move(v)};
+368       elemCount++;
+369       return;
+370     }
+371     array[hsh]->value = std::move(v);
+372   }
+.fi
+.SS "template<class Key , class Value > void \fBHashMap\fP< Key, Value >::put (Key const & k, Value const & v)\fC [inline]\fP"
+
+.PP
+Put the given key-value pair in the \fBHashMap\fP\&. If the key is already in the \fBHashMap\fP, its value will be updated\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIk\fP the key 
+.br
+\fIv\fP the value 
+.RE
+.PP
+
+.PP
+Definition at line 304 of file HashMap\&.hpp\&.
+.PP
+.nf
+304                                          {
+305     if (loadFactor() >= EXPAND_FACTOR) {
+306       expand();
+307     }
+308     unsigned hsh = findEntry(k);
+309     if (!array[hsh]) {
+310       array[hsh] = new Entry<Key, Value>{k, v};
+311       elemCount++;
+312       return;
+313     }
+314     array[hsh]->value = v;
+315   }
+.fi
+.PP
+Referenced by User::addVisit(), HashMap< SimpleString, const char * >::putAll(), Travel::TravelState::TravelState(), and User::User()\&.
+.SS "template<class Key , class Value > void \fBHashMap\fP< Key, Value >::putAll (const \fBSpecEntry\fP * other, unsigned size)\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Puts all key-value pairs in the given list in this Hash Map\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIother\fP an array of Entries 
+.br
+\fIthe\fP size of the array 
+.RE
+.PP
+
+.PP
+Definition at line 205 of file HashMap\&.hpp\&.
+.PP
+.nf
+205                                                      {
+206     for (unsigned i = 0; i < size; i++) {
+207       if (!other[i])
+208         continue; // Skip if the entry is not initialized
+209       put(other[i]->key, other[i]->value);
+210     }
+211   }
+.fi
+.PP
+Referenced by HashMap< SimpleString, const char * >::copy(), HashMap< SimpleString, const char * >::expand(), and HashMap< SimpleString, const char * >::putAll()\&.
+.SS "template<class Key , class Value > void \fBHashMap\fP< Key, Value >::putAll (\fBHashMap\fP< Key, Value > const & other)\fC [inline]\fP"
+
+.PP
+Puts all elements contained in a Hash Map in this one\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIother\fP the \fBHashMap\fP whose element to add to this one 
+.RE
+.PP
+
+.PP
+Definition at line 232 of file HashMap\&.hpp\&.
+.PP
+.nf
+232                                                 {
+233     putAll(other\&.array, other\&.capacity());
+234   }
+.fi
+.SS "template<class Key , class Value > void \fBHashMap\fP< Key, Value >::remove (Key const & k)\fC [inline]\fP"
+
+.PP
+Removes the given key from the hash map by setting it's corresponding entry's as uninitialized\&. This will probably free any memory associated with the Key, Value pair
+.PP
+\fBParameters\fP
+.RS 4
+\fIk\fP the key to remove 
+.RE
+.PP
+
+.PP
+Definition at line 381 of file HashMap\&.hpp\&.
+.PP
+.nf
+381                             {
+382     unsigned hsh = findEntry(k);
+383     if (!array[hsh])
+384       return;
+385     delete array[hsh];
+386     array[hsh] = nullptr;
+387     elemCount--;
+388   }
+.fi
+.SS "template<class Key , class Value > std::unique_ptr<\fBArrayList\fP<\fBTuple\fP<Key, Value> > > \fBHashMap\fP< Key, Value >::toList ()\fC [inline]\fP"
+
+.PP
+Return a list of the key-value pairs stored in this \fBHashMap\fP\&. 
+.PP
+Definition at line 398 of file HashMap\&.hpp\&.
+.PP
+.nf
+398                                                        {
+399     auto list = std::make_unique<ArrayList<Tuple<Key, Value>>>(length());
+400     for (int i = 0; i < capacity(); i++) {
+401       if (array[i]) {
+402         list->append(
+403             std::move(Tuple<Key, Value>(array[i]->key, array[i]->value)));
+404       }
+405     }
+406     return list;
+407   }
+.fi
+.SS "template<class Key , class Value > const \fBSpecEntry\fP* \fBHashMap\fP< Key, Value >::underlying () const\fC [inline]\fP"
+
+.PP
+Returns a constant pointer to the underlying entry list for the purposes of iteration\&. 
+.PP
+\fBReturns\fP
+.RS 4
+the entries 
+.RE
+.PP
+
+.PP
+Definition at line 395 of file HashMap\&.hpp\&.
+.PP
+.nf
+395 { return array; }
+.fi
+.SS "template<class Key , class Value > std::unique_ptr<\fBArrayList\fP<Value> > \fBHashMap\fP< Key, Value >::values () const\fC [inline]\fP"
+
+.PP
+Returns all contained values in a list\&. The order in which the values appear in the list is arbitrary\&. 
+.PP
+\fBReturns\fP
+.RS 4
+a pointer to the list of values 
+.RE
+.PP
+
+.PP
+Definition at line 414 of file HashMap\&.hpp\&.
+.PP
+.nf
+414                                                  {
+415     std::unique_ptr<ArrayList<Value>> list =
+416         std::make_unique<ArrayList<Value>>(length());
+417     for (int i = 0; i < capacity(); i++) {
+418       if (array[i]) {
+419         list->append(array[i]->value);
+420       }
+421     }
+422 
+423     return list;
+424   }
+.fi
+.PP
+Referenced by Travel::TravelState::~TravelState(), and User::~User()\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "template<class Key , class Value > \fBSpecEntry\fP* \fBHashMap\fP< Key, Value >::array\fC [private]\fP"
+
+.PP
+Definition at line 62 of file HashMap\&.hpp\&.
+.PP
+Referenced by HashMap< SimpleString, const char * >::contains(), HashMap< SimpleString, const char * >::copy(), HashMap< SimpleString, const char * >::expand(), HashMap< SimpleString, const char * >::findEntry(), HashMap< SimpleString, const char * >::free(), HashMap< SimpleString, const char * >::get(), HashMap< SimpleString, const char * >::init(), HashMap< SimpleString, const char * >::keys(), HashMap< SimpleString, const char * >::put(), HashMap< SimpleString, const char * >::putAll(), HashMap< SimpleString, const char * >::remove(), HashMap< SimpleString, const char * >::toList(), HashMap< SimpleString, const char * >::underlying(), and HashMap< SimpleString, const char * >::values()\&.
+.SS "template<class Key , class Value > const unsigned \fBHashMap\fP< Key, Value >::DEFAULT_SIZE = 16\fC [static]\fP, \fC [private]\fP"
+
+.PP
+The default size of the \fBHashMap\fP\&. 
+.PP
+Definition at line 59 of file HashMap\&.hpp\&.
+.PP
+Referenced by HashMap< SimpleString, const char * >::clear(), and HashMap< SimpleString, const char * >::HashMap()\&.
+.SS "template<class Key , class Value > unsigned \fBHashMap\fP< Key, Value >::elemCount\fC [private]\fP"
+
+.PP
+Definition at line 64 of file HashMap\&.hpp\&.
+.PP
+Referenced by HashMap< SimpleString, const char * >::copy(), HashMap< SimpleString, const char * >::expand(), HashMap< SimpleString, const char * >::free(), HashMap< SimpleString, const char * >::init(), HashMap< SimpleString, const char * >::length(), HashMap< SimpleString, const char * >::put(), and HashMap< SimpleString, const char * >::remove()\&.
+.SS "template<class Key , class Value > constexpr double \fBHashMap\fP< Key, Value >::EXPAND_FACTOR = 0\&.8\fC [static]\fP, \fC [constexpr]\fP, \fC [private]\fP"
+
+.PP
+The load factor threshold for expanding the underlying array\&. 
+.PP
+Definition at line 61 of file HashMap\&.hpp\&.
+.PP
+Referenced by HashMap< SimpleString, const char * >::put()\&.
+.SS "template<class Key , class Value > unsigned \fBHashMap\fP< Key, Value >::reserved\fC [private]\fP"
+
+.PP
+Definition at line 63 of file HashMap\&.hpp\&.
+.PP
+Referenced by HashMap< SimpleString, const char * >::capacity(), HashMap< SimpleString, const char * >::copy(), HashMap< SimpleString, const char * >::expand(), HashMap< SimpleString, const char * >::free(), and HashMap< SimpleString, const char * >::init()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

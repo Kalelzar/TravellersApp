@@ -1,0 +1,1004 @@
+.TH "Travel::Date" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Travel::Date \- Stores a date (in ISO 8601) and has some useful methods for working with dates\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Date\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBDate\fP ()"
+.br
+.RI "Constructs a date with the current date\&. "
+.ti -1c
+.RI "\fBDate\fP (const char str[11])"
+.br
+.RI "Constructs a date from a string representing a date in the ISO 8601 format\&. "
+.ti -1c
+.RI "\fBDate\fP (int \fByear\fP, int \fBmonth\fP, int \fBday\fP)"
+.br
+.RI "Constructs a date with the provided arguments\&. "
+.ti -1c
+.RI "int \fBdaysBetween\fP (const \fBDate\fP &date) const"
+.br
+.RI "Returns the days between this date and the provided date\&. "
+.ti -1c
+.RI "int \fBdaysSince1900\fP () const"
+.br
+.RI "Returns the days between this date and 1900-01-01\&. "
+.ti -1c
+.RI "int \fBgetDay\fP () const"
+.br
+.RI "Returns the day represented by this \fBDate\fP\&. "
+.ti -1c
+.RI "int \fBgetMonth\fP () const"
+.br
+.RI "Returns the month represented by this \fBDate\fP\&. "
+.ti -1c
+.RI "void \fBgetString\fP (char *(&str)) const"
+.br
+.RI "Converts this date to the ISO 8601 format\&. "
+.ti -1c
+.RI "void \fBgetString\fP (char(&str)[11]) const"
+.br
+.RI "Converts this date to the ISO 8601 format\&. "
+.ti -1c
+.RI "int \fBgetYear\fP () const"
+.br
+.RI "Returns the year represented by this \fBDate\fP\&. "
+.ti -1c
+.RI "bool \fBoperator!=\fP (\fBDate\fP const &other) const"
+.br
+.ti -1c
+.RI "int \fBoperator\-\fP (\fBDate\fP const &other) const"
+.br
+.RI "returns the signed difference in days between this date and another "
+.ti -1c
+.RI "bool \fBoperator<\fP (\fBDate\fP const &other) const"
+.br
+.ti -1c
+.RI "bool \fBoperator<=\fP (\fBDate\fP const &other) const"
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBDate\fP const &other) const"
+.br
+.ti -1c
+.RI "bool \fBoperator>\fP (\fBDate\fP const &other) const"
+.br
+.ti -1c
+.RI "bool \fBoperator>=\fP (\fBDate\fP const &other) const"
+.br
+.ti -1c
+.RI "void \fBprint\fP () const"
+.br
+.RI "Prints the date in the ISO 8601 format ( [year]-[month]-[day] ) "
+.ti -1c
+.RI "void \fBprintln\fP () const"
+.br
+.RI "Prints the date in the ISO 8601 format ( [year]-[month]-[day] ) and a newline\&. "
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static int \fBcurrentDay\fP ()"
+.br
+.RI "Returns the current day\&. "
+.ti -1c
+.RI "static int \fBcurrentMonth\fP ()"
+.br
+.RI "Returns the current month\&. "
+.ti -1c
+.RI "static int \fBcurrentYear\fP ()"
+.br
+.RI "Returns the current year\&. "
+.ti -1c
+.RI "static int \fBdaysBetween\fP (const \fBDate\fP &start, const \fBDate\fP &end)"
+.br
+.RI "Returns the days between two dates\&. "
+.ti -1c
+.RI "static int \fBdaysOfMonth\fP (int \fBmonth\fP, int \fByear\fP)"
+.br
+.RI "Returns the amount of days in a month\&. "
+.ti -1c
+.RI "static int \fBdaysSince1900\fP (const \fBDate\fP &date)"
+.br
+.RI "Returns the days between 1900-01-01 to date\&. "
+.ti -1c
+.RI "static \fBDate\fP \fBfromString\fP (const char str[11])"
+.br
+.RI "Converts a string representing a date in the ISO 8601 format into a \fBDate\fP instance\&. "
+.ti -1c
+.RI "static bool \fBisLeapYear\fP (int \fByear\fP)"
+.br
+.RI "Checks if the provided year is a leap year\&. "
+.ti -1c
+.RI "static \fBDate\fP \fBtoday\fP ()"
+.br
+.RI "Returns the current date\&. "
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBsetDay\fP (int _day)"
+.br
+.ti -1c
+.RI "void \fBsetMonth\fP (int _month)"
+.br
+.ti -1c
+.RI "void \fBsetYear\fP (int _year)"
+.br
+.ti -1c
+.RI "void \fBvalidate\fP ()"
+.br
+.RI "Makes sure the date is valid\&. "
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "int \fBday\fP"
+.br
+.ti -1c
+.RI "int \fBmonth\fP"
+.br
+.ti -1c
+.RI "int \fByear\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &out, const \fBDate\fP &date)"
+.br
+.ti -1c
+.RI "std::istream & \fBoperator>>\fP (std::istream &in, \fBDate\fP &date)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Stores a date (in ISO 8601) and has some useful methods for working with dates\&. 
+.PP
+Definition at line 15 of file Date\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Travel::Date::Date (int year, int month, int day)"
+
+.PP
+Constructs a date with the provided arguments\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIyear\fP the year 
+.br
+\fImonth\fP the month 
+.br
+\fIday\fP the day 
+.RE
+.PP
+
+.PP
+Definition at line 33 of file Date\&.cpp\&.
+.PP
+.nf
+33                                        {
+34   this->day = day;
+35   this->month = month;
+36   this->year = year;
+37   validate();
+38 }
+.fi
+.PP
+References day, month, validate(), and year\&.
+.SS "Travel::Date::Date ()"
+
+.PP
+Constructs a date with the current date\&. 
+.PP
+Definition at line 123 of file Date\&.cpp\&.
+.PP
+.nf
+123            {
+124   year = currentYear();
+125   month = currentMonth();
+126   day = currentDay();
+127 }
+.fi
+.PP
+References currentDay(), currentMonth(), currentYear(), day, month, and year\&.
+.SS "Travel::Date::Date (const char str[11])"
+
+.PP
+Constructs a date from a string representing a date in the ISO 8601 format\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstr\fP the string to convert from 
+.RE
+.PP
+
+.PP
+Definition at line 106 of file Date\&.cpp\&.
+.PP
+.nf
+106                              {
+107   sscanf(str, "%d-%d-%d", &year, &month, &day);
+108   validate();
+109   // char s_year[5];
+110   // strncpy(s_year, str + 0, 4);
+111   // s_year[4] = '\0';
+112   // char s_month[3];
+113   // strncpy(s_month, str + 5, 2);
+114   // s_month[2] = '\0';
+115   // char s_day[3];
+116   // strncpy(s_day, str + 8, 2);
+117   // s_day[2] = '\0';
+118   // year = atoi(s_year);
+119   // month = atoi(s_month);
+120   // day = atoi(s_day);
+121 }
+.fi
+.PP
+References day, month, validate(), and year\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "int Travel::Date::currentDay ()\fC [static]\fP"
+
+.PP
+Returns the current day\&. 
+.PP
+\fBReturns\fP
+.RS 4
+the current day 
+.RE
+.PP
+
+.PP
+Definition at line 92 of file Date\&.cpp\&.
+.PP
+.nf
+92                      {
+93   time_t now = time(nullptr);
+94   tm *ltm = localtime(&now);
+95   return ltm->tm_mday;
+96 }
+.fi
+.PP
+Referenced by Date()\&.
+.SS "int Travel::Date::currentMonth ()\fC [static]\fP"
+
+.PP
+Returns the current month\&. 
+.PP
+\fBReturns\fP
+.RS 4
+the current month 
+.RE
+.PP
+
+.PP
+Definition at line 86 of file Date\&.cpp\&.
+.PP
+.nf
+86                        {
+87   time_t now = time(nullptr);
+88   tm *ltm = localtime(&now);
+89   return ltm->tm_mon + 1;
+90 }
+.fi
+.PP
+Referenced by Date()\&.
+.SS "int Travel::Date::currentYear ()\fC [static]\fP"
+
+.PP
+Returns the current year\&. 
+.PP
+\fBReturns\fP
+.RS 4
+the current year 
+.RE
+.PP
+
+.PP
+Definition at line 80 of file Date\&.cpp\&.
+.PP
+.nf
+80                       {
+81   time_t now = time(nullptr);
+82   tm *ltm = localtime(&now);
+83   return ltm->tm_year + 1900;
+84 }
+.fi
+.PP
+Referenced by Date()\&.
+.SS "int Travel::Date::daysBetween (const \fBDate\fP & date) const"
+
+.PP
+Returns the days between this date and the provided date\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdate\fP the other date 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the days between the two dates 
+.RE
+.PP
+
+.PP
+Definition at line 149 of file Date\&.cpp\&.
+.PP
+.nf
+149                                             {
+150   return std::abs(daysSince1900(date) - daysSince1900()) + 1;
+151 }
+.fi
+.PP
+References daysSince1900()\&.
+.PP
+Referenced by daysBetween()\&.
+.SS "int Travel::Date::daysBetween (const \fBDate\fP & start, const \fBDate\fP & end)\fC [static]\fP"
+
+.PP
+Returns the days between two dates\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstart\fP the first date 
+.br
+\fIend\fP the second date 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+thr days between the two dates 
+.RE
+.PP
+
+.PP
+Definition at line 131 of file Date\&.cpp\&.
+.PP
+.nf
+131                                                         {
+132   return start\&.daysBetween(end);
+133 }
+.fi
+.PP
+References daysBetween()\&.
+.SS "int Travel::Date::daysOfMonth (int month, int year)\fC [static]\fP"
+
+.PP
+Returns the amount of days in a month\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImonth\fP the month for which to check 
+.br
+\fIyear\fP the year for which to check 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the days in the provided month during the provided year\&. 
+.RE
+.PP
+
+.PP
+Definition at line 42 of file Date\&.cpp\&.
+.PP
+.nf
+42                                          {
+43   int days = 0;
+44   switch (month) {
+45   case 2:
+46     days += Date::isLeapYear(year) ? 29 : 28;
+47     break;
+48   case 1:
+49   case 3:
+50   case 5:
+51   case 7:
+52   case 8:
+53   case 10:
+54   case 12:
+55     days += 1;
+56   case 4:
+57   case 6:
+58   case 9:
+59   case 11:
+60     days += 30;
+61     break;
+62   default:
+63     break;
+64   }
+65   return days;
+66 }
+.fi
+.PP
+References isLeapYear(), month, and year\&.
+.PP
+Referenced by daysSince1900(), and validate()\&.
+.SS "int Travel::Date::daysSince1900 () const"
+
+.PP
+Returns the days between this date and 1900-01-01\&. 
+.PP
+\fBReturns\fP
+.RS 4
+the days since 1900 
+.RE
+.PP
+
+.PP
+Definition at line 137 of file Date\&.cpp\&.
+.PP
+.nf
+137                               {
+138   int days = 0;
+139   for (int i = 1900; i < getYear(); i++) {
+140     days += Date::isLeapYear(i) ? 366 : 365;
+141   }
+142   for (int i = 1; i < getMonth(); i++) {
+143     days += Date::daysOfMonth(i, getYear());
+144   }
+145   days += day;
+146   return days;
+147 }
+.fi
+.PP
+References day, daysOfMonth(), getMonth(), getYear(), and isLeapYear()\&.
+.PP
+Referenced by daysBetween(), daysSince1900(), operator\-(), and operator>()\&.
+.SS "int Travel::Date::daysSince1900 (const \fBDate\fP & date)\fC [static]\fP"
+
+.PP
+Returns the days between 1900-01-01 to date\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdate\fP the date to check 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the days since 1900 
+.RE
+.PP
+
+.PP
+Definition at line 135 of file Date\&.cpp\&.
+.PP
+.nf
+135 { return date\&.daysSince1900(); }
+.fi
+.PP
+References daysSince1900()\&.
+.SS "\fBDate\fP Travel::Date::fromString (const char str[11])\fC [static]\fP"
+
+.PP
+Converts a string representing a date in the ISO 8601 format into a \fBDate\fP instance\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstr\fP the string to convert to date 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the converted date 
+.RE
+.PP
+
+.PP
+Definition at line 129 of file Date\&.cpp\&.
+.PP
+.nf
+129 { return {str}; }
+.fi
+.SS "int Travel::Date::getDay () const\fC [inline]\fP"
+
+.PP
+Returns the day represented by this \fBDate\fP\&. 
+.PP
+\fBReturns\fP
+.RS 4
+the day 
+.RE
+.PP
+
+.PP
+Definition at line 129 of file Date\&.hpp\&.
+.PP
+.nf
+129 { return day; }
+.fi
+.PP
+References day\&.
+.PP
+Referenced by getString(), and operator==()\&.
+.SS "int Travel::Date::getMonth () const\fC [inline]\fP"
+
+.PP
+Returns the month represented by this \fBDate\fP\&. 
+.PP
+\fBReturns\fP
+.RS 4
+the month 
+.RE
+.PP
+
+.PP
+Definition at line 135 of file Date\&.hpp\&.
+.PP
+.nf
+135 { return month; }
+.fi
+.PP
+References month\&.
+.PP
+Referenced by daysSince1900(), getString(), and operator==()\&.
+.SS "void Travel::Date::getString (char *& str) const"
+
+.PP
+Converts this date to the ISO 8601 format\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstr\fP the string to which to write 
+.RE
+.PP
+
+.PP
+Definition at line 102 of file Date\&.cpp\&.
+.PP
+.nf
+102                                        {
+103   sprintf(str, "%04d-%02d-%02d", getYear(), getMonth(), getDay());
+104 }
+.fi
+.PP
+References getDay(), getMonth(), and getYear()\&.
+.SS "void Travel::Date::getString (char(&) str[11]) const"
+
+.PP
+Converts this date to the ISO 8601 format\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstr\fP the string to which to write 
+.RE
+.PP
+
+.PP
+Definition at line 98 of file Date\&.cpp\&.
+.PP
+.nf
+98                                           {
+99   sprintf(str, "%04d-%02d-%02d", getYear(), getMonth(), getDay());
+100 }
+.fi
+.PP
+References getDay(), getMonth(), and getYear()\&.
+.PP
+Referenced by User::addVisit(), Travel::operator<<(), and print()\&.
+.SS "int Travel::Date::getYear () const\fC [inline]\fP"
+
+.PP
+Returns the year represented by this \fBDate\fP\&. 
+.PP
+\fBReturns\fP
+.RS 4
+the year 
+.RE
+.PP
+
+.PP
+Definition at line 141 of file Date\&.hpp\&.
+.PP
+.nf
+141 { return year; }
+.fi
+.PP
+References year\&.
+.PP
+Referenced by daysSince1900(), getString(), and operator==()\&.
+.SS "bool Travel::Date::isLeapYear (int year)\fC [static]\fP"
+
+.PP
+Checks if the provided year is a leap year\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIyear\fP the year which to check\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+is the provided year a leap year\&. 
+.RE
+.PP
+
+.PP
+Definition at line 68 of file Date\&.cpp\&.
+.PP
+.nf
+68                               {
+69   if (year % 4 == 0) {
+70     if (year % 100 == 0) {
+71       return year % 400 == 0;
+72     } else {
+73       return true;
+74     }
+75   } else {
+76     return false;
+77   }
+78 }
+.fi
+.PP
+References year\&.
+.PP
+Referenced by daysOfMonth(), and daysSince1900()\&.
+.SS "bool Travel::Date::operator!= (\fBDate\fP const & other) const"
+
+.PP
+\fBParameters\fP
+.RS 4
+\fIother\fP the other date 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+are the two dates different 
+.RE
+.PP
+
+.PP
+Definition at line 205 of file Date\&.cpp\&.
+.PP
+.nf
+205 { return !(*this == other); }
+.fi
+.SS "int Travel::Date::operator\- (\fBDate\fP const & other) const"
+
+.PP
+returns the signed difference in days between this date and another 
+.PP
+\fBParameters\fP
+.RS 4
+\fIother\fP the other date 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the unsigned difference in days 
+.RE
+.PP
+
+.PP
+Definition at line 212 of file Date\&.cpp\&.
+.PP
+.nf
+212                                            {
+213   return daysSince1900() - other\&.daysSince1900();
+214 }
+.fi
+.PP
+References daysSince1900()\&.
+.SS "bool Travel::Date::operator< (\fBDate\fP const & other) const"
+
+.PP
+\fBParameters\fP
+.RS 4
+\fIother\fP the other date 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+is this date less than the other date 
+.RE
+.PP
+
+.PP
+Definition at line 201 of file Date\&.cpp\&.
+.PP
+.nf
+201 { return !(*this >= other); }
+.fi
+.SS "bool Travel::Date::operator<= (\fBDate\fP const & other) const"
+
+.PP
+\fBParameters\fP
+.RS 4
+\fIother\fP the other date 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+is this date less than or equal to the other date 
+.RE
+.PP
+
+.PP
+Definition at line 203 of file Date\&.cpp\&.
+.PP
+.nf
+203 { return !(*this > other); }
+.fi
+.SS "bool Travel::Date::operator== (\fBDate\fP const & other) const"
+
+.PP
+\fBParameters\fP
+.RS 4
+\fIother\fP the other date 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+are the two dates equal 
+.RE
+.PP
+
+.PP
+Definition at line 207 of file Date\&.cpp\&.
+.PP
+.nf
+207                                              {
+208   return other\&.getYear() == getYear() && other\&.getMonth() == getMonth() &&
+209          other\&.getDay() == getDay();
+210 }
+.fi
+.PP
+References getDay(), getMonth(), and getYear()\&.
+.SS "bool Travel::Date::operator> (\fBDate\fP const & other) const"
+
+.PP
+\fBParameters\fP
+.RS 4
+\fIother\fP the other date 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+is this date greater than the other date 
+.RE
+.PP
+
+.PP
+Definition at line 193 of file Date\&.cpp\&.
+.PP
+.nf
+193                                             {
+194   return daysSince1900() > other\&.daysSince1900();
+195 }
+.fi
+.PP
+References daysSince1900()\&.
+.SS "bool Travel::Date::operator>= (\fBDate\fP const & other) const"
+
+.PP
+\fBParameters\fP
+.RS 4
+\fIother\fP the other date 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+is this date greater than or equal to the other date 
+.RE
+.PP
+
+.PP
+Definition at line 197 of file Date\&.cpp\&.
+.PP
+.nf
+197                                              {
+198   return *this > other || *this == other;
+199 }
+.fi
+.SS "void Travel::Date::print () const"
+
+.PP
+Prints the date in the ISO 8601 format ( [year]-[month]-[day] ) 
+.PP
+Definition at line 216 of file Date\&.cpp\&.
+.PP
+.nf
+216                        {
+217   char str[11];
+218   getString(str);
+219   std::cout << str;
+220 }
+.fi
+.PP
+References getString()\&.
+.PP
+Referenced by println()\&.
+.SS "void Travel::Date::println () const"
+
+.PP
+Prints the date in the ISO 8601 format ( [year]-[month]-[day] ) and a newline\&. 
+.PP
+Definition at line 222 of file Date\&.cpp\&.
+.PP
+.nf
+222                          {
+223   print();
+224   std::cout << std::endl;
+225 }
+.fi
+.PP
+References print()\&.
+.SS "void Travel::Date::setDay (int _day)\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Definition at line 25 of file Date\&.hpp\&.
+.PP
+.nf
+25 { day = _day; }
+.fi
+.PP
+References day\&.
+.PP
+Referenced by Travel::operator>>()\&.
+.SS "void Travel::Date::setMonth (int _month)\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Definition at line 23 of file Date\&.hpp\&.
+.PP
+.nf
+23 { month = _month; }
+.fi
+.PP
+References month\&.
+.PP
+Referenced by Travel::operator>>()\&.
+.SS "void Travel::Date::setYear (int _year)\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Definition at line 21 of file Date\&.hpp\&.
+.PP
+.nf
+21 { year = _year; }
+.fi
+.PP
+References year\&.
+.PP
+Referenced by Travel::operator>>()\&.
+.SS "\fBDate\fP Travel::Date::today ()\fC [static]\fP"
+
+.PP
+Returns the current date\&. 
+.PP
+\fBReturns\fP
+.RS 4
+the current date 
+.RE
+.PP
+
+.PP
+Definition at line 40 of file Date\&.cpp\&.
+.PP
+.nf
+40 { return Date{}; }
+.fi
+.SS "void Travel::Date::validate ()\fC [private]\fP"
+
+.PP
+Makes sure the date is valid\&. 
+.PP
+\fBExceptions\fP
+.RS 4
+\fI\fBInvalidArgumentException\fP\fP if it isn't valid\&. 
+.RE
+.PP
+
+.PP
+Definition at line 16 of file Date\&.cpp\&.
+.PP
+.nf
+16                     {
+17   if (month > 12) {
+18     throw InvalidArgumentException("Month cannot be greater than 12\&.");
+19   } else if (month < 1) {
+20     throw InvalidArgumentException("Month cannot be less than 1\&.");
+21   }
+22 
+23   int dm = daysOfMonth(month, year);
+24 
+25   if (day < 1) {
+26     throw InvalidArgumentException("Day cannot be less than 1\&.");
+27   } else if (day > dm) {
+28     throw InvalidArgumentException(
+29         "Month cannot have more than that many days");
+30   }
+31 }
+.fi
+.PP
+References day, daysOfMonth(), month, and year\&.
+.PP
+Referenced by Date()\&.
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "std::ostream& operator<< (std::ostream & out, const \fBDate\fP & date)\fC [friend]\fP"
+
+.PP
+Definition at line 153 of file Date\&.cpp\&.
+.PP
+.nf
+153                                                           {
+154   char str[11];
+155   date\&.getString(str);
+156 
+157   out << str;
+158 
+159   return out;
+160 }
+.fi
+.SS "std::istream& operator>> (std::istream & in, \fBDate\fP & date)\fC [friend]\fP"
+
+.PP
+Definition at line 164 of file Date\&.cpp\&.
+.PP
+.nf
+164                                                    {
+165 
+166   int year;
+167   int month;
+168   int day;
+169 
+170   in >> year;
+171 
+172   if (!isDash(in)) {
+173     in\&.setstate(std::ios::failbit);
+174     return in;
+175   }
+176 
+177   in >> month;
+178 
+179   if (!isDash(in)) {
+180     in\&.setstate(std::ios::failbit);
+181     return in;
+182   }
+183 
+184   in >> day;
+185 
+186   date\&.setYear(year);
+187   date\&.setMonth(month);
+188   date\&.setDay(day);
+189 
+190   return in;
+191 }
+.fi
+.SH "Member Data Documentation"
+.PP 
+.SS "int Travel::Date::day\fC [private]\fP"
+
+.PP
+Definition at line 19 of file Date\&.hpp\&.
+.PP
+Referenced by Date(), daysSince1900(), getDay(), setDay(), and validate()\&.
+.SS "int Travel::Date::month\fC [private]\fP"
+
+.PP
+Definition at line 18 of file Date\&.hpp\&.
+.PP
+Referenced by Date(), daysOfMonth(), getMonth(), setMonth(), and validate()\&.
+.SS "int Travel::Date::year\fC [private]\fP"
+
+.PP
+Definition at line 17 of file Date\&.hpp\&.
+.PP
+Referenced by Date(), daysOfMonth(), getYear(), isLeapYear(), setYear(), and validate()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

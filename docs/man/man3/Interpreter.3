@@ -1,0 +1,245 @@
+.TH "Interpreter< Controller >" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Interpreter< Controller > \- A interface for command-line interpreters\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Interpreter\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBInterpreter\fP (std::shared_ptr< \fBArrayList\fP< \fBToken\fP >> _tokens)"
+.br
+.ti -1c
+.RI "virtual bool \fBparse\fP (Controller &state)=0"
+.br
+.RI "Parse the provided tokens into the given controller\&. "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "bool \fBerrorflag\fP = false"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBToken\fP \fBconsume\fP (\fBTokenType\fP type, const char *msg)"
+.br
+.RI "If the next token is of the provided \fBTokenType\fP return the next token else throw an error with the provided message\&. "
+.ti -1c
+.RI "void \fBerror\fP (int line, const char *msg) const"
+.br
+.RI "Throw an error at the given line with the given message\&. "
+.ti -1c
+.RI "bool \fBisAtEnd\fP () const"
+.br
+.RI "Has the interpreter consumed all the tokens it was given\&. "
+.ti -1c
+.RI "bool \fBmatches\fP (\fBTokenType\fP type) const"
+.br
+.RI "Is the next token of the provided \fBTokenType\fP\&. "
+.ti -1c
+.RI "\fBToken\fP \fBnext\fP ()"
+.br
+.RI "Pop the next token\&. "
+.ti -1c
+.RI "\fBToken\fP \fBpeek\fP () const"
+.br
+.RI "Peek at the next token\&. "
+.ti -1c
+.RI "\fBToken\fP \fBprev\fP () const"
+.br
+.RI "Return the previous token\&. "
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fBindex\fP = 0"
+.br
+.ti -1c
+.RI "std::shared_ptr< \fBArrayList\fP< \fBToken\fP > > \fBtokens\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename Controller>
+.br
+class Interpreter< Controller >"
+A interface for command-line interpreters\&. 
+.PP
+Definition at line 14 of file Interpreter\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename Controller > \fBInterpreter\fP< Controller >::\fBInterpreter\fP (std::shared_ptr< \fBArrayList\fP< \fBToken\fP >> _tokens)\fC [inline]\fP, \fC [explicit]\fP"
+
+.PP
+Definition at line 83 of file Interpreter\&.hpp\&.
+.PP
+.nf
+84       : tokens(_tokens) {}
+.fi
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename Controller > \fBToken\fP \fBInterpreter\fP< Controller >::consume (\fBTokenType\fP type, const char * msg)\fC [inline]\fP, \fC [protected]\fP"
+
+.PP
+If the next token is of the provided \fBTokenType\fP return the next token else throw an error with the provided message\&. 
+.PP
+\fBExceptions\fP
+.RS 4
+\fI\fBWrongTokenTypeException\fP\fP 
+.RE
+.PP
+
+.PP
+Definition at line 62 of file Interpreter\&.hpp\&.
+.PP
+.nf
+62                                                  {
+63     if (!matches(type)) {
+64       error(peek()\&.line, msg);
+65     } else {
+66       return next();
+67     }
+68     // Never used\&. Just here to suppress a compiler warning
+69     return {TokenType::EOF_T, "", 0};
+70   }
+.fi
+.SS "template<typename Controller > void \fBInterpreter\fP< Controller >::error (int line, const char * msg) const\fC [inline]\fP, \fC [protected]\fP"
+
+.PP
+Throw an error at the given line with the given message\&. 
+.PP
+\fBExceptions\fP
+.RS 4
+\fI\fBWrongTokenTypeException\fP\fP 
+.RE
+.PP
+
+.PP
+Definition at line 44 of file Interpreter\&.hpp\&.
+.PP
+.nf
+44                                               {
+45     char sline[32];
+46     sprintf(sline, "%d", line);
+47     char *nmsg = new char[6 + strlen(sline) + 3 + strlen(msg) + 1];
+48     strcpy(nmsg, "Line: ");
+49     strcpy(nmsg + 6, sline);
+50     strcpy(nmsg + 6 + strlen(sline), " - ");
+51     strcpy(nmsg + 6 + strlen(sline) + 3, msg);
+52     // std::cerr<<nmsg<<std::endl;
+53     WrongTokenTypeException e(nmsg);
+54     delete[] nmsg;
+55     throw e;
+56   }
+.fi
+.PP
+Referenced by Interpreter< VisitBuilder >::consume()\&.
+.SS "template<typename Controller > bool \fBInterpreter\fP< Controller >::isAtEnd () const\fC [inline]\fP, \fC [protected]\fP"
+
+.PP
+Has the interpreter consumed all the tokens it was given\&. 
+.PP
+Definition at line 22 of file Interpreter\&.hpp\&.
+.PP
+.nf
+22 { return index >= tokens->length(); }
+.fi
+.PP
+Referenced by Interpreter< VisitBuilder >::next(), and Interpreter< VisitBuilder >::peek()\&.
+.SS "template<typename Controller > bool \fBInterpreter\fP< Controller >::matches (\fBTokenType\fP type) const\fC [inline]\fP, \fC [protected]\fP"
+
+.PP
+Is the next token of the provided \fBTokenType\fP\&. 
+.PP
+Definition at line 73 of file Interpreter\&.hpp\&.
+.PP
+.nf
+73 { return peek()\&.t == type; }
+.fi
+.PP
+Referenced by Interpreter< VisitBuilder >::consume()\&.
+.SS "template<typename Controller > \fBToken\fP \fBInterpreter\fP< Controller >::next ()\fC [inline]\fP, \fC [protected]\fP"
+
+.PP
+Pop the next token\&. 
+.PP
+Definition at line 25 of file Interpreter\&.hpp\&.
+.PP
+.nf
+25                {
+26     if (isAtEnd())
+27       throw ReachedEndOfStreamException{};
+28     else {
+29       index++;
+30       return tokens->get(index - 1);
+31     }
+32   }
+.fi
+.PP
+Referenced by Interpreter< VisitBuilder >::consume()\&.
+.SS "template<typename Controller > virtual bool \fBInterpreter\fP< Controller >::parse (Controller & state)\fC [pure virtual]\fP"
+
+.PP
+Parse the provided tokens into the given controller\&. 
+.SS "template<typename Controller > \fBToken\fP \fBInterpreter\fP< Controller >::peek () const\fC [inline]\fP, \fC [protected]\fP"
+
+.PP
+Peek at the next token\&. 
+.PP
+Definition at line 34 of file Interpreter\&.hpp\&.
+.PP
+.nf
+34                      {
+35     if (isAtEnd())
+36       throw ReachedEndOfStreamException{};
+37     else {
+38       return tokens->get(index);
+39     }
+40   }
+.fi
+.PP
+Referenced by Interpreter< VisitBuilder >::consume(), and Interpreter< VisitBuilder >::matches()\&.
+.SS "template<typename Controller > \fBToken\fP \fBInterpreter\fP< Controller >::prev () const\fC [inline]\fP, \fC [protected]\fP"
+
+.PP
+Return the previous token\&. 
+.PP
+Definition at line 76 of file Interpreter\&.hpp\&.
+.PP
+.nf
+76 { return tokens->get(index - 1); }
+.fi
+.SH "Member Data Documentation"
+.PP 
+.SS "template<typename Controller > bool \fBInterpreter\fP< Controller >::errorflag = false"
+
+.PP
+Definition at line 79 of file Interpreter\&.hpp\&.
+.SS "template<typename Controller > unsigned \fBInterpreter\fP< Controller >::index = 0\fC [protected]\fP"
+
+.PP
+Definition at line 18 of file Interpreter\&.hpp\&.
+.PP
+Referenced by Interpreter< VisitBuilder >::isAtEnd(), Interpreter< VisitBuilder >::next(), Interpreter< VisitBuilder >::peek(), and Interpreter< VisitBuilder >::prev()\&.
+.SS "template<typename Controller > std::shared_ptr<\fBArrayList\fP<\fBToken\fP> > \fBInterpreter\fP< Controller >::tokens\fC [protected]\fP"
+
+.PP
+Definition at line 17 of file Interpreter\&.hpp\&.
+.PP
+Referenced by Interpreter< VisitBuilder >::isAtEnd(), Interpreter< VisitBuilder >::next(), Interpreter< VisitBuilder >::peek(), and Interpreter< VisitBuilder >::prev()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

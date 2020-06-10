@@ -1,0 +1,178 @@
+.TH "Travel::LoginInterpreter" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Travel::LoginInterpreter \- Interprets all commands in the \fBATOPEN\fP ScannerContext\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <LoginInterpreter\&.hpp>\fP
+.PP
+Inherits \fBInterpreter< TravelState >\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBInterpreter\fP (std::shared_ptr< \fBArrayList\fP< \fBToken\fP >> _tokens)"
+.br
+.RI "Inherits the constructors of \fBInterpreter\fP\&. "
+.ti -1c
+.RI "bool \fBparse\fP (\fBTravelState\fP &state) override"
+.br
+.RI "Parses the provided tokens into the given \fBTravel::TravelState\fP\&. "
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "bool \fBlogin\fP (\fBTravelState\fP &state)"
+.br
+.RI "Interprets the login command\&. "
+.ti -1c
+.RI "bool \fBreg\fP (\fBTravelState\fP &state)"
+.br
+.RI "Interprets the register command\&. "
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+Interprets all commands in the \fBATOPEN\fP ScannerContext\&. 
+.PP
+Definition at line 23 of file LoginInterpreter\&.hpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBInterpreter\fP< Controller >::\fBInterpreter\fP\fC [inline]\fP, \fC [explicit]\fP"
+
+.PP
+Inherits the constructors of \fBInterpreter\fP\&. 
+.PP
+Definition at line 83 of file Interpreter\&.hpp\&.
+.PP
+.nf
+84       : tokens(_tokens) {}
+.fi
+.SS "bool Travel::LoginInterpreter::login (\fBTravelState\fP & state)\fC [private]\fP"
+
+.PP
+Interprets the login command\&. 
+.PP
+Definition at line 5 of file LoginInterpreter\&.cpp\&.
+.PP
+.nf
+5                                                {
+6   auto user = consume(TokenType::STRING, "Expected username");
+7   if (matches(TokenType::STRING) || matches(TokenType::NUMBER)) {
+8     auto password = next();
+9     return state\&.login(user\&.lexeme, password\&.lexeme);
+10   } else {
+11     error(peek()\&.line, "Expected password");
+12     return false;
+13   }
+14 }
+.fi
+.PP
+References Interpreter< TravelState >::consume(), Interpreter< TravelState >::error(), Travel::TravelState::login(), Interpreter< TravelState >::matches(), Interpreter< TravelState >::next(), NUMBER, Interpreter< TravelState >::peek(), and STRING\&.
+.PP
+Referenced by parse()\&.
+.SS "bool Travel::LoginInterpreter::parse (\fBTravelState\fP & state)\fC [override]\fP"
+
+.PP
+Parses the provided tokens into the given \fBTravel::TravelState\fP\&. 
+.PP
+Definition at line 28 of file LoginInterpreter\&.cpp\&.
+.PP
+.nf
+28                                                {
+29   errorflag = false;
+30   while (!isAtEnd()) {
+31     try {
+32       switch (next()\&.t) {
+33       case TokenType::LOGIN:
+34         return !login(state);
+35         break;
+36       case TokenType::REGISTER:
+37         return !reg(state);
+38         break;
+39       case TokenType::NUMBER:
+40         errorflag = true;
+41         std::cerr << "(Line " << prev()\&.line << ") "
+42                   << "Unexpected Number -> " << prev()\&.lexeme << std::endl;
+43         break;
+44       case TokenType::DATE:
+45         errorflag = true;
+46         std::cerr << "(Line " << prev()\&.line << ") "
+47                   << "Unexpected Date -> " << prev()\&.lexeme << std::endl;
+48         break;
+49       case TokenType::ERROR:
+50         errorflag = true;
+51         std::cerr << "(Line " << prev()\&.line << ") "
+52                   << "Parsing error: " << prev()\&.lexeme << std::endl;
+53         break;
+54       case TokenType::EOF_T:
+55         return true;
+56         break;
+57       default:
+58         errorflag = true;
+59         std::cerr << "(Line " << prev()\&.line << ") "
+60                   << "Unexpected String -> " << prev()\&.lexeme << std::endl;
+61         break;
+62       }
+63     } catch (NoValueException &e) {
+64       errorflag = true;
+65       std::cerr << e\&.what() << std::endl;
+66     } catch (InvalidArgumentException &e) {
+67       errorflag = true;
+68       std::cerr << e\&.what() << std::endl;
+69     } catch (ReachedEndOfStreamException &e) {
+70       errorflag = true;
+71       std::cerr << e\&.what() << std::endl;
+72       return true;
+73     } catch (WrongTokenTypeException &e) {
+74       errorflag = true;
+75       std::cerr << e\&.what() << std::endl;
+76       while (peek()\&.t == TokenType::STRING || peek()\&.t == TokenType::NUMBER ||
+77              peek()\&.t == TokenType::DATE || peek()\&.t == TokenType::ERROR) {
+78         Token n = next();
+79         if (n\&.t == TokenType::ERROR) {
+80           std::cerr << "Error: " << n\&.lexeme << std::endl;
+81         }
+82       }
+83     }
+84   }
+85   return true;
+86 }
+.fi
+.PP
+References DATE, EOF_T, ERROR, Interpreter< TravelState >::errorflag, Interpreter< TravelState >::isAtEnd(), Token::lexeme, Token::line, LOGIN, login(), Interpreter< TravelState >::next(), NUMBER, Interpreter< TravelState >::peek(), Interpreter< TravelState >::prev(), reg(), REGISTER, STRING, Token::t, WrongTokenTypeException::what(), NoValueException::what(), ReachedEndOfStreamException::what(), and InvalidArgumentException::what()\&.
+.PP
+Referenced by main()\&.
+.SS "bool Travel::LoginInterpreter::reg (\fBTravelState\fP & state)\fC [private]\fP"
+
+.PP
+Interprets the register command\&. 
+.PP
+Definition at line 16 of file LoginInterpreter\&.cpp\&.
+.PP
+.nf
+16                                              {
+17   auto email = consume(TokenType::STRING, "Expected email");
+18   auto user = consume(TokenType::STRING, "Expected username");
+19   if (matches(TokenType::STRING) || matches(TokenType::NUMBER)) {
+20     auto password = next();
+21     return state\&.uregister(email\&.lexeme, user\&.lexeme, password\&.lexeme);
+22   } else {
+23     error(peek()\&.line, "Expected password");
+24     return false;
+25   }
+26 }
+.fi
+.PP
+References Interpreter< TravelState >::consume(), Interpreter< TravelState >::error(), Interpreter< TravelState >::matches(), Interpreter< TravelState >::next(), NUMBER, Interpreter< TravelState >::peek(), STRING, and Travel::TravelState::uregister()\&.
+.PP
+Referenced by parse()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

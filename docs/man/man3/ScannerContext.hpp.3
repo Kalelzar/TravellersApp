@@ -1,0 +1,75 @@
+.TH "TravellersApp/src/parser/ScannerContext.hpp" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+TravellersApp/src/parser/ScannerContext.hpp
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <iostream>\fP
+.br
+
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBScannerContext\fP { \fBScannerContext::ATOPEN\fP = 0, \fBScannerContext::GENERAL\fP, \fBScannerContext::VISIT\fP, \fBScannerContext::ALL\fP, \fBScannerContext::UNDEFINED\fP = -1 }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static std::ostream & \fBoperator<<\fP (std::ostream &out, \fBScannerContext\fP const &ctx)"
+.br
+.in -1c
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBScannerContext\fP\fC [strong]\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIATOPEN \fP\fP
+For commands issued during the login prompt\&. 
+.TP
+\fB\fIGENERAL \fP\fP
+For commands not in any other category\&. 
+.TP
+\fB\fIVISIT \fP\fP
+For commands issued in visit mode\&. 
+.TP
+\fB\fIALL \fP\fP
+All commands\&. 
+.TP
+\fB\fIUNDEFINED \fP\fP
+Errors\&. 
+.PP
+Definition at line 10 of file ScannerContext\&.hpp\&.
+.PP
+.nf
+10                           {
+11   ATOPEN = 0,    
+12   GENERAL,       
+13   VISIT,         
+14   ALL,           
+15   UNDEFINED = -1 
+16 };
+.fi
+.SH "Function Documentation"
+.PP 
+.SS "static std::ostream& operator<< (std::ostream & out, \fBScannerContext\fP const & ctx)\fC [static]\fP"
+
+.PP
+Definition at line 18 of file ScannerContext\&.hpp\&.
+.PP
+.nf
+18                                                                           {
+19   out << "ScannerContext";
+20   return out;
+21 }
+.fi
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

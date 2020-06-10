@@ -1,0 +1,350 @@
+.TH "IList< A >" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+IList< A > \- An interface for a generic list\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <IList\&.hpp>\fP
+.PP
+Inherited by \fBArrayList< A >\fP, and \fBLinkedList< A >\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual void \fBappend\fP (A &&elem)=0"
+.br
+.RI "Appends the given element to the list\&. "
+.ti -1c
+.RI "virtual void \fBappend\fP (A const &elem)=0"
+.br
+.RI "Appends the given element to the list\&. "
+.ti -1c
+.RI "virtual void \fBclear\fP ()=0"
+.br
+.RI "Clears the list\&. "
+.ti -1c
+.RI "virtual bool \fBcontains\fP (A const &elem) const =0"
+.br
+.RI "Returns true if the given element is contained in the list\&. "
+.ti -1c
+.RI "virtual A & \fBget\fP (unsigned index) const =0"
+.br
+.RI "Returns the value at the index\&. "
+.ti -1c
+.RI "virtual void \fBinsert\fP (A &&elem, unsigned at)=0"
+.br
+.RI "Inserts the given element in the list at the specified position\&. "
+.ti -1c
+.RI "virtual void \fBinsert\fP (A const &elem, unsigned at)=0"
+.br
+.RI "Inserts the given element in the list at the specified position\&. "
+.ti -1c
+.RI "bool \fBisEmpty\fP () const"
+.br
+.RI "Checks if the list is empty\&. "
+.ti -1c
+.RI "virtual unsigned \fBlength\fP () const =0"
+.br
+.RI "Returns the amount of elements contained in the list\&. "
+.ti -1c
+.RI "std::unique_ptr< \fBNullable\fP< A > > \fBoperator[]\fP (unsigned index) const"
+.br
+.RI "Returns the value associated with the given index if any\&. "
+.ti -1c
+.RI "virtual std::unique_ptr< \fBNullable\fP< A > > \fBpop\fP ()=0"
+.br
+.RI "Removes the last element of the list, if any, and returns it\&. "
+.ti -1c
+.RI "virtual void \fBprepend\fP (A &&elem)=0"
+.br
+.RI "Prepends the given element to the list\&. "
+.ti -1c
+.RI "virtual void \fBprepend\fP (A const &elem)=0"
+.br
+.RI "Prepends the given element to the list\&. "
+.ti -1c
+.RI "virtual int \fBremove\fP (const A &elem)=0"
+.br
+.RI "Remove the first occurence of the given element in the list\&. "
+.ti -1c
+.RI "virtual std::unique_ptr< \fBNullable\fP< A > > \fBremoveAt\fP (unsigned ind)=0"
+.br
+.RI "Removes the value associated with the given index, if any, and returns it\&. "
+.ti -1c
+.RI "virtual std::unique_ptr< \fBNullable\fP< A > > \fBshift\fP ()=0"
+.br
+.RI "Removes the first element of the list, if any, and returns it\&. "
+.ti -1c
+.RI "virtual \fB~IList\fP ()=default"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class A>
+.br
+class IList< A >"
+An interface for a generic list\&. 
+
+
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIA\fP the type of the elements in the list 
+.RE
+.PP
+
+.PP
+Definition at line 15 of file IList\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class A > virtual \fBIList\fP< A >::~\fBIList\fP ()\fC [virtual]\fP, \fC [default]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class A > virtual void \fBIList\fP< A >::append (A && elem)\fC [pure virtual]\fP"
+
+.PP
+Appends the given element to the list\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element 
+.RE
+.PP
+
+.PP
+Implemented in \fBArrayList< Tuple >\fP, \fBArrayList< Token >\fP, \fBArrayList< SimpleString >\fP, \fBArrayList< char * >\fP, and \fBArrayList< A >\fP\&.
+.SS "template<class A > virtual void \fBIList\fP< A >::append (A const & elem)\fC [pure virtual]\fP"
+
+.PP
+Appends the given element to the list\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element 
+.RE
+.PP
+
+.PP
+Implemented in \fBArrayList< Tuple >\fP, \fBArrayList< Token >\fP, \fBArrayList< SimpleString >\fP, \fBArrayList< char * >\fP, \fBArrayList< A >\fP, and \fBLinkedList< A >\fP\&.
+.SS "template<class A > virtual void \fBIList\fP< A >::clear ()\fC [pure virtual]\fP"
+
+.PP
+Clears the list\&. 
+.PP
+Implemented in \fBArrayList< A >\fP, \fBArrayList< SimpleString >\fP, \fBArrayList< Token >\fP, \fBArrayList< Tuple >\fP, \fBArrayList< char * >\fP, and \fBLinkedList< A >\fP\&.
+.SS "template<class A > virtual bool \fBIList\fP< A >::contains (A const & elem) const\fC [pure virtual]\fP"
+
+.PP
+Returns true if the given element is contained in the list\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element to search for 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+if the element is contained 
+.RE
+.PP
+
+.PP
+Implemented in \fBArrayList< Tuple >\fP, \fBArrayList< Token >\fP, \fBArrayList< SimpleString >\fP, \fBArrayList< char * >\fP, \fBArrayList< A >\fP, and \fBLinkedList< A >\fP\&.
+.SS "template<class A > virtual A& \fBIList\fP< A >::get (unsigned index) const\fC [pure virtual]\fP"
+
+.PP
+Returns the value at the index\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIindex\fP the index 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the value 
+.RE
+.PP
+
+.PP
+Implemented in \fBArrayList< A >\fP, \fBArrayList< SimpleString >\fP, \fBArrayList< Token >\fP, \fBArrayList< Tuple >\fP, \fBArrayList< char * >\fP, and \fBLinkedList< A >\fP\&.
+.PP
+Referenced by IList< char * >::operator[]()\&.
+.SS "template<class A > virtual void \fBIList\fP< A >::insert (A && elem, unsigned at)\fC [pure virtual]\fP"
+
+.PP
+Inserts the given element in the list at the specified position\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element 
+.br
+\fIat\fP the position 
+.RE
+.PP
+
+.PP
+Implemented in \fBArrayList< Tuple >\fP, \fBArrayList< Token >\fP, \fBArrayList< SimpleString >\fP, \fBArrayList< char * >\fP, and \fBArrayList< A >\fP\&.
+.SS "template<class A > virtual void \fBIList\fP< A >::insert (A const & elem, unsigned at)\fC [pure virtual]\fP"
+
+.PP
+Inserts the given element in the list at the specified position\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element 
+.br
+\fIat\fP the position 
+.RE
+.PP
+
+.PP
+Implemented in \fBArrayList< Tuple >\fP, \fBArrayList< Token >\fP, \fBArrayList< SimpleString >\fP, \fBArrayList< char * >\fP, \fBArrayList< A >\fP, \fBLinkedList< A >\fP, and \fBArraySet< A >\fP\&.
+.SS "template<class A > bool \fBIList\fP< A >::isEmpty () const\fC [inline]\fP"
+
+.PP
+Checks if the list is empty\&. 
+.PP
+Definition at line 141 of file IList\&.hpp\&.
+.PP
+.nf
+141 { return length() == 0; }
+.fi
+.SS "template<class A > virtual unsigned \fBIList\fP< A >::length () const\fC [pure virtual]\fP"
+
+.PP
+Returns the amount of elements contained in the list\&. 
+.PP
+Implemented in \fBLinkedList< A >\fP, \fBArrayList< A >\fP, \fBArrayList< SimpleString >\fP, \fBArrayList< Token >\fP, \fBArrayList< Tuple >\fP, and \fBArrayList< char * >\fP\&.
+.PP
+Referenced by IList< char * >::isEmpty(), and IList< char * >::operator[]()\&.
+.SS "template<class A > std::unique_ptr<\fBNullable\fP<A> > \fBIList\fP< A >::operator[] (unsigned index) const\fC [inline]\fP"
+
+.PP
+Returns the value associated with the given index if any\&. This is done by returning a pointer to a \fBNullable\fP instance\&. It is an instance of \fBNull\fP if the index doesn't exist or an instance of \fBNotNull\fP wrapped around the value\&.
+.PP
+Meant as some sort of cautious \fBget\fP in case for some reason the length of the list is unknown\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIindex\fP the index, whose value to get 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the value, if any 
+.RE
+.PP
+
+.PP
+Definition at line 70 of file IList\&.hpp\&.
+.PP
+.nf
+70                                                               {
+71     if (index < length())
+72       return std::make_unique<NotNull<A>>(get(index));
+73     return std::make_unique<Null<A>>();
+74   }
+.fi
+.SS "template<class A > virtual std::unique_ptr<\fBNullable\fP<A> > \fBIList\fP< A >::pop ()\fC [pure virtual]\fP"
+
+.PP
+Removes the last element of the list, if any, and returns it\&. This is done by returning a pointer to a \fBNullable\fP instance\&. It is an instance of \fBNull\fP if the list is empty or an instance of \fBNotNull\fP wrapped around the value\&.
+.PP
+\fBReturns\fP
+.RS 4
+the value, if any 
+.RE
+.PP
+
+.PP
+Implemented in \fBArrayList< A >\fP, \fBArrayList< SimpleString >\fP, \fBArrayList< Token >\fP, \fBArrayList< Tuple >\fP, \fBArrayList< char * >\fP, and \fBLinkedList< A >\fP\&.
+.SS "template<class A > virtual void \fBIList\fP< A >::prepend (A && elem)\fC [pure virtual]\fP"
+
+.PP
+Prepends the given element to the list\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element 
+.RE
+.PP
+
+.PP
+Implemented in \fBArrayList< Tuple >\fP, \fBArrayList< Token >\fP, \fBArrayList< SimpleString >\fP, \fBArrayList< char * >\fP, and \fBArrayList< A >\fP\&.
+.SS "template<class A > virtual void \fBIList\fP< A >::prepend (A const & elem)\fC [pure virtual]\fP"
+
+.PP
+Prepends the given element to the list\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element 
+.RE
+.PP
+
+.PP
+Implemented in \fBArrayList< Tuple >\fP, \fBArrayList< Token >\fP, \fBArrayList< SimpleString >\fP, \fBArrayList< char * >\fP, \fBArrayList< A >\fP, and \fBLinkedList< A >\fP\&.
+.SS "template<class A > virtual int \fBIList\fP< A >::remove (const A & elem)\fC [pure virtual]\fP"
+
+.PP
+Remove the first occurence of the given element in the list\&. All following elements are brought back by one index in order to fill the hole left by the removal 
+.PP
+\fBParameters\fP
+.RS 4
+\fIelem\fP the element to remove 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the index of the removed element 
+.RE
+.PP
+
+.PP
+Implemented in \fBArrayList< Tuple >\fP, \fBArrayList< Token >\fP, \fBArrayList< SimpleString >\fP, \fBArrayList< char * >\fP, \fBArrayList< A >\fP, and \fBLinkedList< A >\fP\&.
+.SS "template<class A > virtual std::unique_ptr<\fBNullable\fP<A> > \fBIList\fP< A >::removeAt (unsigned ind)\fC [pure virtual]\fP"
+
+.PP
+Removes the value associated with the given index, if any, and returns it\&. This is done by returning a pointer to a \fBNullable\fP instance\&. It is an instance of \fBNull\fP if the index doesn't exist or an instance of \fBNotNull\fP wrapped around the value\&.
+.PP
+All following elements are moved back by one index to fill the hole left by the removal
+.PP
+\fBParameters\fP
+.RS 4
+\fIindex\fP the index, whose value to remove 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the value, if any 
+.RE
+.PP
+
+.PP
+Implemented in \fBArrayList< A >\fP, \fBArrayList< SimpleString >\fP, \fBArrayList< Token >\fP, \fBArrayList< Tuple >\fP, \fBArrayList< char * >\fP, and \fBLinkedList< A >\fP\&.
+.SS "template<class A > virtual std::unique_ptr<\fBNullable\fP<A> > \fBIList\fP< A >::shift ()\fC [pure virtual]\fP"
+
+.PP
+Removes the first element of the list, if any, and returns it\&. This is done by returning a pointer to a \fBNullable\fP instance\&. It is an instance of \fBNull\fP if the list is empty or an instance of \fBNotNull\fP wrapped around the value\&.
+.PP
+All following elements are moved back by one index to fill the hole left by the removal
+.PP
+\fBReturns\fP
+.RS 4
+the value, if any 
+.RE
+.PP
+
+.PP
+Implemented in \fBArrayList< A >\fP, \fBArrayList< SimpleString >\fP, \fBArrayList< Token >\fP, \fBArrayList< Tuple >\fP, \fBArrayList< char * >\fP, and \fBLinkedList< A >\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

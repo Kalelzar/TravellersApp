@@ -1,0 +1,438 @@
+.TH "Travel::VisitBuilder" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Travel::VisitBuilder \- Holds all information necessary to construct a visit\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <VisitBuilder\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBclear\fP ()"
+.br
+.RI "Reset all values to their default state\&. "
+.ti -1c
+.RI "void \fBcomment\fP (const char *comment)"
+.br
+.RI "Set the comment\&. "
+.ti -1c
+.RI "void \fBdestination\fP (const char *destination)"
+.br
+.RI "Set destination\&. "
+.ti -1c
+.RI "void \fBfrom\fP (char *fdate)"
+.br
+.RI "Set the start of visit\&. TODO: Make sure from is before to\&. "
+.ti -1c
+.RI "char * \fBgetComment\fP () const"
+.br
+.RI "Return the visit comment\&. "
+.ti -1c
+.RI "char * \fBgetDestination\fP () const"
+.br
+.RI "Return visit destination\&. "
+.ti -1c
+.RI "\fBDate\fP \fBgetFrom\fP () const"
+.br
+.RI "Return start of visit\&. "
+.ti -1c
+.RI "\fBArrayList\fP< \fBSimpleString\fP > \fBgetPics\fP ()"
+.br
+.RI "Return the list of paths to uploaded photos\&. "
+.ti -1c
+.RI "int \fBgetRating\fP () const"
+.br
+.RI "Return the rating\&. "
+.ti -1c
+.RI "\fBDate\fP \fBgetTo\fP () const"
+.br
+.RI "Return end of visit\&. "
+.ti -1c
+.RI "void \fBphotoAdd\fP (\fBSimpleString\fP &&uri)"
+.br
+.RI "Add photo\&. "
+.ti -1c
+.RI "void \fBphotoDelete\fP (\fBSimpleString\fP &&uri)"
+.br
+.RI "Remove photo\&. "
+.ti -1c
+.RI "void \fBphotoShow\fP ()"
+.br
+.RI "Print a list of the uploaded photos to stdout\&. "
+.ti -1c
+.RI "void \fBrating\fP (int i)"
+.br
+.RI "Set the rating (1 - 5) "
+.ti -1c
+.RI "void \fBto\fP (char *fdate)"
+.br
+.RI "Set the end of visit\&. TODO: Make sure from is before to\&. "
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "char * \fB_comment\fP = nullptr"
+.br
+.ti -1c
+.RI "char * \fB_destination\fP = nullptr"
+.br
+.ti -1c
+.RI "\fBDate\fP \fB_from\fP"
+.br
+.ti -1c
+.RI "\fBArrayList\fP< \fBSimpleString\fP > \fB_photos\fP"
+.br
+.ti -1c
+.RI "int \fB_rating\fP = \-1"
+.br
+.ti -1c
+.RI "\fBDate\fP \fB_to\fP"
+.br
+.ti -1c
+.RI "bool \fBsetFrom\fP = false"
+.br
+.ti -1c
+.RI "bool \fBsetTo\fP = false"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Holds all information necessary to construct a visit\&. 
+
+Meant as disposable way to package information that will be passed from the UI to \fBTravelState\fP in a single function call\&. 
+.PP
+Definition at line 20 of file VisitBuilder\&.hpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void Travel::VisitBuilder::clear ()\fC [inline]\fP"
+
+.PP
+Reset all values to their default state\&. 
+.PP
+Definition at line 126 of file VisitBuilder\&.hpp\&.
+.PP
+.nf
+126                {
+127     setFrom = false;
+128     setTo = false;
+129     if (_destination) {
+130       delete[] _destination;
+131       _destination = nullptr;
+132     }
+133     if (_comment) {
+134       delete[] _comment;
+135       _comment = nullptr;
+136     }
+137     _rating = -1;
+138     _photos\&.clear();
+139   }
+.fi
+.PP
+References _comment, _destination, _photos, _rating, ArrayList< A >::clear(), setFrom, and setTo\&.
+.PP
+Referenced by Travel::VisitInterpreter::general()\&.
+.SS "void Travel::VisitBuilder::comment (const char * comment)\fC [inline]\fP"
+
+.PP
+Set the comment\&. 
+.PP
+Definition at line 86 of file VisitBuilder\&.hpp\&.
+.PP
+.nf
+86                                     {
+87     if (_comment) {
+88       std::cerr << "Already commented " << _comment << "\&. Changing value\&."
+89                 << std::endl;
+90       delete[] _comment;
+91     }
+92     _comment = new char[strlen(comment) + 1];
+93     strcpy(_comment, comment);
+94   }
+.fi
+.PP
+References _comment\&.
+.PP
+Referenced by Travel::VisitInterpreter::comment()\&.
+.SS "void Travel::VisitBuilder::destination (const char * destination)\fC [inline]\fP"
+
+.PP
+Set destination\&. 
+.PP
+Definition at line 115 of file VisitBuilder\&.hpp\&.
+.PP
+.nf
+115                                             {
+116     if (_destination) {
+117       std::cerr << "Already chose " << _destination
+118                 << " as destination\&. Changing value\&." << std::endl;
+119       delete[] _destination;
+120     }
+121     _destination = new char[strlen(destination) + 1];
+122     strcpy(_destination, destination);
+123   }
+.fi
+.PP
+References _destination\&.
+.PP
+Referenced by Travel::HTLInterpreter::visit()\&.
+.SS "void Travel::VisitBuilder::from (char * fdate)\fC [inline]\fP"
+
+.PP
+Set the start of visit\&. TODO: Make sure from is before to\&. 
+.PP
+Definition at line 52 of file VisitBuilder\&.hpp\&.
+.PP
+.nf
+52                          {
+53     if (setFrom) {
+54       std::cerr << "Already set 'from' to " << _from << "\&. Changing value\&."
+55                 << std::endl;
+56     }
+57     _from = Travel::Date(fdate);
+58     setFrom = true;
+59   }
+.fi
+.PP
+References _from, and setFrom\&.
+.PP
+Referenced by Travel::VisitInterpreter::from()\&.
+.SS "char* Travel::VisitBuilder::getComment () const\fC [inline]\fP"
+
+.PP
+Return the visit comment\&. 
+.PP
+Definition at line 36 of file VisitBuilder\&.hpp\&.
+.PP
+.nf
+36 { return _comment; }
+.fi
+.PP
+References _comment\&.
+.PP
+Referenced by User::addVisit()\&.
+.SS "char* Travel::VisitBuilder::getDestination () const\fC [inline]\fP"
+
+.PP
+Return visit destination\&. 
+.PP
+Definition at line 48 of file VisitBuilder\&.hpp\&.
+.PP
+.nf
+48 { return _destination; }
+.fi
+.PP
+References _destination\&.
+.PP
+Referenced by User::addVisit()\&.
+.SS "\fBDate\fP Travel::VisitBuilder::getFrom () const\fC [inline]\fP"
+
+.PP
+Return start of visit\&. 
+.PP
+Definition at line 45 of file VisitBuilder\&.hpp\&.
+.PP
+.nf
+45 { return _from; }
+.fi
+.PP
+References _from\&.
+.PP
+Referenced by User::addVisit()\&.
+.SS "\fBArrayList\fP<\fBSimpleString\fP> Travel::VisitBuilder::getPics ()\fC [inline]\fP"
+
+.PP
+Return the list of paths to uploaded photos\&. 
+.PP
+Definition at line 33 of file VisitBuilder\&.hpp\&.
+.PP
+.nf
+33 { return _photos; }
+.fi
+.PP
+References _photos\&.
+.PP
+Referenced by User::addVisit()\&.
+.SS "int Travel::VisitBuilder::getRating () const\fC [inline]\fP"
+
+.PP
+Return the rating\&. 
+.PP
+Definition at line 39 of file VisitBuilder\&.hpp\&.
+.PP
+.nf
+39 { return _rating; }
+.fi
+.PP
+References _rating\&.
+.PP
+Referenced by User::addVisit()\&.
+.SS "\fBDate\fP Travel::VisitBuilder::getTo () const\fC [inline]\fP"
+
+.PP
+Return end of visit\&. 
+.PP
+Definition at line 42 of file VisitBuilder\&.hpp\&.
+.PP
+.nf
+42 { return _to; }
+.fi
+.PP
+References _to\&.
+.PP
+Referenced by User::addVisit()\&.
+.SS "void Travel::VisitBuilder::photoAdd (\fBSimpleString\fP && uri)\fC [inline]\fP"
+
+.PP
+Add photo\&. 
+.PP
+Definition at line 97 of file VisitBuilder\&.hpp\&.
+.PP
+.nf
+97 { _photos\&.append(std::move(uri)); }
+.fi
+.PP
+References _photos, and ArrayList< A >::append()\&.
+.PP
+Referenced by Travel::VisitInterpreter::photoUpload()\&.
+.SS "void Travel::VisitBuilder::photoDelete (\fBSimpleString\fP && uri)\fC [inline]\fP"
+
+.PP
+Remove photo\&. 
+.PP
+Definition at line 100 of file VisitBuilder\&.hpp\&.
+.PP
+.nf
+100                                        {
+101     auto res = _photos\&.remove(std::move(uri));
+102     if (res == -1) {
+103       std::cerr << "This photo does not exists\&." << std::endl;
+104     }
+105   }
+.fi
+.PP
+References _photos, and ArrayList< A >::remove()\&.
+.PP
+Referenced by Travel::VisitInterpreter::photoDelete()\&.
+.SS "void Travel::VisitBuilder::photoShow ()\fC [inline]\fP"
+
+.PP
+Print a list of the uploaded photos to stdout\&. 
+.PP
+Definition at line 108 of file VisitBuilder\&.hpp\&.
+.PP
+.nf
+108                    {
+109     std::cout << "Photos uploaded: " << std::endl;
+110     _photos\&.foreach (
+111         [](SimpleString const &ss) { std::cout << ss << std::endl; });
+112   }
+.fi
+.PP
+References _photos, and ArrayList< A >::foreach()\&.
+.PP
+Referenced by Travel::VisitInterpreter::photoShow()\&.
+.SS "void Travel::VisitBuilder::rating (int i)\fC [inline]\fP"
+
+.PP
+Set the rating (1 - 5) 
+.PP
+Definition at line 73 of file VisitBuilder\&.hpp\&.
+.PP
+.nf
+73                      {
+74     if (i < 1 || i > 5) {
+75       std::cerr << "Rating must be between 1 - 5 inclusive" << std::endl;
+76       return;
+77     }
+78     if (_rating != -1) {
+79       std::cerr << "Already rated " << _rating << "\&. Changing value\&."
+80                 << std::endl;
+81     }
+82     _rating = i;
+83   }
+.fi
+.PP
+References _rating\&.
+.PP
+Referenced by Travel::VisitInterpreter::rate()\&.
+.SS "void Travel::VisitBuilder::to (char * fdate)\fC [inline]\fP"
+
+.PP
+Set the end of visit\&. TODO: Make sure from is before to\&. 
+.PP
+Definition at line 63 of file VisitBuilder\&.hpp\&.
+.PP
+.nf
+63                        {
+64     if (setTo) {
+65       std::cerr << "Already set 'to' to " << _to << "\&. Changing value\&."
+66                 << std::endl;
+67     }
+68     _to = Travel::Date(fdate);
+69     setTo = true;
+70   }
+.fi
+.PP
+References _to, and setTo\&.
+.PP
+Referenced by Travel::VisitInterpreter::to()\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "char* Travel::VisitBuilder::_comment = nullptr\fC [private]\fP"
+
+.PP
+Definition at line 28 of file VisitBuilder\&.hpp\&.
+.PP
+Referenced by clear(), comment(), and getComment()\&.
+.SS "char* Travel::VisitBuilder::_destination = nullptr\fC [private]\fP"
+
+.PP
+Definition at line 22 of file VisitBuilder\&.hpp\&.
+.PP
+Referenced by clear(), destination(), and getDestination()\&.
+.SS "\fBDate\fP Travel::VisitBuilder::_from\fC [private]\fP"
+
+.PP
+Definition at line 23 of file VisitBuilder\&.hpp\&.
+.PP
+Referenced by from(), and getFrom()\&.
+.SS "\fBArrayList\fP<\fBSimpleString\fP> Travel::VisitBuilder::_photos\fC [private]\fP"
+
+.PP
+Definition at line 29 of file VisitBuilder\&.hpp\&.
+.PP
+Referenced by clear(), getPics(), photoAdd(), photoDelete(), and photoShow()\&.
+.SS "int Travel::VisitBuilder::_rating = \-1\fC [private]\fP"
+
+.PP
+Definition at line 27 of file VisitBuilder\&.hpp\&.
+.PP
+Referenced by clear(), getRating(), and rating()\&.
+.SS "\fBDate\fP Travel::VisitBuilder::_to\fC [private]\fP"
+
+.PP
+Definition at line 25 of file VisitBuilder\&.hpp\&.
+.PP
+Referenced by getTo(), and to()\&.
+.SS "bool Travel::VisitBuilder::setFrom = false\fC [private]\fP"
+
+.PP
+Definition at line 24 of file VisitBuilder\&.hpp\&.
+.PP
+Referenced by clear(), and from()\&.
+.SS "bool Travel::VisitBuilder::setTo = false\fC [private]\fP"
+
+.PP
+Definition at line 26 of file VisitBuilder\&.hpp\&.
+.PP
+Referenced by clear(), and to()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

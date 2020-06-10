@@ -1,0 +1,39 @@
+.TH "Tuple< Head, Tail... >::typeOf< ind, dummy >" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Tuple< Head, Tail... >::typeOf< ind, dummy > \- Return the type of the element at the provided index\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Tuple\&.hpp>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "using \fBtype\fP = typename inherited::template typeOf< ind \- 1, dummy >::\fBtype\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename Head, typename\&.\&.\&. Tail>
+.br
+template<int ind, typename dummy = int>
+.br
+struct Tuple< Head, Tail\&.\&.\&. >::typeOf< ind, dummy >"
+Return the type of the element at the provided index\&. 
+.PP
+Definition at line 82 of file Tuple\&.hpp\&.
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<typename Head , typename\&.\&.\&. Tail> template<int ind, typename dummy  = int> using \fBTuple\fP< Head, Tail\&.\&.\&. >::typeOf< ind, dummy >::\fBtype\fP =  typename inherited::template typeOf<ind \- 1, dummy>::\fBtype\fP"
+
+.PP
+Definition at line 83 of file Tuple\&.hpp\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

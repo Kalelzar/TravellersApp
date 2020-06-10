@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classNullable.html" title="An optional value container inspired by Haskell&#39;s Maybe and Scala&#39;s Option." alt="" coords="5,31,105,57"/>
+<area shape="rect" id="node2" href="$classNotNull.html" title="This class represents a wrapper around a concrete value." alt="" coords="153,5,251,32"/>
+<area shape="rect" id="node3" href="$classNull.html" title="This class represents nothing (null)." alt="" coords="164,56,240,83"/>
+</map>

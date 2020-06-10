@@ -1,0 +1,486 @@
+.TH "BinaryNode< B, A >" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+BinaryNode< B, A > \- A node for use in a binary tree\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <BinaryNode\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "std::unique_ptr< \fBArrayList\fP< A > > \fBallInRange\fP (B const &lower, B const &upper) const"
+.br
+.RI "Return the values of all nodes whose tag lies inside the given (inclusive) range\&. "
+.ti -1c
+.RI "template<typename C > std::unique_ptr< \fBArrayList\fP< A > > \fBallInRangeT\fP (C const &lower, C const &upper) const"
+.br
+.RI "Return the values of all nodes whose tag lies inside the given (inclusive) range\&. "
+.ti -1c
+.RI "\fBBinaryNode\fP (B const &\fBtag\fP, A const &\fBvalue\fP, \fBBinaryNode\fP< B, A > *\fBparent\fP=nullptr)"
+.br
+.ti -1c
+.RI "std::unique_ptr< \fBStack\fP< \fBBinaryNode\fP< B, A > * > > \fBcollect\fP ()"
+.br
+.RI "Collect all binary nodes further down\&. "
+.ti -1c
+.RI "\fBBinaryNode\fP< B, A > * \fBfirstMatch\fP (B target)"
+.br
+.RI "Return the first node whose tag is equal to the given target\&. "
+.ti -1c
+.RI "\fBBinaryNode\fP< B, A > * \fBfirstMatch\fP (bool predicate(B))"
+.br
+.RI "Return the first node whose tag matches the given predicate\&. "
+.ti -1c
+.RI "void \fBpopulate\fP (B const &ntag, A const &nvalue)"
+.br
+.RI "Add a new node with the provided tag and value\&. "
+.ti -1c
+.RI "void \fBpopulate\fP (\fBBinaryNode\fP< B, A > *node)"
+.br
+.RI "Adds the node to the binary node structure\&. "
+.ti -1c
+.RI "void \fBpopulateWithRange\fP (B const &start, B const &end, A const nvalue)"
+.br
+.RI "Adds the node to the binary node structure using a range to gauge where it should go\&. "
+.ti -1c
+.RI "void \fBprint\fP (int depth=0)"
+.br
+.RI "Prints the node to stdout\&. "
+.ti -1c
+.RI "void \fBrepopulate\fP (\fBBinaryNode\fP< B, A > *node)"
+.br
+.RI "Remove all nodes further down and re-add them\&. "
+.ti -1c
+.RI "\fB~BinaryNode\fP ()"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static \fBBinaryNode\fP< B, A > * \fBinstance\fP (B const &\fBtag\fP, A const &\fBvalue\fP, \fBBinaryNode\fP< B, A > *\fBparent\fP=nullptr)"
+.br
+.RI "Return a new dynamically allocated instance of \fBBinaryNode\fP with the provided parameters\&. "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBBinaryNode\fP< B, A > * \fBleft\fP"
+.br
+.ti -1c
+.RI "\fBBinaryNode\fP< B, A > * \fBparent\fP"
+.br
+.ti -1c
+.RI "\fBBinaryNode\fP< B, A > * \fBright\fP"
+.br
+.ti -1c
+.RI "B \fBtag\fP"
+.br
+.ti -1c
+.RI "\fBArrayList\fP< A > \fBvalue\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename B, typename A>
+.br
+class BinaryNode< B, A >"
+A node for use in a binary tree\&. 
+
+It has a left element and a right element\&. It also knows it's parent element\&. It has a tag that is used to put it in the correct place and a list of values\&. 
+.PP
+Definition at line 21 of file BinaryNode\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename B , typename A > \fBBinaryNode\fP< B, A >::\fBBinaryNode\fP (B const & tag, A const & value, \fBBinaryNode\fP< B, A > * parent = \fCnullptr\fP)\fC [inline]\fP"
+
+.PP
+Definition at line 29 of file BinaryNode\&.hpp\&.
+.PP
+.nf
+29                                                                                {
+30     this->tag = tag;
+31     this->value\&.append(value);
+32     left = right = nullptr;
+33     this->parent = parent;
+34   }
+.fi
+.PP
+References BinaryNode< B, A >::left, BinaryNode< B, A >::parent, BinaryNode< B, A >::right, BinaryNode< B, A >::tag, and BinaryNode< B, A >::value\&.
+.PP
+Referenced by BinaryNode< B, A >::instance()\&.
+.SS "template<typename B , typename A > \fBBinaryNode\fP< B, A >::~\fBBinaryNode\fP ()\fC [inline]\fP"
+
+.PP
+Definition at line 36 of file BinaryNode\&.hpp\&.
+.PP
+.nf
+36                 {
+37     delete left;
+38     delete right;
+39   }
+.fi
+.PP
+References BinaryNode< B, A >::left, and BinaryNode< B, A >::right\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename B , typename A > std::unique_ptr<\fBArrayList\fP<A> > \fBBinaryNode\fP< B, A >::allInRange (B const & lower, B const & upper) const\fC [inline]\fP"
+
+.PP
+Return the values of all nodes whose tag lies inside the given (inclusive) range\&. 
+.PP
+Definition at line 232 of file BinaryNode\&.hpp\&.
+.PP
+.nf
+233                                                                  {
+234     std::unique_ptr<ArrayList<A>> range = std::make_unique<ArrayList<A>>();
+235 
+236     if (tag >= lower && tag <= upper) {
+237       range->appendAll(value);
+238       if (right != nullptr)
+239         range->appendAll(*right->allInRange(lower, upper));
+240       if (left != nullptr)
+241         range->appendAll(*left->allInRange(lower, upper));
+242     }
+243 
+244     if (tag > upper) {
+245       if (left != nullptr)
+246         range->appendAll(*left->allInRange(lower, upper));
+247     }
+248     if (tag < lower) {
+249       if (right != nullptr)
+250         range->appendAll(*right->allInRange(lower, upper));
+251     }
+252 
+253     return range;
+254   }
+.fi
+.PP
+References BinaryNode< B, A >::left, BinaryNode< B, A >::right, BinaryNode< B, A >::tag, and BinaryNode< B, A >::value\&.
+.SS "template<typename B , typename A > template<typename C > std::unique_ptr<\fBArrayList\fP<A> > \fBBinaryNode\fP< B, A >::allInRangeT (C const & lower, C const & upper) const\fC [inline]\fP"
+
+.PP
+Return the values of all nodes whose tag lies inside the given (inclusive) range\&. 
+.PP
+Definition at line 259 of file BinaryNode\&.hpp\&.
+.PP
+.nf
+260                                                                   {
+261     std::unique_ptr<ArrayList<A>> range = std::make_unique<ArrayList<A>>();
+262     // std::cout<<"All in range "<<lower<<" to " <<upper<<std::endl;
+263     if (tag >= lower && tag <= upper) {
+264       // std::cout<<tag<<" is between "<<lower<<" and "<<upper<<std::endl;
+265       range->appendAll(value);
+266       if (right != nullptr)
+267         range->appendAll(*right->allInRangeT<C>(lower, upper));
+268       if (left != nullptr)
+269         range->appendAll(*left->allInRangeT<C>(lower, upper));
+270     } else if (tag > upper) {
+271       // std::cout<<tag<<" is greater than "<<upper<<std::endl;
+272       if (left != nullptr)
+273         range->appendAll(*left->allInRangeT<C>(lower, upper));
+274     } else if (tag < lower) {
+275       // std::cout<<tag<<" is less than "<<lower<<std::endl;
+276       if (right != nullptr)
+277         range->appendAll(*right->allInRangeT<C>(lower, upper));
+278     } else {
+279       std::cout << "Maldefined comparison operators" << std::endl;
+280     }
+281 
+282     return range;
+283   }
+.fi
+.PP
+References BinaryNode< B, A >::left, BinaryNode< B, A >::right, BinaryNode< B, A >::tag, and BinaryNode< B, A >::value\&.
+.SS "template<typename B , typename A > std::unique_ptr<\fBStack\fP<\fBBinaryNode\fP<B, A> *> > \fBBinaryNode\fP< B, A >::collect ()\fC [inline]\fP"
+
+.PP
+Collect all binary nodes further down\&. 
+.PP
+Definition at line 173 of file BinaryNode\&.hpp\&.
+.PP
+.nf
+173                                                      {
+174     std::unique_ptr<Stack<BinaryNode<B, A> *>> stack =
+175         std::make_unique<Stack<BinaryNode<B, A> *>>();
+176     stack->push(this);
+177     if (left)
+178       stack->pushAll(*left->collect());
+179     if (right)
+180       stack->pushAll(*right->collect());
+181     return stack;
+182   }
+.fi
+.PP
+References BinaryNode< B, A >::left, and BinaryNode< B, A >::right\&.
+.PP
+Referenced by BinaryNode< B, A >::repopulate()\&.
+.SS "template<typename B , typename A > \fBBinaryNode\fP<B, A>* \fBBinaryNode\fP< B, A >::firstMatch (B target)\fC [inline]\fP"
+
+.PP
+Return the first node whose tag is equal to the given target\&. 
+.PP
+Definition at line 214 of file BinaryNode\&.hpp\&.
+.PP
+.nf
+214                                          {
+215     if (tag == target)
+216       return this;
+217     if (left != nullptr) {
+218       BinaryNode<B, A> *res = left->firstMatch(target);
+219       if (res != nullptr)
+220         return res;
+221     }
+222     if (right != nullptr) {
+223       BinaryNode<B, A> *res = right->firstMatch(target);
+224       if (res != nullptr)
+225         return res;
+226     }
+227     return nullptr;
+228   }
+.fi
+.PP
+References BinaryNode< B, A >::left, BinaryNode< B, A >::right, and BinaryNode< B, A >::tag\&.
+.SS "template<typename B , typename A > \fBBinaryNode\fP<B, A>* \fBBinaryNode\fP< B, A >::firstMatch (bool  predicateB)\fC [inline]\fP"
+
+.PP
+Return the first node whose tag matches the given predicate\&. 
+.PP
+Definition at line 197 of file BinaryNode\&.hpp\&.
+.PP
+.nf
+197                                                   {
+198     if (predicate(tag))
+199       return this;
+200     if (left != nullptr) {
+201       BinaryNode<B, A> *res = left->firstMatch(predicate);
+202       if (res != nullptr)
+203         return res;
+204     }
+205     if (right != nullptr) {
+206       BinaryNode<B, A> *res = right->firstMatch(predicate);
+207       if (res != nullptr)
+208         return res;
+209     }
+210     return nullptr;
+211   }
+.fi
+.PP
+References BinaryNode< B, A >::left, BinaryNode< B, A >::right, and BinaryNode< B, A >::tag\&.
+.PP
+Referenced by BinaryNode< B, A >::populateWithRange()\&.
+.SS "template<typename B , typename A > static \fBBinaryNode\fP<B, A>* \fBBinaryNode\fP< B, A >::instance (B const & tag, A const & value, \fBBinaryNode\fP< B, A > * parent = \fCnullptr\fP)\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Return a new dynamically allocated instance of \fBBinaryNode\fP with the provided parameters\&. 
+.PP
+Definition at line 45 of file BinaryNode\&.hpp\&.
+.PP
+.nf
+46                                                                         {
+47     return new BinaryNode(tag, value, parent);
+48   }
+.fi
+.PP
+References BinaryNode< B, A >::BinaryNode(), BinaryNode< B, A >::parent, BinaryNode< B, A >::tag, and BinaryNode< B, A >::value\&.
+.PP
+Referenced by BinaryNode< B, A >::populateWithRange()\&.
+.SS "template<typename B , typename A > void \fBBinaryNode\fP< B, A >::populate (B const & ntag, A const & nvalue)\fC [inline]\fP"
+
+.PP
+Add a new node with the provided tag and value\&. 
+.PP
+Definition at line 76 of file BinaryNode\&.hpp\&.
+.PP
+.nf
+76                                                 {
+77     populate(BinaryNode<B, A>::instance(ntag, nvalue, nullptr));
+78   }
+.fi
+.PP
+Referenced by BinaryNode< B, A >::repopulate()\&.
+.SS "template<typename B , typename A > void \fBBinaryNode\fP< B, A >::populate (\fBBinaryNode\fP< B, A > * node)\fC [inline]\fP"
+
+.PP
+Adds the node to the binary node structure\&. If the provided node's tag matches this node's tag add it's values to this node's values\&. If the provided node's tag is lesser than this node's tag attempt to add the node to this node's left child if such exists, else set it as the left child\&. If the provided node's tag is greater than this node's tag attempt to add the node to this node's right child if such exists, else set it as the right child\&. 
+.PP
+Definition at line 91 of file BinaryNode\&.hpp\&.
+.PP
+.nf
+91                                         {
+92     if (!node)
+93       return;
+94     if (tag == node->tag) {
+95       value\&.appendAll(node->value);
+96       delete node;
+97     } else if (tag > node->tag) {
+98       if (left == nullptr) {
+99         left = node;
+100         node->parent = this;
+101       } else
+102         left->populate(node);
+103     } else {
+104       if (right == nullptr) {
+105         right = node;
+106         node->parent = this;
+107       } else
+108         right->populate(node);
+109     }
+110   }
+.fi
+.PP
+References BinaryNode< B, A >::left, BinaryNode< B, A >::parent, BinaryNode< B, A >::right, BinaryNode< B, A >::tag, and BinaryNode< B, A >::value\&.
+.SS "template<typename B , typename A > void \fBBinaryNode\fP< B, A >::populateWithRange (B const & start, B const & end, A const nvalue)\fC [inline]\fP"
+
+.PP
+Adds the node to the binary node structure using a range to gauge where it should go\&. If this node's tag is equal to either end of the range add the provided value to this node's values\&. If this node's tag is greater than the end of the range attempt to add the new node to this node's left child if such exists, else set it as the left child\&. If this node's tag is lesser than the start of the range attempt to add the new node to this node's right child if such exists, else set it as the right child\&. If the tag lies within the range: First check if a node with tag == end || tag == start exists further down and if it does add the value to it\&. else set this as the current node's parent 
+.PP
+Definition at line 128 of file BinaryNode\&.hpp\&.
+.PP
+.nf
+128                                                                        {
+129     if (tag == start || tag == end) {
+130       value\&.append(nvalue);
+131     } else if (tag > end) {
+132       if (left == nullptr) {
+133         left = BinaryNode::instance(start, nvalue, this);
+134       } else
+135         left->populateWithRange(start, end, nvalue);
+136     } else if (tag < start) {
+137       if (right == nullptr) {
+138         right = BinaryNode::instance(end, nvalue, this);
+139       } else
+140         right->populateWithRange(start, end, nvalue);
+141     } else {
+142       // The current node lies inside the range
+143       // First check if a node with tag == end || tag == start exists further
+144       // down
+145       BinaryNode<B, A> *exists = firstMatch(end);
+146       if (exists) {
+147         exists->value\&.append(nvalue);
+148         return;
+149       }
+150       exists = firstMatch(start);
+151       if (exists) {
+152         exists->value\&.append(nvalue);
+153         return;
+154       }
+155 
+156       bool isLeft = (!parent && std::abs(tag - start) <= std::abs(tag - end)) ||
+157                     (parent && parent->left == this);
+158       if (isLeft) {
+159         BinaryNode<B, A> *node = BinaryNode::instance(start, nvalue, parent);
+160         if (parent)
+161           parent->left = node;
+162         node->repopulate(this);
+163       } else {
+164         BinaryNode<B, A> *node = BinaryNode::instance(end, nvalue, parent);
+165         if (parent)
+166           parent->right = node;
+167         node->repopulate(this);
+168       }
+169     }
+170   }
+.fi
+.PP
+References BinaryNode< B, A >::firstMatch(), BinaryNode< B, A >::instance(), BinaryNode< B, A >::left, BinaryNode< B, A >::parent, BinaryNode< B, A >::repopulate(), BinaryNode< B, A >::right, BinaryNode< B, A >::tag, and BinaryNode< B, A >::value\&.
+.SS "template<typename B , typename A > void \fBBinaryNode\fP< B, A >::print (int depth = \fC0\fP)\fC [inline]\fP"
+
+.PP
+Prints the node to stdout\&. 
+.PP
+Definition at line 51 of file BinaryNode\&.hpp\&.
+.PP
+.nf
+51                             {
+52     for (int i = 0; i < depth; i++) {
+53       cout << ' ';
+54     }
+55     cout << tag << endl;
+56     if (left != nullptr) {
+57       left->print(depth + 2);
+58     } else {
+59       for (int i = 0; i < depth + 2; i++) {
+60         cout << ' ';
+61       }
+62       cout << "XXX" << endl;
+63     }
+64 
+65     if (right != nullptr) {
+66       right->print(depth + 2);
+67     } else {
+68       for (int i = 0; i < depth + 2; i++) {
+69         cout << ' ';
+70       }
+71       cout << "XXX" << endl;
+72     }
+73   }
+.fi
+.PP
+References BinaryNode< B, A >::left, BinaryNode< B, A >::right, and BinaryNode< B, A >::tag\&.
+.SS "template<typename B , typename A > void \fBBinaryNode\fP< B, A >::repopulate (\fBBinaryNode\fP< B, A > * node)\fC [inline]\fP"
+
+.PP
+Remove all nodes further down and re-add them\&. 
+.PP
+Definition at line 185 of file BinaryNode\&.hpp\&.
+.PP
+.nf
+185                                           {
+186     std::unique_ptr<Stack<BinaryNode<B, A> *>> nodes = node->collect();
+187     while (nodes->length()) {
+188       BinaryNode<B, A> *n = nodes->pop()->get();
+189       n->left = nullptr;
+190       n->right = nullptr;
+191       n->parent = nullptr;
+192       populate(n);
+193     }
+194   }
+.fi
+.PP
+References BinaryNode< B, A >::collect(), BinaryNode< B, A >::left, BinaryNode< B, A >::parent, BinaryNode< B, A >::populate(), and BinaryNode< B, A >::right\&.
+.PP
+Referenced by BinaryNode< B, A >::populateWithRange()\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "template<typename B , typename A > \fBBinaryNode\fP<B, A>* \fBBinaryNode\fP< B, A >::left"
+
+.PP
+Definition at line 25 of file BinaryNode\&.hpp\&.
+.PP
+Referenced by BinaryNode< B, A >::allInRange(), BinaryNode< B, A >::allInRangeT(), BinaryNode< B, A >::BinaryNode(), BinaryNode< B, A >::collect(), BinaryNode< B, A >::firstMatch(), BinaryNode< B, A >::populate(), BinaryNode< B, A >::populateWithRange(), BinaryNode< B, A >::print(), BinaryNode< B, A >::repopulate(), and BinaryNode< B, A >::~BinaryNode()\&.
+.SS "template<typename B , typename A > \fBBinaryNode\fP<B, A>* \fBBinaryNode\fP< B, A >::parent"
+
+.PP
+Definition at line 27 of file BinaryNode\&.hpp\&.
+.PP
+Referenced by BinaryNode< B, A >::BinaryNode(), BinaryNode< B, A >::instance(), BinaryNode< B, A >::populate(), BinaryNode< B, A >::populateWithRange(), and BinaryNode< B, A >::repopulate()\&.
+.SS "template<typename B , typename A > \fBBinaryNode\fP<B, A>* \fBBinaryNode\fP< B, A >::right"
+
+.PP
+Definition at line 26 of file BinaryNode\&.hpp\&.
+.PP
+Referenced by BinaryNode< B, A >::allInRange(), BinaryNode< B, A >::allInRangeT(), BinaryNode< B, A >::BinaryNode(), BinaryNode< B, A >::collect(), BinaryNode< B, A >::firstMatch(), BinaryNode< B, A >::populate(), BinaryNode< B, A >::populateWithRange(), BinaryNode< B, A >::print(), BinaryNode< B, A >::repopulate(), and BinaryNode< B, A >::~BinaryNode()\&.
+.SS "template<typename B , typename A > B \fBBinaryNode\fP< B, A >::tag"
+
+.PP
+Definition at line 23 of file BinaryNode\&.hpp\&.
+.PP
+Referenced by BinaryNode< B, A >::allInRange(), BinaryNode< B, A >::allInRangeT(), BinaryNode< B, A >::BinaryNode(), BinaryNode< B, A >::firstMatch(), BinaryNode< B, A >::instance(), BinaryNode< B, A >::populate(), BinaryNode< B, A >::populateWithRange(), and BinaryNode< B, A >::print()\&.
+.SS "template<typename B , typename A > \fBArrayList\fP<A> \fBBinaryNode\fP< B, A >::value"
+
+.PP
+Definition at line 24 of file BinaryNode\&.hpp\&.
+.PP
+Referenced by BinaryNode< B, A >::allInRange(), BinaryNode< B, A >::allInRangeT(), BinaryNode< B, A >::BinaryNode(), BinaryNode< B, A >::instance(), BinaryNode< B, A >::populate(), and BinaryNode< B, A >::populateWithRange()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

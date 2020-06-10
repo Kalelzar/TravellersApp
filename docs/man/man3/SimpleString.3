@@ -1,0 +1,491 @@
+.TH "SimpleString" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+SimpleString \- An exceedingly simple implementation of a string class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <SimpleString\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "const char * \fBget\fP () const"
+.br
+.RI "Returns the underlying char*\&. "
+.ti -1c
+.RI "size_t \fBlength\fP () const"
+.br
+.RI "Returns the length of the string (Excluding the \\0) "
+.ti -1c
+.RI "bool \fBoperator!=\fP (const char *str) const"
+.br
+.RI "Inequality with cstring\&. Utilizes std::strcmp\&. "
+.ti -1c
+.RI "bool \fBoperator!=\fP (\fBSimpleString\fP const &str) const"
+.br
+.RI "Inequality with \fBSimpleString\fP\&. Utilizes std::strcmp\&. "
+.ti -1c
+.RI "char * \fBoperator&\fP ()"
+.br
+.RI "HACK: Needed so this class can be used as a \fBHashMap\fP key\&. "
+.ti -1c
+.RI "const char * \fBoperator&\fP () const"
+.br
+.RI "HACK: Needed so this class can be used as a \fBHashMap\fP key\&. "
+.ti -1c
+.RI "\fBSimpleString\fP & \fBoperator=\fP (const char str[])"
+.br
+.RI "Assign from cstring\&. "
+.ti -1c
+.RI "\fBSimpleString\fP & \fBoperator=\fP (\fBSimpleString\fP &&str)"
+.br
+.RI "Move the provided \fBSimpleString\fP to this one\&. "
+.ti -1c
+.RI "\fBSimpleString\fP & \fBoperator=\fP (\fBSimpleString\fP const &str)"
+.br
+.RI "Copy the provided \fBSimpleString\fP to this one\&. "
+.ti -1c
+.RI "bool \fBoperator==\fP (const char *str) const"
+.br
+.RI "Equality with cstring\&. Utilizes std::strcmp\&. "
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBSimpleString\fP const &str) const"
+.br
+.RI "Equality with \fBSimpleString\fP\&. Utilizes std::strcmp\&. "
+.ti -1c
+.RI "bool \fBoperator>\fP (\fBSimpleString\fP const &other) const"
+.br
+.RI "Is this string greater than another? Utilizes std::strcmp\&. "
+.ti -1c
+.RI "\fBSimpleString\fP ()"
+.br
+.RI "Initialize with an empty string\&. "
+.ti -1c
+.RI "\fBSimpleString\fP (const char *str)"
+.br
+.RI "Copy constructor from cstring\&. "
+.ti -1c
+.RI "\fBSimpleString\fP (const char(&&str)[])"
+.br
+.RI "Move constructor from cstring\&. "
+.ti -1c
+.RI "\fBSimpleString\fP (\fBSimpleString\fP &&str)"
+.br
+.RI "Move constructor from \fBSimpleString\fP\&. "
+.ti -1c
+.RI "\fBSimpleString\fP (\fBSimpleString\fP const &str)"
+.br
+.RI "Copy constructor from \fBSimpleString\fP\&. "
+.ti -1c
+.RI "\fB~SimpleString\fP ()"
+.br
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBinit\fP (const char *str)"
+.br
+.RI "Initialize the string from a cstring\&. "
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "char * \fBinner\fP = nullptr"
+.br
+.ti -1c
+.RI "size_t \fBlen\fP = 0"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &out, \fBSimpleString\fP str)"
+.br
+.RI "Passes the underlying char* to the provided stream\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+An exceedingly simple implementation of a string class\&. 
+
+It's only purpose is to allow strings to be compared via ==\&. It also contains a (horrifically hacky) workaround that allows strings to be used as keys in a \fBHashMap\fP\&. \fB Use char* over this wherever possible \fP 
+.PP
+\fBBug\fP
+.RS 4
+Because of the \fBHashMap\fP workaround trying to retrieve \fBSimpleString\fP from \fBTuple\fP via the \fBTuple::get\fP method will fail as it will attempt to reinterpret_cast a char* to SimpleString*\&. 
+.RE
+.PP
+
+.PP
+Definition at line 18 of file SimpleString\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "SimpleString::SimpleString ()\fC [inline]\fP"
+
+.PP
+Initialize with an empty string\&. 
+.PP
+Definition at line 37 of file SimpleString\&.hpp\&.
+.PP
+.nf
+37                  {
+38     inner = new char[1];
+39     inner[0] = '\0';
+40   }
+.fi
+.PP
+References inner\&.
+.SS "SimpleString::~SimpleString ()\fC [inline]\fP"
+
+.PP
+Definition at line 42 of file SimpleString\&.hpp\&.
+.PP
+.nf
+42                   {
+43     // LOG(INFO, "Destructor called\&.");
+44     delete[] inner;
+45   }
+.fi
+.PP
+References inner\&.
+.SS "SimpleString::SimpleString (\fBSimpleString\fP && str)\fC [inline]\fP"
+
+.PP
+Move constructor from \fBSimpleString\fP\&. 
+.PP
+Definition at line 48 of file SimpleString\&.hpp\&.
+.PP
+.nf
+48                                    {
+49     // LOG(INFO, "Moving SimpleString");
+50     len = str\&.len;
+51     inner = str\&.inner;
+52 
+53     str\&.len = 0;
+54     str\&.inner = nullptr;
+55   }
+.fi
+.PP
+References inner, and len\&.
+.SS "SimpleString::SimpleString (const char(&&) str[])\fC [inline]\fP"
+
+.PP
+Move constructor from cstring\&. 
+.PP
+Definition at line 73 of file SimpleString\&.hpp\&.
+.PP
+.nf
+73                                     {
+74     // LOG(INFO, "Moving cstring into SimpleString");
+75     len = strlen(str);
+76     inner = const_cast<char *>(str);
+77   }
+.fi
+.PP
+References inner, and len\&.
+.SS "SimpleString::SimpleString (const char * str)\fC [inline]\fP"
+
+.PP
+Copy constructor from cstring\&. 
+.PP
+Definition at line 80 of file SimpleString\&.hpp\&.
+.PP
+.nf
+80                                 {
+81     // LOG(INFO, "Copying SimpleString from cstring");
+82     init(str);
+83   }
+.fi
+.PP
+References init()\&.
+.SS "SimpleString::SimpleString (\fBSimpleString\fP const & str)\fC [inline]\fP"
+
+.PP
+Copy constructor from \fBSimpleString\fP\&. 
+.PP
+Definition at line 86 of file SimpleString\&.hpp\&.
+.PP
+.nf
+86                                         {
+87     // LOG(INFO, "Copying SimpleString");
+88     init(str\&.inner);
+89   }
+.fi
+.PP
+References init(), and inner\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "const char* SimpleString::get () const\fC [inline]\fP"
+
+.PP
+Returns the underlying char*\&. 
+.PP
+Definition at line 155 of file SimpleString\&.hpp\&.
+.PP
+.nf
+155 { return inner; }
+.fi
+.PP
+References inner\&.
+.PP
+Referenced by operator>()\&.
+.SS "void SimpleString::init (const char * str)\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Initialize the string from a cstring\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstr\fP the cstring to copy 
+.RE
+.PP
+
+.PP
+Definition at line 28 of file SimpleString\&.hpp\&.
+.PP
+.nf
+28                              {
+29     // LOG(INFO, "Creating SimpleString instance\&.");
+30     len = strlen(str);
+31     inner = new char[len + 1];
+32     strcpy(inner, str);
+33   }
+.fi
+.PP
+References inner, and len\&.
+.PP
+Referenced by operator=(), and SimpleString()\&.
+.SS "size_t SimpleString::length () const\fC [inline]\fP"
+
+.PP
+Returns the length of the string (Excluding the \\0) 
+.PP
+Definition at line 163 of file SimpleString\&.hpp\&.
+.PP
+.nf
+163 { return len; }
+.fi
+.PP
+References len\&.
+.PP
+Referenced by operator==()\&.
+.SS "bool SimpleString::operator!= (const char * str) const\fC [inline]\fP"
+
+.PP
+Inequality with cstring\&. Utilizes std::strcmp\&. 
+.PP
+Definition at line 129 of file SimpleString\&.hpp\&.
+.PP
+.nf
+129 { return !(*this == str); }
+.fi
+.SS "bool SimpleString::operator!= (\fBSimpleString\fP const & str) const\fC [inline]\fP"
+
+.PP
+Inequality with \fBSimpleString\fP\&. Utilizes std::strcmp\&. 
+.PP
+Definition at line 126 of file SimpleString\&.hpp\&.
+.PP
+.nf
+126 { return !(*this == str); }
+.fi
+.SS "char* SimpleString::operator& ()\fC [inline]\fP"
+
+.PP
+HACK: Needed so this class can be used as a \fBHashMap\fP key\&. 
+.PP
+\fBBug\fP
+.RS 4
+Messes up \fBTuple::get\fP\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the underlying char* 
+.RE
+.PP
+
+.PP
+Definition at line 140 of file SimpleString\&.hpp\&.
+.PP
+.nf
+140                     {
+141     // LOG(WARN, "Calling override of operator&\&.");
+142     return inner;
+143   }
+.fi
+.PP
+References inner\&.
+.SS "const char* SimpleString::operator& () const\fC [inline]\fP"
+
+.PP
+HACK: Needed so this class can be used as a \fBHashMap\fP key\&. 
+.PP
+\fBBug\fP
+.RS 4
+Messes up \fBTuple::get\fP\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the underlying char* 
+.RE
+.PP
+
+.PP
+Definition at line 149 of file SimpleString\&.hpp\&.
+.PP
+.nf
+149                                 {
+150     // LOG(WARN, "Calling override of operator&");
+151     return inner;
+152   }
+.fi
+.PP
+References inner\&.
+.SS "\fBSimpleString\fP& SimpleString::operator= (const char str[])\fC [inline]\fP"
+
+.PP
+Assign from cstring\&. 
+.PP
+Definition at line 103 of file SimpleString\&.hpp\&.
+.PP
+.nf
+103                                             {
+104     // LOG(INFO, "Assigning SimpleString from cstring");
+105     if (inner)
+106       delete[] inner;
+107     init(str);
+108     return *this;
+109   }
+.fi
+.PP
+References init(), and inner\&.
+.SS "\fBSimpleString\fP& SimpleString::operator= (\fBSimpleString\fP && str)\fC [inline]\fP"
+
+.PP
+Move the provided \fBSimpleString\fP to this one\&. 
+.PP
+Definition at line 58 of file SimpleString\&.hpp\&.
+.PP
+.nf
+58                                               {
+59     if (&str != inner) {
+60       // LOG(INFO, "Move(assign) SimpleString");
+61       if (inner)
+62         delete[] inner;
+63       len = str\&.len;
+64       inner = str\&.inner;
+65 
+66       str\&.len = 0;
+67       str\&.inner = nullptr;
+68     }
+69     return *this;
+70   }
+.fi
+.PP
+References inner, and len\&.
+.SS "\fBSimpleString\fP& SimpleString::operator= (\fBSimpleString\fP const & str)\fC [inline]\fP"
+
+.PP
+Copy the provided \fBSimpleString\fP to this one\&. 
+.PP
+Definition at line 92 of file SimpleString\&.hpp\&.
+.PP
+.nf
+92                                                    {
+93     if (&str != inner) {
+94       // LOG(INFO, "Assigning SimpleString");
+95       if (inner)
+96         delete[] inner;
+97       init(str\&.inner);
+98     }
+99     return *this;
+100   }
+.fi
+.PP
+References init(), and inner\&.
+.SS "bool SimpleString::operator== (const char * str) const\fC [inline]\fP"
+
+.PP
+Equality with cstring\&. Utilizes std::strcmp\&. 
+.PP
+Definition at line 119 of file SimpleString\&.hpp\&.
+.PP
+.nf
+119                                          {
+120     if (length() != strlen(str))
+121       return false;
+122     return strcmp(inner, str) == 0;
+123   }
+.fi
+.PP
+References inner, and length()\&.
+.SS "bool SimpleString::operator== (\fBSimpleString\fP const & str) const\fC [inline]\fP"
+
+.PP
+Equality with \fBSimpleString\fP\&. Utilizes std::strcmp\&. 
+.PP
+Definition at line 112 of file SimpleString\&.hpp\&.
+.PP
+.nf
+112                                                  {
+113     if (length() != str\&.length())
+114       return false;
+115     return strcmp(inner, str\&.inner) == 0;
+116   }
+.fi
+.PP
+References inner, and length()\&.
+.SS "bool SimpleString::operator> (\fBSimpleString\fP const & other) const\fC [inline]\fP"
+
+.PP
+Is this string greater than another? Utilizes std::strcmp\&. 
+.PP
+Definition at line 132 of file SimpleString\&.hpp\&.
+.PP
+.nf
+132                                                   {
+133     return strcmp(inner, other\&.get()) > 0;
+134   }
+.fi
+.PP
+References get(), and inner\&.
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "std::ostream& operator<< (std::ostream & out, \fBSimpleString\fP str)\fC [friend]\fP"
+
+.PP
+Passes the underlying char* to the provided stream\&. 
+.PP
+Definition at line 158 of file SimpleString\&.hpp\&.
+.PP
+.nf
+158                                                                    {
+159     return out << str\&.inner;
+160   }
+.fi
+.SH "Member Data Documentation"
+.PP 
+.SS "char* SimpleString::inner = nullptr\fC [private]\fP"
+
+.PP
+Definition at line 21 of file SimpleString\&.hpp\&.
+.PP
+Referenced by get(), init(), operator&(), operator=(), operator==(), operator>(), SimpleString(), and ~SimpleString()\&.
+.SS "size_t SimpleString::len = 0\fC [private]\fP"
+
+.PP
+Definition at line 22 of file SimpleString\&.hpp\&.
+.PP
+Referenced by init(), length(), operator=(), and SimpleString()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

@@ -5,37 +5,35 @@
 #ifndef TRAVELLERAPP_LOGININTERPRETER_HPP
 #define TRAVELLERAPP_LOGININTERPRETER_HPP
 
+#include "../InvalidArgumentException.hpp"
+#include "../ReachedEndOfStreamException.hpp"
+#include "../TravelState.hpp"
+#include "../WrongTokenTypeException.hpp"
+#include "CommandList.hpp"
 #include "Interpreter.hpp"
 #include "Token.hpp"
-#include "../ReachedEndOfStreamException.hpp"
-#include "../WrongTokenTypeException.hpp"
-#include "../InvalidArgumentException.hpp"
-#include "../TravelState.hpp"
-#include "CommandList.hpp"
+#include <cstdlib>
 #include <cstring>
 #include <iostream>
-#include <cstdlib>
 
 namespace Travel {
 
-    class LoginInterpreter : public Interpreter<TravelState>{
+/// Interprets all commands in the {@link ScannerContext::ATOPEN ATOPEN}
+/// ScannerContext.
+class LoginInterpreter : public Interpreter<TravelState> {
 
-    private:
-        bool login(TravelState& state);
-        bool reg(TravelState& state);
+private:
+  /// Interprets the login command
+  bool login(TravelState &state);
+  /// Interprets the register command
+  bool reg(TravelState &state);
 
+public:
+  /// Parses the provided tokens into the given {@link Travel::TravelState}
+  bool parse(TravelState &state) override;
+  /// Inherits the constructors of Interpreter
+  using Interpreter::Interpreter;
+};
 
-
-
-
-    public:
-
-        bool parse(TravelState &state) override;
-
-        using Interpreter::Interpreter;
-
-
-    };
-
-}
-#endif //TRAVELLERAPP_LOGININTERPRETER_HPP
+} // namespace Travel
+#endif // TRAVELLERAPP_LOGININTERPRETER_HPP

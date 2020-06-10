@@ -1,0 +1,311 @@
+.TH "RangeBinaryTree< B, A >" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+RangeBinaryTree< B, A > \- A binary search tree\&. Sort of\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <RangeBinaryTree\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "const \fBBinaryNode\fP< B, A > * \fBfindFirst\fP (B target)"
+.br
+.RI "Return the first node whose tag is equal to the given target\&. "
+.ti -1c
+.RI "const \fBBinaryNode\fP< B, A > * \fBfindFirst\fP (bool predicate(B))"
+.br
+.RI "Return the first node whose tag matches the given predicate\&. "
+.ti -1c
+.RI "\fBBinaryNode\fP< B, A > * \fBgetHead\fP ()"
+.br
+.RI "Return the head\&. "
+.ti -1c
+.RI "std::unique_ptr< \fBArrayList\fP< A > > \fBinRange\fP (B const &lower, B const &upper) const"
+.br
+.RI "Return the values of all nodes whose tag lies inside the given (inclusive) range\&. "
+.ti -1c
+.RI "template<typename C > std::unique_ptr< \fBArrayList\fP< A > > \fBinRangeT\fP (C const &lower, C const &upper) const"
+.br
+.RI "Return the values of all nodes whose tag lies inside the given (inclusive) range\&. "
+.ti -1c
+.RI "bool \fBisEmpty\fP () const"
+.br
+.RI "Are there no nodes? "
+.ti -1c
+.RI "void \fBpopulate\fP (B tag, A value)"
+.br
+.RI "Add a new node with the provided tag and value\&. "
+.ti -1c
+.RI "void \fBpopulateWithRange\fP (B start, B end, A value)"
+.br
+.RI "Adds the node to the binary node structure using a range to gauge where it should go\&. "
+.ti -1c
+.RI "void \fBprint\fP () const"
+.br
+.RI "Print the tree to stdout\&. "
+.ti -1c
+.RI "\fBRangeBinaryTree\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetHead\fP (\fBBinaryNode\fP< B, A > newHead)"
+.br
+.RI "Set the head to the provided head\&. "
+.ti -1c
+.RI "const \fBBinaryNode\fP< B, A > * \fBviewHead\fP () const"
+.br
+.RI "Return a const pointer to the head\&. "
+.ti -1c
+.RI "\fB~RangeBinaryTree\fP ()"
+.br
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBfree\fP ()"
+.br
+.RI "Free all nodes\&. "
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBBinaryNode\fP< B, A > * \fBroot\fP = nullptr"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename B, typename A>
+.br
+class RangeBinaryTree< B, A >"
+A binary search tree\&. Sort of\&. 
+.PP
+Definition at line 13 of file RangeBinaryTree\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename B , typename A > \fBRangeBinaryTree\fP< B, A >::~\fBRangeBinaryTree\fP ()\fC [inline]\fP"
+
+.PP
+Definition at line 24 of file RangeBinaryTree\&.hpp\&.
+.PP
+.nf
+24 { free(); }
+.fi
+.PP
+References RangeBinaryTree< B, A >::free()\&.
+.SS "template<typename B , typename A > \fBRangeBinaryTree\fP< B, A >::\fBRangeBinaryTree\fP ()\fC [inline]\fP"
+
+.PP
+Definition at line 26 of file RangeBinaryTree\&.hpp\&.
+.PP
+.nf
+26 { root = nullptr; }
+.fi
+.PP
+References RangeBinaryTree< B, A >::root\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename B , typename A > const \fBBinaryNode\fP<B, A>* \fBRangeBinaryTree\fP< B, A >::findFirst (B target)\fC [inline]\fP"
+
+.PP
+Return the first node whose tag is equal to the given target\&. 
+.PP
+Definition at line 98 of file RangeBinaryTree\&.hpp\&.
+.PP
+.nf
+98                                               {
+99     return root->firstMatch(target);
+100   }
+.fi
+.PP
+References RangeBinaryTree< B, A >::root\&.
+.SS "template<typename B , typename A > const \fBBinaryNode\fP<B, A>* \fBRangeBinaryTree\fP< B, A >::findFirst (bool  predicateB)\fC [inline]\fP"
+
+.PP
+Return the first node whose tag matches the given predicate\&. 
+.PP
+Definition at line 94 of file RangeBinaryTree\&.hpp\&.
+.PP
+.nf
+94                                                        {
+95     return root->firstMatch(predicate);
+96   }
+.fi
+.PP
+References RangeBinaryTree< B, A >::root\&.
+.SS "template<typename B , typename A > void \fBRangeBinaryTree\fP< B, A >::free ()\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Free all nodes\&. 
+.PP
+Definition at line 18 of file RangeBinaryTree\&.hpp\&.
+.PP
+.nf
+18               {
+19     if (root)
+20       delete root;
+21   }
+.fi
+.PP
+References RangeBinaryTree< B, A >::root\&.
+.PP
+Referenced by RangeBinaryTree< B, A >::setHead(), and RangeBinaryTree< B, A >::~RangeBinaryTree()\&.
+.SS "template<typename B , typename A > \fBBinaryNode\fP<B, A>* \fBRangeBinaryTree\fP< B, A >::getHead ()\fC [inline]\fP"
+
+.PP
+Return the head\&. 
+.PP
+Definition at line 91 of file RangeBinaryTree\&.hpp\&.
+.PP
+.nf
+91 { return root; }
+.fi
+.PP
+References RangeBinaryTree< B, A >::root\&.
+.SS "template<typename B , typename A > std::unique_ptr<\fBArrayList\fP<A> > \fBRangeBinaryTree\fP< B, A >::inRange (B const & lower, B const & upper) const\fC [inline]\fP"
+
+.PP
+Return the values of all nodes whose tag lies inside the given (inclusive) range\&. 
+.PP
+Definition at line 74 of file RangeBinaryTree\&.hpp\&.
+.PP
+.nf
+74                                                                             {
+75     if (root == nullptr)
+76       return nullptr;
+77     return root->allInRange(lower, upper);
+78   }
+.fi
+.PP
+References RangeBinaryTree< B, A >::root\&.
+.SS "template<typename B , typename A > template<typename C > std::unique_ptr<\fBArrayList\fP<A> > \fBRangeBinaryTree\fP< B, A >::inRangeT (C const & lower, C const & upper) const\fC [inline]\fP"
+
+.PP
+Return the values of all nodes whose tag lies inside the given (inclusive) range\&. 
+.PP
+Definition at line 84 of file RangeBinaryTree\&.hpp\&.
+.PP
+.nf
+84                                                                              {
+85     if (root == nullptr)
+86       return nullptr;
+87     return root->template allInRangeT<C>(lower, upper);
+88   }
+.fi
+.PP
+References RangeBinaryTree< B, A >::root\&.
+.SS "template<typename B , typename A > bool \fBRangeBinaryTree\fP< B, A >::isEmpty () const\fC [inline]\fP"
+
+.PP
+Are there no nodes? 
+.PP
+Definition at line 29 of file RangeBinaryTree\&.hpp\&.
+.PP
+.nf
+29 { return root == nullptr; }
+.fi
+.PP
+References RangeBinaryTree< B, A >::root\&.
+.SS "template<typename B , typename A > void \fBRangeBinaryTree\fP< B, A >::populate (B tag, A value)\fC [inline]\fP"
+
+.PP
+Add a new node with the provided tag and value\&. 
+.PP
+Definition at line 44 of file RangeBinaryTree\&.hpp\&.
+.PP
+.nf
+44                                 {
+45     if (root == nullptr) {
+46       root = new BinaryNode<B, A>(tag, value);
+47     } else {
+48       root->populate(tag, value);
+49     }
+50   }
+.fi
+.PP
+References RangeBinaryTree< B, A >::root\&.
+.SS "template<typename B , typename A > void \fBRangeBinaryTree\fP< B, A >::populateWithRange (B start, B end, A value)\fC [inline]\fP"
+
+.PP
+Adds the node to the binary node structure using a range to gauge where it should go\&. 
+.PP
+\fBSee also\fP
+.RS 4
+\fBBinaryNode::populateWithRange\fP 
+.RE
+.PP
+
+.PP
+Definition at line 57 of file RangeBinaryTree\&.hpp\&.
+.PP
+.nf
+57                                                   {
+58     if (root == nullptr) {
+59       root = new BinaryNode<B, A>(start, value);
+60     } else {
+61       root->populateWithRange(start, end, value);
+62       while (root->parent != nullptr) {
+63         root = root->parent;
+64       }
+65     }
+66   }
+.fi
+.PP
+References RangeBinaryTree< B, A >::root\&.
+.SS "template<typename B , typename A > void \fBRangeBinaryTree\fP< B, A >::print () const\fC [inline]\fP"
+
+.PP
+Print the tree to stdout\&. 
+.PP
+Definition at line 69 of file RangeBinaryTree\&.hpp\&.
+.PP
+.nf
+69 { root->print(); }
+.fi
+.PP
+References RangeBinaryTree< B, A >::root\&.
+.SS "template<typename B , typename A > void \fBRangeBinaryTree\fP< B, A >::setHead (\fBBinaryNode\fP< B, A > newHead)\fC [inline]\fP"
+
+.PP
+Set the head to the provided head\&. This frees the original head so be careful 
+.PP
+Definition at line 35 of file RangeBinaryTree\&.hpp\&.
+.PP
+.nf
+35                                          {
+36     free();
+37     root = newHead;
+38   }
+.fi
+.PP
+References RangeBinaryTree< B, A >::free(), and RangeBinaryTree< B, A >::root\&.
+.SS "template<typename B , typename A > const \fBBinaryNode\fP<B, A>* \fBRangeBinaryTree\fP< B, A >::viewHead () const\fC [inline]\fP"
+
+.PP
+Return a const pointer to the head\&. 
+.PP
+Definition at line 41 of file RangeBinaryTree\&.hpp\&.
+.PP
+.nf
+41 { return root; }
+.fi
+.PP
+References RangeBinaryTree< B, A >::root\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "template<typename B , typename A > \fBBinaryNode\fP<B, A>* \fBRangeBinaryTree\fP< B, A >::root = nullptr\fC [private]\fP"
+
+.PP
+Definition at line 15 of file RangeBinaryTree\&.hpp\&.
+.PP
+Referenced by RangeBinaryTree< B, A >::findFirst(), RangeBinaryTree< B, A >::free(), RangeBinaryTree< B, A >::getHead(), RangeBinaryTree< B, A >::inRange(), RangeBinaryTree< B, A >::inRangeT(), RangeBinaryTree< B, A >::isEmpty(), RangeBinaryTree< B, A >::populate(), RangeBinaryTree< B, A >::populateWithRange(), RangeBinaryTree< B, A >::print(), RangeBinaryTree< B, A >::RangeBinaryTree(), RangeBinaryTree< B, A >::setHead(), and RangeBinaryTree< B, A >::viewHead()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

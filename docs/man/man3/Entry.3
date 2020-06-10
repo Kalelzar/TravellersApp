@@ -1,0 +1,93 @@
+.TH "Entry< Key, Value >" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Entry< Key, Value > \- An \fBEntry\fP describes a key-value pair\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <HashMap\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "bool \fBoperator!=\fP (\fBEntry\fP< Key, Value > const &other) const"
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBEntry\fP< Key, Value > const &other) const"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "Key \fBkey\fP"
+.br
+.ti -1c
+.RI "Value \fBvalue\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class Key, class Value>
+.br
+struct Entry< Key, Value >"
+An \fBEntry\fP describes a key-value pair\&. 
+
+
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIKey\fP the key 
+.br
+\fIValue\fP the value 
+.RE
+.PP
+
+.PP
+Definition at line 20 of file HashMap\&.hpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class Key , class Value > bool \fBEntry\fP< Key, Value >::operator!= (\fBEntry\fP< Key, Value > const & other) const\fC [inline]\fP"
+
+.PP
+Definition at line 28 of file HashMap\&.hpp\&.
+.PP
+.nf
+28                                                         {
+29     return !(*this == other);
+30   }
+.fi
+.SS "template<class Key , class Value > bool \fBEntry\fP< Key, Value >::operator== (\fBEntry\fP< Key, Value > const & other) const\fC [inline]\fP"
+
+.PP
+Definition at line 24 of file HashMap\&.hpp\&.
+.PP
+.nf
+24                                                         {
+25     return key == other\&.key && value == other\&.value;
+26   }
+.fi
+.PP
+References Entry< Key, Value >::key, and Entry< Key, Value >::value\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "template<class Key , class Value > Key \fBEntry\fP< Key, Value >::key"
+
+.PP
+Definition at line 21 of file HashMap\&.hpp\&.
+.PP
+Referenced by Entry< Key, Value >::operator==()\&.
+.SS "template<class Key , class Value > Value \fBEntry\fP< Key, Value >::value"
+
+.PP
+Definition at line 22 of file HashMap\&.hpp\&.
+.PP
+Referenced by HashMap< SimpleString, const char * >::get(), Entry< Key, Value >::operator==(), and HashMap< SimpleString, const char * >::put()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

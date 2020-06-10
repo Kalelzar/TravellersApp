@@ -1,0 +1,58 @@
+.TH "forType< Type >::repeat< times, Tail >" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+forType< Type >::repeat< times, Tail > \- A template magic spell that will repeat the given type the provided number of types\&. This can later be applied to any type that accepts a vararg template\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ttype\&.hpp>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "template<template< typename\&.\&.\&. A > class applicant> using \fBapply\fP = typename \fBrepeat\fP< times \- 1, Type, Tail\&.\&.\&. >::template \fBapply\fP< applicant >"
+.br
+.RI "A way to apply the repeated type to a class\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename Type>
+.br
+template<int times, typename\&.\&.\&. Tail>
+.br
+struct forType< Type >::repeat< times, Tail >"
+A template magic spell that will repeat the given type the provided number of types\&. This can later be applied to any type that accepts a vararg template\&. 
+
+
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fItimes\fP the amount of times to repeat the type 
+.RE
+.PP
+
+.PP
+Definition at line 14 of file ttype\&.hpp\&.
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<typename Type > template<int times, typename\&.\&.\&. Tail> template<template< typename\&.\&.\&. A > class applicant> using \fBforType\fP< Type >::\fBrepeat\fP< times, Tail >::\fBapply\fP =  typename \fBrepeat\fP<times \- 1, Type, Tail\&.\&.\&.>::template \fBapply\fP<applicant>"
+
+.PP
+A way to apply the repeated type to a class\&. 
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIapplicant\fP the type to apply the repeated type to 
+.RE
+.PP
+
+.PP
+Definition at line 20 of file ttype\&.hpp\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.

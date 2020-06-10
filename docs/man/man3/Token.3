@@ -1,0 +1,231 @@
+.TH "Token" 3 "Wed Jun 10 2020" "Version 1.0" "Traveller's App" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Token \- Generic token for use in scanners/parsers\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Token\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBToken\fP & \fBoperator=\fP (\fBToken\fP const &other)"
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBToken\fP const &other) const"
+.br
+.RI "Tests for the equality of two tokens\&. "
+.ti -1c
+.RI "\fBToken\fP ()"
+.br
+.RI "Creates a default token\&. "
+.ti -1c
+.RI "\fBToken\fP (const \fBToken\fP &other)"
+.br
+.RI "Copy constructor\&. "
+.ti -1c
+.RI "\fBToken\fP (\fBTokenType\fP _t, const char *_lexeme, int _line)"
+.br
+.ti -1c
+.RI "\fB~Token\fP ()"
+.br
+.RI "Frees the dynamic memory associated with the \fBlexeme\fP\&. "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "char * \fBlexeme\fP"
+.br
+.RI "The original text representation of this token\&. "
+.ti -1c
+.RI "int \fBline\fP"
+.br
+.RI "The line it was found on\&. "
+.ti -1c
+.RI "\fBTokenType\fP \fBt\fP"
+.br
+.RI "The token type of this token\&. "
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBcopy\fP (\fBToken\fP const &other)"
+.br
+.RI "Convenience method for copying another token\&. "
+.ti -1c
+.RI "void \fBcreate\fP (\fBTokenType\fP _t, const char *_lexeme, int _line)"
+.br
+.RI "Convenience method for initializing a token\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Generic token for use in scanners/parsers\&. 
+
+It stores the type of the token, it's original text representation and the line it was found on\&. 
+.PP
+Definition at line 58 of file Token\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Token::Token (\fBTokenType\fP _t, const char * _lexeme, int _line)"
+
+.PP
+Definition at line 23 of file Token\&.cpp\&.
+.PP
+.nf
+23                                                          {
+24   create(_t, _lexeme, _line);
+25 }
+.fi
+.PP
+References create()\&.
+.SS "Token::~Token ()"
+
+.PP
+Frees the dynamic memory associated with the \fBlexeme\fP\&. 
+.PP
+Definition at line 27 of file Token\&.cpp\&.
+.PP
+.nf
+27               {
+28   // LOG(INFO, "Destructor called\&.");
+29   delete[] lexeme;
+30 }
+.fi
+.PP
+References lexeme\&.
+.SS "Token::Token ()"
+
+.PP
+Creates a default token\&. Equivalent to \fC \fBToken\fP(\fBTokenType::EOF_T\fP, '', 0) \fP 
+.PP
+Definition at line 32 of file Token\&.cpp\&.
+.PP
+.nf
+32 { create(TokenType::EOF_T, "", 0); }
+.fi
+.PP
+References create(), and EOF_T\&.
+.SS "Token::Token (const \fBToken\fP & other)"
+
+.PP
+Copy constructor\&. 
+.PP
+Definition at line 34 of file Token\&.cpp\&.
+.PP
+.nf
+34                                {
+35   if (this != &other)
+36     copy(other);
+37 }
+.fi
+.PP
+References copy()\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void Token::copy (\fBToken\fP const & other)\fC [private]\fP"
+
+.PP
+Convenience method for copying another token\&. It simply calls \fBcreate\fP with the other token's fields 
+.PP
+Definition at line 18 of file Token\&.cpp\&.
+.PP
+.nf
+18                                    {
+19   // LOG(INFO, "Copy token");
+20   create(other\&.t, other\&.lexeme, other\&.line);
+21 }
+.fi
+.PP
+References create(), lexeme, line, and t\&.
+.PP
+Referenced by operator=(), and Token()\&.
+.SS "void Token::create (\fBTokenType\fP _t, const char * _lexeme, int _line)\fC [private]\fP"
+
+.PP
+Convenience method for initializing a token\&. 
+.PP
+Definition at line 7 of file Token\&.cpp\&.
+.PP
+.nf
+7                                                                {
+8   // LOG(INFO, "Create token { " << _t << ", " << _lexeme << ", "
+9   //        << _line <<" }");
+10   t = _t;
+11   line = _line;
+12   int length = strlen(_lexeme);
+13   lexeme = new char[length + 1];
+14   strncpy(lexeme, _lexeme, length);
+15   lexeme[length] = '\0';
+16 }
+.fi
+.PP
+References lexeme, line, and t\&.
+.PP
+Referenced by copy(), and Token()\&.
+.SS "\fBToken\fP & Token::operator= (\fBToken\fP const & other)"
+
+.PP
+Definition at line 39 of file Token\&.cpp\&.
+.PP
+.nf
+39                                           {
+40   if (this != &other) {
+41     delete[] lexeme;
+42     copy(other);
+43   }
+44   return *this;
+45 }
+.fi
+.PP
+References copy(), and lexeme\&.
+.SS "bool Token::operator== (\fBToken\fP const & other) const"
+
+.PP
+Tests for the equality of two tokens\&. Two tokens are considered equal when they are of the same type have the same lexeme and are found on the same line 
+.PP
+Definition at line 47 of file Token\&.cpp\&.
+.PP
+.nf
+47                                                {
+48   return t == other\&.t && line == other\&.line &&
+49          strcmp(lexeme, other\&.lexeme) == 0;
+50 }
+.fi
+.PP
+References lexeme, line, and t\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "char* Token::lexeme"
+
+.PP
+The original text representation of this token\&. 
+.PP
+Definition at line 75 of file Token\&.hpp\&.
+.PP
+Referenced by Travel::HTLInterpreter::cfriend(), copy(), create(), Travel::HTLInterpreter::destination(), Travel::HTLInterpreter::general(), Travel::VisitInterpreter::general(), CSV< const char *, const char *, const char * >::load(), operator<<(), operator=(), operator==(), Travel::LoginInterpreter::parse(), Travel::VisitInterpreter::parse(), Travel::HTLInterpreter::parse(), Travel::VisitInterpreter::photo(), and ~Token()\&.
+.SS "int Token::line"
+
+.PP
+The line it was found on\&. 
+.PP
+Definition at line 77 of file Token\&.hpp\&.
+.PP
+Referenced by Travel::HTLInterpreter::cfriend(), copy(), create(), Travel::HTLInterpreter::destination(), Travel::HTLInterpreter::general(), Travel::VisitInterpreter::general(), operator<<(), operator==(), Travel::LoginInterpreter::parse(), and Travel::VisitInterpreter::photo()\&.
+.SS "\fBTokenType\fP Token::t"
+
+.PP
+The token type of this token\&. 
+.PP
+Definition at line 73 of file Token\&.hpp\&.
+.PP
+Referenced by copy(), create(), CSV< const char *, const char *, const char * >::load(), Interpreter< VisitBuilder >::matches(), operator<<(), operator==(), Travel::LoginInterpreter::parse(), Travel::VisitInterpreter::parse(), and Travel::HTLInterpreter::parse()\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Traveller's App from the source code\&.
