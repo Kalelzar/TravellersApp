@@ -4,6 +4,7 @@
 #include "Date.hpp"
 #include "SimpleString.hpp"
 #include "collection/ArrayList.hpp"
+#include <regex>
 
 /**
  * Collects all code that is not necessarily easily reusable.
@@ -28,6 +29,13 @@ private:
   char *_comment = nullptr;
   ArrayList<SimpleString> _photos;
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wwrite-strings"
+  static constexpr char *regexstr =
+      "([A-Z]:)?([/\\\\]?[a-zA-Z._]+)+\\.(jpg|png)";
+#pragma GCC diagnostic pop
+  static const std::regex path;
+
 public:
   /// Return the list of paths to uploaded photos
   ArrayList<SimpleString> getPics() { return _photos; }
@@ -50,22 +58,33 @@ public:
   /// Set the start of visit.
   /// TODO: Make sure from is before to
   void from(char *fdate) {
+    Travel::Date f = Travel::Date(fdate);
+    if (setTo && f > _to) {
+      std::cerr << "Your visit cannot begin after it ends." << std::endl;
+      return;
+    }
     if (setFrom) {
       std::cerr << "Already set 'from' to " << _from << ". Changing value."
                 << std::endl;
     }
-    _from = Travel::Date(fdate);
+    _from = f;
     setFrom = true;
   }
 
   /// Set the end of visit.
   /// TODO: Make sure from is before to
   void to(char *fdate) {
+
+    Travel::Date t = Travel::Date(fdate);
+    if (setFrom && t < _from) {
+      std::cerr << "Your visit cannot end before it begins." << std::endl;
+      return;
+    }
     if (setTo) {
       std::cerr << "Already set 'to' to " << _to << ". Changing value."
                 << std::endl;
     }
-    _to = Travel::Date(fdate);
+    _to = t;
     setTo = true;
   }
 
@@ -94,7 +113,13 @@ public:
   }
 
   /// Add photo
-  void photoAdd(SimpleString &&uri) { _photos.append(std::move(uri)); }
+  void photoAdd(SimpleString &&uri) {
+    if (!std::regex_match(uri.get(), path)) {
+      std::cerr << uri << " is not a valid path to a photo." << std::endl;
+      return;
+    }
+    _photos.append(std::move(uri));
+  }
 
   /// Remove photo
   void photoDelete(SimpleString &&uri) {

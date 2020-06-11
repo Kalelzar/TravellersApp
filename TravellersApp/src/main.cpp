@@ -9,7 +9,6 @@
 
 int main() {
 
-  // TODO: Input validation of paths
 
   Travel::CommandList lcl;
   lcl.registerCommand("login", TokenType::LOGIN, ScannerContext::ATOPEN,

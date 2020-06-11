@@ -82,6 +82,7 @@ GENERATED += $(OBJDIR)/Scanner.o
 GENERATED += $(OBJDIR)/ScannerContext.o
 GENERATED += $(OBJDIR)/Token.o
 GENERATED += $(OBJDIR)/TravelState.o
+GENERATED += $(OBJDIR)/VisitBuilder.o
 GENERATED += $(OBJDIR)/VisitInterpreter.o
 GENERATED += $(OBJDIR)/main.o
 OBJECTS += $(OBJDIR)/CSV.o
@@ -97,6 +98,7 @@ OBJECTS += $(OBJDIR)/Scanner.o
 OBJECTS += $(OBJDIR)/ScannerContext.o
 OBJECTS += $(OBJDIR)/Token.o
 OBJECTS += $(OBJDIR)/TravelState.o
+OBJECTS += $(OBJDIR)/VisitBuilder.o
 OBJECTS += $(OBJDIR)/VisitInterpreter.o
 OBJECTS += $(OBJDIR)/main.o
 
@@ -175,6 +177,9 @@ $(OBJDIR)/ReachedEndOfStreamException.o: src/ReachedEndOfStreamException.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/TravelState.o: src/TravelState.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/VisitBuilder.o: src/VisitBuilder.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/main.o: src/main.cpp
