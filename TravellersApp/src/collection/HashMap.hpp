@@ -6,11 +6,10 @@
 #include <memory>
 #include <type_traits>
 
+#include "../Nullable.hpp"
 #include "../debug.hpp"
 #include "ArrayList.hpp"
 #include "Tuple.hpp"
-#include "../Nullable.hpp"
-
 
 /**
  * An Entry describes a key-value pair.
@@ -121,10 +120,13 @@ private:
    */
   void copy(HashMap<Key, Value> const &other) {
     // LOG(INFO, "Copy HashMap");
+
     array = new SpecEntry[other.capacity()];
     reserved = other.capacity();
     elemCount = 0;
-
+    for (int i = 0; i < reserved; i++) {
+      array[i] = nullptr;
+    }
     putAll(other);
   }
 

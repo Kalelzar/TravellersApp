@@ -5,14 +5,14 @@
 #ifndef TRAVELLERSAPP_ARRAYLIST_HPP
 #define TRAVELLERSAPP_ARRAYLIST_HPP
 
+#include "../InvalidArgumentException.hpp"
+#include "../Nullable.hpp"
+#include "../debug.hpp"
+#include "IList.hpp"
+#include "Tuple.hpp"
 #include <functional>
 #include <iostream>
 #include <memory>
-#include "../InvalidArgumentException.hpp"
-#include "../debug.hpp"
-#include "../Nullable.hpp"
-#include "IList.hpp"
-#include "Tuple.hpp"
 
 /**
  * An implementation of a list backed by a resizable array.
@@ -342,7 +342,8 @@ public:
    * @param predicate the condition for removal
    * @return the removed element or null
    */
-    std::unique_ptr<Nullable<A>> removeIf(std::function<bool(const A &)> predicate) {
+  std::unique_ptr<Nullable<A>>
+  removeIf(std::function<bool(const A &)> predicate) {
     for (int i = 0; i < length(); i++) {
       if (predicate(get(i))) {
         return removeAt(i);
@@ -351,6 +352,7 @@ public:
     return std::make_unique<Null<A>>();
   }
 
+  /// Return the index of the first element that matches the given predicate
   int find(std::function<bool(const A &)> predicate) const {
     for (int i = 0; i < length(); i++) {
       if (predicate(get(i))) {
@@ -378,7 +380,8 @@ public:
    *
    */
   template <int sliceSize>
-  std::unique_ptr<ArrayList<typename Tuple<A>::template ofSize<sliceSize>::type>>
+  std::unique_ptr<
+      ArrayList<typename Tuple<A>::template ofSize<sliceSize>::type>>
   slice() {
     if (length() % sliceSize != 0)
       throw InvalidArgumentException("List size must be evenly divisible"
@@ -451,7 +454,8 @@ public:
    * Convert a list of lists into a single list containing all elements of the
    * previously contained lists.
    */
-    template <typename B, typename = std::enable_if_t<std::is_base_of<IList<B>, A>::value>>
+  template <typename B,
+            typename = std::enable_if_t<std::is_base_of<IList<B>, A>::value>>
   std::unique_ptr<ArrayList<B>> flatten() {
     std::unique_ptr<ArrayList<B>> res = std::make_unique<ArrayList<B>>();
     for (int i = 0; i < length(); i++) {

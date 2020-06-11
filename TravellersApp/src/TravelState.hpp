@@ -6,6 +6,8 @@
 #include "parser/CSV.hpp"
 
 namespace Travel {
+    ///The core of the application.
+    ///Doubles as UI API
 class TravelState {
 private:
 #pragma GCC diagnostic push
