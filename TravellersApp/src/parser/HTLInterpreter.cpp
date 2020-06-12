@@ -86,6 +86,10 @@ void HTLInterpreter::destinationExists(TravelState &state) {
   }
 }
 
+void HTLInterpreter::destinationList(TravelState &state) {
+  state.destinationList();
+}
+
 void HTLInterpreter::destinationRating(TravelState &state) {
   auto destination = consume(TokenType::STRING, "Expected destination name.");
   std::cout << "Showing average rating for destination " << destination.lexeme
@@ -171,6 +175,9 @@ void HTLInterpreter::destination(TravelState &state) {
     break;
   case TokenType::VISITED:
     destinationVisited(state);
+    break;
+  case TokenType::LIST:
+    destinationList(state);
     break;
   case TokenType::EOF_T:
     std::cout << "Destination is a command prefix. It doesn't do anything"

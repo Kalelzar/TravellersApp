@@ -67,6 +67,11 @@ public:
    */
   ArrayList<char *> &getFriends() { return friends; }
 
+  /// Return the names of the destinations this user has visited.
+  std::unique_ptr<ArrayList<char *>> getDestinations() const {
+    return destinations.getKeys();
+  }
+
   /**
    * Return a reference to the information about a visit to a
    * provided destination stored in a tuple.

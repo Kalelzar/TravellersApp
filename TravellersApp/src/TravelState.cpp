@@ -178,6 +178,16 @@ void Travel::TravelState::destinationRating(const char *dest) {
             << (((double)sum) / ratingCount) << std::endl;
 }
 
+void Travel::TravelState::destinationList() {
+  std::cout << "The following destinations are registered." << std::endl;
+  users.values()
+      ->map<ArrayList<char *>>(
+          [](User* const (&user)) { return *(user->getDestinations()); })
+      ->flatten<char*>()
+      ->distinct()
+      ->foreach ([](char *const(&s)) { std::cout << s << std::endl; });
+}
+
 bool Travel::TravelState::destinationExists(const char *dest) {
   return users.values()->find(
              [&dest](User *const(&u)) { return u->hasVisited(dest); }) >= 0;

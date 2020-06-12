@@ -50,6 +50,8 @@ private:
   void destinationComments(TravelState &state);
   /// Interprets the destination visited command
   void destinationVisited(TravelState &state);
+  /// Interprets the destination list command
+  void destinationList(TravelState &state);
 
 public:
   /// Parses the provided tokens into the given {@link Travel::TravelState}

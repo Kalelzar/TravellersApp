@@ -6,8 +6,8 @@
 #include "parser/CSV.hpp"
 
 namespace Travel {
-    ///The core of the application.
-    ///Doubles as UI API
+/// The core of the application.
+/// Doubles as UI API
 class TravelState {
 private:
 #pragma GCC diagnostic push
@@ -71,6 +71,9 @@ public:
   /// Print the visit stats for the given destination
   /// of all users who have visited it
   void destinationComments(const char *dest);
+  /// List all destinations that are registered in at least one user's visit
+  /// history
+  void destinationList();
 };
 } // namespace Travel
 

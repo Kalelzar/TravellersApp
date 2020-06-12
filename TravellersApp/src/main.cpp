@@ -34,7 +34,9 @@ int main() {
                      "=> remove user <name> from friend's list");
   cl.registerCommand("list", TokenType::LIST, ScannerContext::GENERAL,
                      "friend list " // DONE
-                     "=> lists friends.");
+                     "=> lists friends. \n"
+                     "destination list " // TODO
+                     "=> lists destinations ");
   cl.registerCommand("visited", TokenType::VISITED, ScannerContext::GENERAL,
                      "friend visited <destination> " // DONE
                      "=> show all friends who \nhave visited <destination>, "

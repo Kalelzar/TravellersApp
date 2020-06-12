@@ -74,7 +74,7 @@ public:
    *******************************
    */
   void load(const char *filepath) {
-      std::ifstream file(filepath);
+    std::ifstream file(filepath);
     if (file.is_open()) {
       Travel::CommandList cl;
       Travel::Scanner scanner(ScannerContext::ALL, &file, &cl);
@@ -122,7 +122,7 @@ public:
    * it can later be read by this class' {@link load} function
    */
   void save(const char *filepath) {
-      std::ofstream file(filepath);
+    std::ofstream file(filepath);
     if (file.is_open()) {
       file << header() << std::endl;
       for (int i = 0; i < size(); i++) {
@@ -148,16 +148,16 @@ public:
   unsigned size() { return entries.length(); }
 
   /// Returns the first column of the file.
-  auto getKeys()
-      -> std::unique_ptr<ArrayList<typename Entry::template typeOf<0>::type>> {
+  auto getKeys() const -> std::unique_ptr<
+      ArrayList<typename Entry::template typeOf<0>::type>> {
     return getColumn<0>();
   }
 
   /// Returns the specified column.
   /// @tparam ind the column to return.
   template <int ind>
-  auto getColumn()
-      -> std::unique_ptr<ArrayList<typename Entry::template typeOf<ind>::type>> {
+  auto getColumn() const -> std::unique_ptr<
+      ArrayList<typename Entry::template typeOf<ind>::type>> {
     return entries.template map<typename Entry::template typeOf<ind>::type>(
         [](Entry const &t) { return *t.template get<ind>(); });
   }
