@@ -13,9 +13,17 @@ I don't have the time to update and check
 
 Confirmed to compile on
 Linux 5.6.11-arch1-1 x86_64 (Archlinux)
-With llvm clang:
+With clang:
      clang version 10.0.0
      Target: x86_64-pc-linux-gnu
      Thread model: posix
 With g++:
      g++ (Arch Linux 9.3.0-1) 9.3.0
+
+Linux 5.6.15-arch1-1 x86_64 (Archlinux)
+With clang:
+    clang version 10.0.0
+    Target: x86_64-pc-linux-gnu
+    Thread model: posix
+With g++:
+    g++ (GCC) 10.1.0
