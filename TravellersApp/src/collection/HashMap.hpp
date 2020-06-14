@@ -217,6 +217,8 @@ private:
    */
   void free() {
     // LOG(INFO, "Free HashMap");
+    if (!array)
+      return;
     for (unsigned i = 0; i < capacity(); i++) {
       if (array[i])
         delete array[i];
